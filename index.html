@@ -6,15 +6,17 @@ title: Home
 <div class="docs-section" id="bio">
   <h3>Bio</h3>
   <p>
-    I'm a doctoral student in the <a href="https://uil.be.uw.edu/">Urban Infrastructure Lab</a>
-    at the <a href="https://sites.uw.edu/urbdpphd/">Urban Design & Planning Interdisciplinary Ph.D. Program</a>
-    at the <a href="https://www.washington.edu/">University of Washington</a>. I serve as the student representative in the steering committee of our Ph.D. Program. 
-    Also, I am a part of <a href="http://uwsolar.be.uw.edu">UW Solar</a>, an interdisciplinary solar project organization at the university. 
+    I'm a Ph.D. student in the <a href="https://research.design.ncsu.edu/betlab/">Building Energy Technology Laboratory (BETlab)</a>
+    within the <a href="https://design.ncsu.edu/phd-in-design/">Ph.D. in Design Program</a>
+    at <a href="https://www.ncsu.edu/">North Carolina State University (NC STATE)</a>. I also serve as the president of the NC STATE Chapter of the American Society of Heating, Refrigerating, and Air-Conditioning Engineers (ASHRAE).
+    Additionally, I am a Fellow in the <a href="https://climateleaders.kenan.ncsu.edu/teams/2024-student-mentor-teams/">KIETS Climate Leaders Program</a>, where I contribute to interdisciplinary leadership teams focused on developing solutions that mitigate and adapt to the challenges of climate change.
     I am fortunate to be advised by 
-    <a href="https://urbdp.be.uw.edu/people/jan-whittington/">Dr. Jan Whittington</a> and 
-    <a href="https://urbdp.be.uw.edu/people/qing-shen/">Dr. Qing Shen</a>. 
-    Also, I'm generously supported by the <a href="https://www.microsoft.com/en-us/research/academic-program/ai-society-fellows/overview/">Microsoft Research AI & Society Fellowship</a> 
-    and Hall-Ammerer-WRF Ph.D. Fellowship in Interdisciplinary Studies.
+    <a href="https://design.ncsu.edu/people/scho3/">Dr. Soolyeon Cho</a>.
+    I am also the Principal Investigator (PI) of a research project supported by the Next-Generation Science & Technology (S&T) Leaders NET, Korean Federation of Science & Technology Societies (KOFST).
+    This project focuses on a synthetic study of the energy potential of solar power systems at the community level, utilizing AI and spatiotemporal data.
+  </p>
+</div>
+<!--
     Check my CV <a href="{{ site.baseurl }}/assets/cv/cv_web.pdf">here</a>.
   </p>
   <p>
@@ -25,12 +27,12 @@ title: Home
     assist cities in making climate and energy related decisions. 
   </p>
 </div>
+-->
 
-
-<span class="anchor" id="news"></span>
+<!-- <span class="anchor" id="news"></span>
 <div class="docs-section">
   <h3>News</h3>
-  <!--<i> * Scroll for more </i>-->
+  <i> * Scroll for more </i>
   <UL style="list-style-type: none; padding: 1px; margin-top: 0px; overflow-y: scroll; height:160px;">
     <li><b>[01/30/24]</b> Excited to be Selected as the <a href="https://www.microsoft.com/en-us/research/academic-program/ai-society-fellows/overview/">Microsoft Research AI & Society Fellow</a>.</li>
     <li><b>[01/29/24]</b> Assisted the University Receive 300K Funding for EV Chargers Development with <a href="https://hoseoksa.github.io">Hoseok Sa</a>.</li>
@@ -42,7 +44,7 @@ title: Home
     <li><b>[10/15/21]</b> Attended ACSP 2021 with Prof. Christine Bae on Effects of Zoning and Land Use Policies on Land Value and Densification in the City of Seattle.</li>
   </UL>
 </div>
-
+-->
 
 <!-- ========== PUBLICATIONS ========== 
 <div class="docs-section" id="publications">
@@ -146,7 +148,7 @@ title: Home
 
   <div class="tab-content">
     <div class="tab-pane active" id="projects-selected">-->
-      {% assign selected_projects = site.data.projects.projects | where: "selected", "y" %}
+     <!--  {% assign selected_projects = site.data.projects.projects | where: "selected", "y" %}
       {% for project in selected_projects %}
         {% assign index_modulo = forloop.index0 | modulo:3 %}
         {% if index_modulo == 0 %}
@@ -174,7 +176,7 @@ title: Home
           </div>
         {% endif %}
       {% endfor %}
-    </div> 
+    </div> -->
 
    <!-- <div class="tab-pane" id="projects-all">
       {% for project in site.data.projects.projects %}
@@ -233,7 +235,7 @@ title: Home
 <div class="docs-section" id="resume">
   <h3>Vitæ</h3>
 
-  <p>Full Curriculum Vitae in <a href={{ "/assets/cv/cv_web.pdf" | prepend: site.baseurl }} target="_blank">PDF</a>.</p>
+  <!--<p>Full Curriculum Vitae in <a href={{ "/assets/cv/cv_web.pdf" | prepend: site.baseurl }} target="_blank">PDF</a>.</p>-->
   
   <ul class="timeline">
     {% for exp in site.data.experience.experiences %}
