@@ -7,7 +7,7 @@ experiences:
   category: "school"
 
 - place: "ASHRAE at NC STATE"
-  time: "2024 - Present"
+  time: "Aug.2024 - Present"
   title: "President"
   category: "work"
 
@@ -15,6 +15,11 @@ experiences:
   time: "Summer 2024"
   title: "Reserach Affiliate"
   subtitle: "Building Technology & Urban Systems Division (BTUS)"
+  category: "work"
+
+- place: "ASHRAE at NC STATE"
+  time: "Aug.2023 - Jul.2024"
+  title: "Vice-President"
   category: "work"
 
 - place: "Gyeongsang National University"
