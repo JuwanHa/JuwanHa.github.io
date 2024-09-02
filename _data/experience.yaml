@@ -14,7 +14,7 @@ experiences:
 - place: "Berkeley Lab"
   time: "Summer 2024"
   title: "Reserach Affiliate"
-  subtitle: "Building Technology & Urban Systems Divison (BTUS)"
+  subtitle: "Building Technology & Urban Systems Division (BTUS)"
   category: "work"
 
 - place: "Gyeongsang National University"
@@ -33,6 +33,12 @@ experiences:
   time: "Jan-Feb 2017"
   title: "Engineering Intern"
   subtitle: "Marina One Complex Site in Singapore"
+  category: "work"
+
+- place: "Republic of Korea Air Force"
+  time: "Sep.2012 – Sep.2014"
+  title: "Tactical aircraft maintenance crew"
+  subtitle: "Sacheon, South Korea"
   category: "work"
 
 - place: "Gyeongsang National University"
