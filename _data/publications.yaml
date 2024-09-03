@@ -1,4 +1,5 @@
 papers:
+
   - title: "Research on a Plan of Free Cooling Operation Control for the Efficiency Improvement of Water-side Economizer"
     authors: "Y.J. Kim, K.H. Kim, <b>Juwan Ha</b>, Y H. Song"
     venue: "Energies, 2024, 17(12), 2804."
@@ -153,7 +154,7 @@ papers:
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
     selected: y
 
-   - title: "A Study on the Thermal Storage Loss Rate for the Geothermal Storage System"
+  - title: "A Study on the Thermal Storage Loss Rate for the Geothermal Storage System"
     authors: "S.C. Park, <b>Juwan Ha</b>, Y.J. Kim, Y.H. Song "
     venue: "Autumn Annual Conference of Architectural Institute of Korea (AIK), Daejeon, Republic of Korea, Oct. 2019."
     #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
