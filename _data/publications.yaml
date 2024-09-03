@@ -74,7 +74,7 @@ papers:
     #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
     #poster: "/assets/publications/2016_yikyak/poster.pdf"
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
-    selected: n
+    
 
   - title: "A Study on the Cooling Performance of Water-side Economizer System on The Chilled Water Return-side Applying Partial Operation"
     authors: "Y.J. Kim, <b>Juwan Ha</b>, Y.H. Song"
@@ -118,7 +118,7 @@ papers:
     #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
     #poster: "/assets/publications/2016_yikyak/poster.pdf"
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
-    selected: n
+    
 
   - title: "Verification of Thermal Environment and THI Prediction Equation of Hen House by Field Measurement and Model-based Simulation"
     authors: "<b>Juwan Ha</b>, H.H. Chang, K.J. Cha, Y.H. Song"
@@ -162,7 +162,7 @@ papers:
     #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
     #poster: "/assets/publications/2016_yikyak/poster.pdf"
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
-    selected: n 
+    
 
   - title: "An Operation Status of Library Building using BEMS Data -Energy Performance Evaluation on Initial Stage of Completion-"
     authors: "S.C. Park, <b>Juwan Ha</b>, H.Y. Kim, Y.H. Song"
@@ -184,7 +184,7 @@ papers:
     #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
     #poster: "/assets/publications/2016_yikyak/poster.pdf"
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
-    selected: n
+    
 
   - title: "THI Index within Laying house according to the Predicted Outside Temperature"
     authors: "<b>Juwan Ha</b>, Y.H. Song"
@@ -195,7 +195,7 @@ papers:
     #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
     #poster: "/assets/publications/2016_yikyak/poster.pdf"
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
-    selected: n
+    
 
   - title: "A Study of Zero Energy Building Verification with Measuring and Model-based Simulation in Exhibition Building"
     authors: "<b>Juwan Ha</b>, K.S Park, H.Y. Kim, Y.H. Song"
@@ -217,7 +217,7 @@ papers:
     #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
     #poster: "/assets/publications/2016_yikyak/poster.pdf"
     #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
-    selected: n
+    
 
 
 
