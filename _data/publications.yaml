@@ -45,7 +45,7 @@ papers:
 
   - title: "Sensitivity Analysis and Bayesian MCMC based on Artificial Neural Network Surrogate Model for Input Variable Uncertainty Calibration"
     authors: "S.C. Park, <b>Juwan Ha</b>, K.S. Park, Y.H. Song"
-    venue: "Journal of KIAEBS, Korean Institute of Architectural Sustainable Environment and Building Systems (KIAEBS), Aug.2021. <b>Annual Best Paper</b>"
+    venue: "Journal of KIAEBS, Korean Institute of Architectural Sustainable Environment and Building Systems (KIAEBS), Aug.2021.<br/><b>Annual Best Paper</b>"
     #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
     #code: "https://github.com/msaveski/toxic_conversation_structure"
     #data: "https://doi.org/10.7910/DVN/TRWPVB"
@@ -67,7 +67,7 @@ papers:
 
   - title: "Energy Evaluation of Data Center with Low Cooling Water Temperature and Free Cooling"
     authors: "Y.J. Kim, <b>Juwan Ha</b>, K.S. Park, K.H. Lee, Y.H. Song"
-    venue: "Journal of KIAEBS, Korean Institute of Architectural Sustainable Environment and Building Systems (KIAEBS), Oct.2020. <b>Annual Best Paper</b>"
+    venue: "Journal of KIAEBS, Korean Institute of Architectural Sustainable Environment and Building Systems (KIAEBS), Oct.2020.<br/><b>Annual Best Paper</b>"
     #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
     #code: "https://github.com/msaveski/toxic_conversation_structure"
     #data: "https://doi.org/10.7910/DVN/TRWPVB"
@@ -133,7 +133,7 @@ papers:
 
   - title: "A Study of Zero Energy Building Verification with Measuring and Model-based Simulation in Exhibition Building"
     authors: "<b>Juwan Ha</b>, K.S Park, H.Y. Kim, Y.H. Song"
-    venue: "ARCHITECTURAL RESEARCH, Architectural Institute of Korea (AIK),Sep.2018. <b>Annual Best Paper</b>"
+    venue: "ARCHITECTURAL RESEARCH, Architectural Institute of Korea (AIK),Sep.2018.<br/><b>Annual Best Paper</b>"
     #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
     #code: "https://github.com/msaveski/toxic_conversation_structure"
     #data: "https://doi.org/10.7910/DVN/TRWPVB"
