@@ -1,5 +1,38 @@
 papers:
 
+  - title: "Improving Energy and Data Efficiency in Factory Buildings: A Physics-Informed Neural Networks-Based Model Predictive Control (PINNs-Based MPC) Approach"
+    authors: "<b>Juwan Ha</b>, S.M. Lee, Y. J. Kim, S.Y. Cho"
+    venue: "2025 ASHRAE Annual Conference, Phoenix, AZ, June 21 - 25, 2025"
+    #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
+    #code: "https://github.com/msaveski/toxic_conversation_structure"
+    #data: "https://doi.org/10.7910/DVN/TRWPVB"
+    #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
+    #poster: "/assets/publications/2016_yikyak/poster.pdf"
+    #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
+    selected: y
+
+  - title: "Development of Integrated Loop Control Algorithm for Improvement of Water-side Economizer Efficiency and Expansion"
+    authors: "K.H. Kim, Y.J. Kim, <b>Juwan Ha</b>, Y.H. Song"
+    venue: "International Journal of Refrigeration"
+    #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
+    #code: "https://github.com/msaveski/toxic_conversation_structure"
+    #data: "https://doi.org/10.7910/DVN/TRWPVB"
+    #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
+    #poster: "/assets/publications/2016_yikyak/poster.pdf"
+    #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
+    selected: y
+
+  - title: "Development of the AI-tech assistant to transfer research outcome knowledge for accelerating low-cost MPC technology deployment"
+    authors: "S.W. Ham, <b>Juwan Ha</b>, S.J. Lee, D.H. Kim"
+    venue: "2025 ASHRAE Winter Conference, Orlando, FL, USA, February 10-12, 2025"
+    #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
+    #code: "https://github.com/msaveski/toxic_conversation_structure"
+    #data: "https://doi.org/10.7910/DVN/TRWPVB"
+    #video: "https://www.youtube.com/watch?v=JLkUgxH92pE"
+    #poster: "/assets/publications/2016_yikyak/poster.pdf"
+    #slides: "/assets/publications/2015_one_pass_ranking_models/slides.pdf"
+    selected: y
+
   - title: "Research on a Plan of Free Cooling Operation Control for the Efficiency Improvement of Water-side Economizer"
     authors: "Y.J. Kim, K.H. Kim, <b>Juwan Ha</b>, Y H. Song"
     venue: "Energies, 2024, 17(12), 2804."
