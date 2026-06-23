@@ -11,7 +11,7 @@ papers:
     selected: y
 
   - title: "A Whole-Building Demonstration of Differentiable Predictive Control with Stochastic Occupant Behavior"
-    authors: "<b>Juwan Ha</b>, A.H.A. Dehwah, K. Devaprasad, Poplawski"
+    authors: "<b>Juwan Ha</b>, A.H.A. Dehwah, K. Devaprasad, M. Poplawski"
     venue: "SimBuild 2026, Twelfth National Conference of IBPSA-USA, Minneapolis, MN, May 20-22, 2026.<br/><b>Best Paper Award</b>"
     #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
     #code: "https://github.com/msaveski/toxic_conversation_structure"
@@ -22,7 +22,7 @@ papers:
     selected: y
 
   - title: "Integrating Urban Heat Island Effect and Solar Energy Potential at University Campus"
-    authors: "R.M. Bandari, <b>Juwan Ha</b>, M. Gold, S.P. Bandari, Bandari"
+    authors: "R.M. Bandari, <b>Juwan Ha</b>, M. Gold, S.P. Bandari"
     venue: "2026 ARCC-EAAE International Conference, April 8-11, 2026, Atlanta, Georgia, USA."
     #paper_pdf: "/assets/publications/2021_dtox/paper.pdf"
     #code: "https://github.com/msaveski/toxic_conversation_structure"
