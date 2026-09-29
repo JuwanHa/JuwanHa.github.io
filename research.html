@@ -1,0 +1,68 @@
+---
+layout: default
+title: Research
+permalink: /research/
+---
+<!-- ========== RESEARCH ========== -->
+<div class="docs-section" id="research">
+  <h3>Research</h3>
+
+  <!-- To add a research tab: add a <li> here and a matching <div class="tab-pane"> below. -->
+  <ul class="tab-nav">
+    <li><div class="button active" data-ref="#research-gis-raleigh">GIS Modeling (Raleigh City)</div></li>
+  </ul>
+
+  <div class="tab-content">
+  <!-- ---------- GIS Modeling (Raleigh City) ---------- -->
+  <div class="tab-pane active" id="research-gis-raleigh">
+  <div class="title-subtitle">
+    <h5>Raleigh LoD1 3D Building Model</h5>
+  </div>
+  <p style="text-align: justify;">
+    A Level-of-Detail 1 (LoD1) block model of every building within the City of Raleigh (about 156,000 buildings).
+    Each building footprint is extruded to its roof height measured from the 2024 QL1 airborne LiDAR; where LiDAR heights were unavailable (about 11% of buildings), heights are estimated from floor counts.
+    The model serves as the geometric base for city-scale building energy modeling.
+  </p>
+
+  <video class="research-video" autoplay muted loop playsinline preload="metadata"
+         poster="{{ "/assets/research/raleigh_lod1_orbit_poster.jpg" | prepend: site.baseurl }}"
+         aria-label="Rotating view of the Raleigh LoD1 building model around downtown Raleigh">
+    <source src="{{ "/assets/research/raleigh_lod1_orbit.mp4" | prepend: site.baseurl }}" type="video/mp4">
+  </video>
+
+  <div class="row research-figures">
+    <div class="four columns">
+      <a href="{{ "/assets/research/raleigh_lod1_city.jpg" | prepend: site.baseurl }}" target="_blank">
+        <img src="{{ "/assets/research/raleigh_lod1_city.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, city-wide view" loading="lazy" />
+      </a>
+      <p class="research-caption">City of Raleigh</p>
+    </div>
+    <div class="four columns">
+      <a href="{{ "/assets/research/raleigh_lod1_downtown.jpg" | prepend: site.baseurl }}" target="_blank">
+        <img src="{{ "/assets/research/raleigh_lod1_downtown.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, downtown Raleigh" loading="lazy" />
+      </a>
+      <p class="research-caption">Downtown Raleigh</p>
+    </div>
+    <div class="four columns">
+      <a href="{{ "/assets/research/raleigh_lod1_ncstate.jpg" | prepend: site.baseurl }}" target="_blank">
+        <img src="{{ "/assets/research/raleigh_lod1_ncstate.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, NC State University main campus" loading="lazy" />
+      </a>
+      <p class="research-caption">NC State University</p>
+    </div>
+  </div>
+
+  <div class="map-legend">
+    <span>Building height (m)</span>
+    <span class="map-legend-scale">
+      <span class="map-legend-bar"></span>
+      <span class="map-legend-ticks"><span>0</span><span>10</span><span>20</span><span>40</span><span>80+</span></span>
+    </span>
+  </div>
+  <p class="map-note">
+    Data: building footprints from the City of Raleigh Open Data, NC OneMap (Wake County 2021 Building Footprints), and NC State University;
+    heights from the NC 2024 QL1 LiDAR; floor counts from LiDAR and Wake County real estate records.
+    Basemap &copy; OpenStreetMap contributors, OpenMapTiles, OpenFreeMap.
+  </p>
+  </div>
+  </div>
+</div>

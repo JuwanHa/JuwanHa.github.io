@@ -203,3 +203,63 @@ h4 {
   .popover-item:first-child .popover-link:hover:after {
     border-bottom-color: #0048AB; }
 }
+
+/*  ================ Research styling  ================ */
+.project-caption a {
+  color: inherit;
+  text-decoration: none; }
+.project-caption a:hover {
+  color: #0048AB; }
+.project-meta {
+  color: rgba(0, 0, 0, 0.55);
+  font-size: 1.3rem; }
+.research-back {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem; }
+.research-meta {
+  color: rgba(0, 0, 0, 0.60);
+  margin-bottom: 2rem; }
+.research-page h4 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem; }
+
+
+/*  ================ Research media  ================ */
+.research-video {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  border: 1px solid #e1e1e1;
+  background: #f4f4f4; }
+.research-figures {
+  margin-top: 1.5rem; }
+.research-figures img {
+  border: 1px solid #e1e1e1; }
+.research-caption {
+  font-size: 1.3rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0.4rem 0 1rem 0; }
+.map-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  color: rgba(0, 0, 0, 0.65); }
+.map-legend-scale {
+  display: inline-block;
+  width: 220px; }
+.map-legend-bar {
+  display: block;
+  height: 10px;
+  background: linear-gradient(to right, #dfe7f2 0%, #9db8de 25%, #5b86c4 50%, #1f4f9a 75%, #0b2a5b 100%); }
+.map-legend-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  font-size: 1.15rem; }
+.map-note {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: rgba(0, 0, 0, 0.55); }
