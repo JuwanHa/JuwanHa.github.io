@@ -263,3 +263,61 @@ h4 {
   margin-top: 1rem;
   font-size: 1.25rem;
   color: rgba(0, 0, 0, 0.55); }
+
+
+/*  ================ Research page: left table of contents + panes  ================ */
+.research-layout {
+  margin-top: 1rem; }
+.research-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 100%; }
+.research-nav li {
+  margin-bottom: 0.3rem; }
+.research-nav ul ul {
+  margin: 0.2rem 0 0.9rem 0.8rem;
+  border-left: 1px solid #e1e1e1; }
+.research-nav a {
+  display: block;
+  padding: 0.25rem 0 0.25rem 0.8rem;
+  border-left: 2px solid transparent;
+  color: #555;
+  font-size: 1.3rem;
+  line-height: 1.45;
+  text-decoration: none; }
+.research-nav > ul > li > a {
+  color: #222;
+  font-size: 1.4rem;
+  font-weight: 600; }
+.research-nav a:hover,
+.research-nav a.open {
+  color: #0048AB; }
+.research-nav a.active {
+  color: #0048AB;
+  border-left-color: #0048AB;
+  font-weight: 600; }
+.research-pane {
+  display: none; }
+.research-pane.active {
+  display: block; }
+.research-pane h4 {
+  margin-bottom: 1.5rem; }
+.research-crumb {
+  margin-bottom: 0.3rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5); }
+.research-soon {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.5); }
+@media (min-width: 750px) {
+  .research-nav {
+    position: sticky;
+    top: 8rem; } }
+@media (max-width: 549px) {
+  .research-nav {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee; } }

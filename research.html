@@ -3,66 +3,211 @@ layout: default
 title: Research
 permalink: /research/
 ---
-<!-- ========== RESEARCH ========== -->
+<!-- ========== RESEARCH ==========
+  Left: table of contents (.research-nav). Right: one .research-pane per entry.
+  To add an entry: add an <a class="research-link" data-pane="ID"> in the nav and a matching
+  <section class="research-pane" id="ID"> in the body. Links work as /research/#ID.
+-->
 <div class="docs-section" id="research">
   <h3>Research</h3>
 
-  <!-- To add a research tab: add a <li> here and a matching <div class="tab-pane"> below. -->
-  <ul class="tab-nav">
-    <li><div class="button active" data-ref="#research-gis-raleigh">GIS Modeling (Raleigh City)</div></li>
-  </ul>
+  <div class="row research-layout">
 
-  <div class="tab-content">
-  <!-- ---------- GIS Modeling (Raleigh City) ---------- -->
-  <div class="tab-pane active" id="research-gis-raleigh">
-  <div class="title-subtitle">
-    <h5>Raleigh LoD1 3D Building Model</h5>
-  </div>
-  <p style="text-align: justify;">
-    A Level-of-Detail 1 (LoD1) block model of every building within the City of Raleigh (about 156,000 buildings).
-    Each building footprint is extruded to its roof height measured from the 2024 QL1 airborne LiDAR; where LiDAR heights were unavailable (about 11% of buildings), heights are estimated from floor counts.
-    The model serves as the geometric base for city-scale building energy modeling.
-  </p>
+    <!-- ---------- Table of contents ---------- -->
+    <nav class="three columns research-nav" aria-label="Research topics">
+      <ul>
+        <li><a class="research-link" data-pane="hvac-control" href="#hvac-control">Advanced HVAC Control</a></li>
+        <li>
+          <a class="research-link research-group" data-pane="gebs-hvac" href="#gebs-hvac">Grid-interactive Efficient Buildings (GEBs)</a>
+          <ul>
+            <li><a class="research-link" data-pane="gebs-hvac" href="#gebs-hvac">HVAC System</a></li>
+            <li><a class="research-link" data-pane="gebs-ice-tes" href="#gebs-ice-tes">Ice Thermal Energy Storage</a></li>
+          </ul>
+        </li>
+        <li><a class="research-link" data-pane="data-center" href="#data-center">Data Center</a></li>
+        <li>
+          <a class="research-link research-group" data-pane="campus-dcs-tes" href="#campus-dcs-tes">NC State Campus Microgrid Modeling</a>
+          <ul>
+            <li><a class="research-link" data-pane="campus-dcs-tes" href="#campus-dcs-tes">District Cooling Systems with Chilled-Water Thermal Energy Storage</a></li>
+            <li><a class="research-link" data-pane="campus-chp" href="#campus-chp">Combined Heat and Power (CHP) Plant</a></li>
+            <li><a class="research-link" data-pane="campus-centennial" href="#campus-centennial">Centennial Campus Building Modeling</a></li>
+          </ul>
+        </li>
+        <li>
+          <a class="research-link research-group" data-pane="gis-overview" href="#gis-overview">GIS (Raleigh City)</a>
+          <ul>
+            <li><a class="research-link" data-pane="gis-overview" href="#gis-overview">Overview</a></li>
+            <li><a class="research-link" data-pane="gis-lod1" href="#gis-lod1">LOD 1</a></li>
+            <li><a class="research-link" data-pane="gis-lod2" href="#gis-lod2">LOD 2</a></li>
+            <li><a class="research-link" data-pane="gis-lod3" href="#gis-lod3">LOD 3</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-  <video class="research-video" autoplay muted loop playsinline preload="metadata"
-         poster="{{ "/assets/research/raleigh_lod1_orbit_poster.jpg" | prepend: site.baseurl }}"
-         aria-label="Rotating view of the Raleigh LoD1 building model around downtown Raleigh">
-    <source src="{{ "/assets/research/raleigh_lod1_orbit.mp4" | prepend: site.baseurl }}" type="video/mp4">
-  </video>
+    <!-- ---------- Content ---------- -->
+    <div class="nine columns research-body">
 
-  <div class="row research-figures">
-    <div class="four columns">
-      <a href="{{ "/assets/research/raleigh_lod1_city.jpg" | prepend: site.baseurl }}" target="_blank">
-        <img src="{{ "/assets/research/raleigh_lod1_city.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, city-wide view" loading="lazy" />
-      </a>
-      <p class="research-caption">City of Raleigh</p>
+      <!-- 1. Advanced HVAC Control -->
+      <section class="research-pane" id="hvac-control">
+        <h4>Advanced HVAC Control</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <!-- 2. Grid-interactive Efficient Buildings (GEBs) -->
+      <section class="research-pane" id="gebs-hvac">
+        <p class="research-crumb">Grid-interactive Efficient Buildings (GEBs)</p>
+        <h4>HVAC System</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <section class="research-pane" id="gebs-ice-tes">
+        <p class="research-crumb">Grid-interactive Efficient Buildings (GEBs)</p>
+        <h4>Ice Thermal Energy Storage</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <!-- 3. Data Center -->
+      <section class="research-pane" id="data-center">
+        <h4>Data Center</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <!-- 4. NC State Campus Microgrid Modeling -->
+      <section class="research-pane" id="campus-dcs-tes">
+        <p class="research-crumb">NC State Campus Microgrid Modeling</p>
+        <h4>District Cooling Systems with Chilled-Water Thermal Energy Storage</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <section class="research-pane" id="campus-chp">
+        <p class="research-crumb">NC State Campus Microgrid Modeling</p>
+        <h4>Combined Heat and Power (CHP) Plant</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <section class="research-pane" id="campus-centennial">
+        <p class="research-crumb">NC State Campus Microgrid Modeling</p>
+        <h4>Centennial Campus Building Modeling</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <!-- 5. GIS (Raleigh City) -->
+      <section class="research-pane" id="gis-overview">
+        <p class="research-crumb">GIS (Raleigh City)</p>
+        <h4>Overview</h4>
+        <p style="text-align: justify;">
+          City-scale 3D building models of Raleigh, North Carolina, organized by Level of Detail (LoD):
+        </p>
+        <ul>
+          <li><b><a class="research-link" data-pane="gis-lod1" href="#gis-lod1">LOD 1</a></b> &ndash; block models: each building footprint extruded to a single roof height.</li>
+          <li><b><a class="research-link" data-pane="gis-lod2" href="#gis-lod2">LOD 2</a></b> &ndash; building models with roof shapes.</li>
+          <li><b><a class="research-link" data-pane="gis-lod3" href="#gis-lod3">LOD 3</a></b> &ndash; detailed building models with facade elements such as windows.</li>
+        </ul>
+      </section>
+
+      <section class="research-pane" id="gis-lod1">
+        <p class="research-crumb">GIS (Raleigh City)</p>
+        <h4>LOD 1</h4>
+        <div class="title-subtitle">
+          <h5>Raleigh LoD1 3D Building Model</h5>
+        </div>
+        <p style="text-align: justify;">
+          A Level-of-Detail 1 (LoD1) block model of every building within the City of Raleigh (about 156,000 buildings).
+          Each building footprint is extruded to its roof height measured from the 2024 QL1 airborne LiDAR; where LiDAR heights were unavailable (about 11% of buildings), heights are estimated from floor counts.
+          The model serves as the geometric base for city-scale building energy modeling.
+        </p>
+
+        <video class="research-video" autoplay muted loop playsinline preload="metadata"
+               poster="{{ "/assets/research/raleigh_lod1_orbit_poster.jpg" | prepend: site.baseurl }}"
+               aria-label="Rotating view of the Raleigh LoD1 building model around downtown Raleigh">
+          <source src="{{ "/assets/research/raleigh_lod1_orbit.mp4" | prepend: site.baseurl }}" type="video/mp4">
+        </video>
+
+        <div class="row research-figures">
+          <div class="four columns">
+            <a href="{{ "/assets/research/raleigh_lod1_city.jpg" | prepend: site.baseurl }}" target="_blank">
+              <img src="{{ "/assets/research/raleigh_lod1_city.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, city-wide view" loading="lazy" />
+            </a>
+            <p class="research-caption">City of Raleigh</p>
+          </div>
+          <div class="four columns">
+            <a href="{{ "/assets/research/raleigh_lod1_downtown.jpg" | prepend: site.baseurl }}" target="_blank">
+              <img src="{{ "/assets/research/raleigh_lod1_downtown.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, downtown Raleigh" loading="lazy" />
+            </a>
+            <p class="research-caption">Downtown Raleigh</p>
+          </div>
+          <div class="four columns">
+            <a href="{{ "/assets/research/raleigh_lod1_ncstate.jpg" | prepend: site.baseurl }}" target="_blank">
+              <img src="{{ "/assets/research/raleigh_lod1_ncstate.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, NC State University main campus" loading="lazy" />
+            </a>
+            <p class="research-caption">NC State University</p>
+          </div>
+        </div>
+
+        <div class="map-legend">
+          <span>Building height (m)</span>
+          <span class="map-legend-scale">
+            <span class="map-legend-bar"></span>
+            <span class="map-legend-ticks"><span>0</span><span>10</span><span>20</span><span>40</span><span>80+</span></span>
+          </span>
+        </div>
+        <p class="map-note">
+          Data: building footprints from the City of Raleigh Open Data, NC OneMap (Wake County 2021 Building Footprints), and NC State University;
+          heights from the NC 2024 QL1 LiDAR; floor counts from LiDAR and Wake County real estate records.
+          Basemap &copy; OpenStreetMap contributors, OpenMapTiles, OpenFreeMap.
+        </p>
+      </section>
+
+      <section class="research-pane" id="gis-lod2">
+        <p class="research-crumb">GIS (Raleigh City)</p>
+        <h4>LOD 2</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <section class="research-pane" id="gis-lod3">
+        <p class="research-crumb">GIS (Raleigh City)</p>
+        <h4>LOD 3</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
     </div>
-    <div class="four columns">
-      <a href="{{ "/assets/research/raleigh_lod1_downtown.jpg" | prepend: site.baseurl }}" target="_blank">
-        <img src="{{ "/assets/research/raleigh_lod1_downtown.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, downtown Raleigh" loading="lazy" />
-      </a>
-      <p class="research-caption">Downtown Raleigh</p>
-    </div>
-    <div class="four columns">
-      <a href="{{ "/assets/research/raleigh_lod1_ncstate.jpg" | prepend: site.baseurl }}" target="_blank">
-        <img src="{{ "/assets/research/raleigh_lod1_ncstate.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Raleigh LoD1 model, NC State University main campus" loading="lazy" />
-      </a>
-      <p class="research-caption">NC State University</p>
-    </div>
-  </div>
-
-  <div class="map-legend">
-    <span>Building height (m)</span>
-    <span class="map-legend-scale">
-      <span class="map-legend-bar"></span>
-      <span class="map-legend-ticks"><span>0</span><span>10</span><span>20</span><span>40</span><span>80+</span></span>
-    </span>
-  </div>
-  <p class="map-note">
-    Data: building footprints from the City of Raleigh Open Data, NC OneMap (Wake County 2021 Building Footprints), and NC State University;
-    heights from the NC 2024 QL1 LiDAR; floor counts from LiDAR and Wake County real estate records.
-    Basemap &copy; OpenStreetMap contributors, OpenMapTiles, OpenFreeMap.
-  </p>
-  </div>
   </div>
 </div>
+
+<script>
+  // Show one research pane at a time; the URL hash (/research/#gis-lod1) selects it and is shareable.
+  (function () {
+    var DEFAULT_PANE = "gis-lod1";
+    var panes = document.querySelectorAll(".research-pane");
+    var navLinks = document.querySelectorAll(".research-nav .research-link");
+
+    function show(id, updateHash) {
+      if (!document.getElementById(id)) id = DEFAULT_PANE;
+      panes.forEach(function (p) {
+        var on = p.id === id;
+        p.classList.toggle("active", on);
+        p.querySelectorAll("video").forEach(function (v) { if (on) { v.play().catch(function () {}); } else { v.pause(); } });
+      });
+      navLinks.forEach(function (a) {
+        // Highlight the exact item; group headers are highlighted as "open" when one of their children is shown.
+        var isGroup = a.classList.contains("research-group");
+        var groupOpen = isGroup && a.parentNode.querySelector('ul .research-link[data-pane="' + id + '"]');
+        a.classList.toggle("active", !isGroup && a.getAttribute("data-pane") === id);
+        a.classList.toggle("open", !!groupOpen);
+      });
+      if (updateHash && history.replaceState) history.replaceState(null, "", "#" + id);
+    }
+
+    document.querySelectorAll(".research-link").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        show(a.getAttribute("data-pane"), true);
+        if (window.innerWidth < 750) document.querySelector(".research-body").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+    window.addEventListener("hashchange", function () { show(location.hash.slice(1), false); });
+    show(location.hash.slice(1) || DEFAULT_PANE, false);
+  })();
+</script>
