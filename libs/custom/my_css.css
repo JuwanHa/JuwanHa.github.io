@@ -359,3 +359,28 @@ h4 {
   color: inherit;
   text-transform: none;
 }
+
+/* Compact spacing in the multi-zone HVAC control section. */
+#hvac-system-control h4 {
+  margin-bottom: 1rem;
+}
+#hvac-system-control h5 {
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+#hvac-system-control p,
+#hvac-system-control ul {
+  margin-bottom: 1rem;
+}
+#hvac-system-control li {
+  margin-bottom: 0.5rem;
+}
+#hvac-system-control figure {
+  margin: 0 0 1.2rem !important;
+}
+#hvac-system-control .research-caption {
+  margin: 0.3rem 0 0.6rem;
+}
+#hvac-system-control .research-crumb {
+  margin-bottom: 0.3rem;
+}
