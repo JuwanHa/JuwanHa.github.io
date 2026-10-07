@@ -323,64 +323,64 @@ h4 {
     border-bottom: 1px solid #eee; } }
 
 /* Consistent typography for the multi-zone HVAC control section. */
-:is(#hvac-system-control, #lighting-system-control),
-:is(#hvac-system-control, #lighting-system-control) h4,
-:is(#hvac-system-control, #lighting-system-control) h5,
-:is(#hvac-system-control, #lighting-system-control) p,
-:is(#hvac-system-control, #lighting-system-control) li,
-:is(#hvac-system-control, #lighting-system-control) a,
-:is(#hvac-system-control, #lighting-system-control) figcaption {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control),
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) h4,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) h5,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) p,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) li,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) a,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) figcaption {
   font-family: inherit;
   font-weight: 400;
   font-style: normal;
   letter-spacing: normal;
 }
-:is(#hvac-system-control, #lighting-system-control) {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) {
   font-size: 1.6rem;
   line-height: 1.55;
 }
-:is(#hvac-system-control, #lighting-system-control) p,
-:is(#hvac-system-control, #lighting-system-control) li,
-:is(#hvac-system-control, #lighting-system-control) figcaption {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) p,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) li,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) figcaption {
   font-size: inherit;
   line-height: inherit;
 }
-:is(#hvac-system-control, #lighting-system-control) h4 {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) h4 {
   font-size: 2.2rem;
   line-height: 1.4;
 }
-:is(#hvac-system-control, #lighting-system-control) h5 {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) h5 {
   font-size: 1.8rem;
   line-height: 1.4;
   margin-bottom: 1rem;
 }
-:is(#hvac-system-control, #lighting-system-control) .research-caption,
-:is(#hvac-system-control, #lighting-system-control) .research-crumb {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) .research-caption,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) .research-crumb {
   color: inherit;
   text-transform: none;
 }
 
 /* Compact spacing in the multi-zone HVAC control section. */
-:is(#hvac-system-control, #lighting-system-control) h4 {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) h4 {
   margin-bottom: 1rem;
 }
-:is(#hvac-system-control, #lighting-system-control) h5 {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) h5 {
   margin-top: 1.2rem;
   margin-bottom: 0.6rem;
 }
-:is(#hvac-system-control, #lighting-system-control) p,
-:is(#hvac-system-control, #lighting-system-control) ul {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) p,
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) ul {
   margin-bottom: 1rem;
 }
-:is(#hvac-system-control, #lighting-system-control) li {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) li {
   margin-bottom: 0.5rem;
 }
-:is(#hvac-system-control, #lighting-system-control) figure {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) figure {
   margin: 0 0 1.2rem !important;
 }
-:is(#hvac-system-control, #lighting-system-control) .research-caption {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) .research-caption {
   margin: 0.3rem 0 0.6rem;
 }
-:is(#hvac-system-control, #lighting-system-control) .research-crumb {
+:is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control) .research-crumb {
   margin-bottom: 0.3rem;
 }

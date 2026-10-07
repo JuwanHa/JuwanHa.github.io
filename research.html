@@ -110,9 +110,24 @@ permalink: /research/
       <section class="research-pane" id="occupancy-supervisory-control">
         <p class="research-crumb">Advanced HVAC Control</p>
         <h4>Occupancy-based Supervisory Control for Integrated Lighting and HVAC Systems</h4>
-        <p class="research-soon">Details coming soon.</p>
-              <h5>Reference</h5>
-        <p><strong>Coordinated, Occupancy-Based Supervisory Control for Integrated Lighting and HVAC Systems</strong> (In-preparation)</p>
+        <h5>Overview</h5>
+        <p>This ongoing study investigates occupancy-based supervisory control that integrates lighting and HVAC operation. Differentiable predictive control combines occupancy prediction, lighting on/off and hold-time decisions, supply-air-temperature control, and occupied standby operation to balance energy use with lighting and thermal comfort.</p>
+        <h5>Control Framework</h5>
+        <p>Stochastic room-level occupancy is used to generate PIR sensor data and predict occupied or unoccupied states. The framework combines these signals with a Neural ODE zone-temperature prediction model and a cooling-energy prediction model. Lighting and HVAC controls are evaluated together in an EnergyPlus–Python co-simulation environment.</p>
+        <h5>Case Study</h5>
+        <ul>
+          <li>Location: Portland, Oregon, climate zone 4C (mixed marine).</li>
+          <li>Building: a high-fidelity medium-sized office model with rooftop-unit-based multi-zone VAV systems.</li>
+          <li>Evaluation period: the cooling season, May through September.</li>
+          <li>Comparisons: scheduled control, outdoor-air-temperature reset, ASHRAE Guideline 36, PIR-based occupancy control, and integrated DPC with an optimal hold time.</li>
+        </ul>
+        <h5>Energy and Comfort Results</h5>
+        <p>In the presented simulation, integrated DPC uses 15,462 kWh compared with 23,509 kWh for the schedule-based baseline, a 34.2% reduction. The comparison includes cooling, fan, reheat, and lighting energy.</p>
+        <figure><a href="{{ "/assets/research/supervisory-energy.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/supervisory-energy.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Comparison of HVAC and lighting energy use during the cooling season" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Comparison of HVAC and lighting energy use during the cooling season</figcaption></figure>
+        <p>The comfort comparison shows why energy use must be evaluated alongside occupancy sensing errors. Some occupancy-based settings reduce energy use but substantially increase thermal or lighting comfort violations. Integrated DPC maintains low violation levels while reducing energy use; these preliminary results are specific to the presented case study.</p>
+        <figure><a href="{{ "/assets/research/supervisory-comfort.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/supervisory-comfort.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Comparison of thermal and lighting comfort violations" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 2. Comparison of thermal and lighting comfort violations</figcaption></figure>
+        <h5 style="margin-bottom: 0;">Reference</h5>
+        <p style="margin: 0;">Occupancy-Based Supervisory Control for Integrated Lighting and HVAC Systems (In-preparation)</p>
       </section>
 
       <!-- 2. Grid-interactive Efficient Buildings (GEBs) -->
