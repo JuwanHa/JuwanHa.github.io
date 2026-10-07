@@ -25,9 +25,9 @@ permalink: /research/
           </ul>
         </li>
         <li>
-          <a class="research-link research-group" data-pane="dc-air" href="#dc-air">Data Center</a>
+          <a class="research-link research-group" data-pane="ACDC" href="#ACDC">Data Center</a>
           <ul>
-            <li><a class="research-link" data-pane="dc-air" href="#dc-air">Air-Cooled Data Centers</a></li>
+            <li><a class="research-link" data-pane="ACDC" href="#ACDC">Air-Cooled Data Centers</a></li>
             <li><a class="research-link" data-pane="dc-liquid" href="#dc-liquid">Liquid-Cooled AI Data Centers</a></li>
           </ul>
         </li>
@@ -74,7 +74,7 @@ permalink: /research/
       </section>
 
       <!-- 3. Data Center -->
-      <section class="research-pane" id="dc-air">
+      <section class="research-pane" id="ACDC">
         <p class="research-crumb">Data Center</p>
         <h4>Air-Cooled Data Centers</h4>
         <p class="research-soon">Details coming soon.</p>
@@ -196,6 +196,10 @@ permalink: /research/
     var navLinks = document.querySelectorAll(".research-nav .research-link");
 
     function show(id, updateHash) {
+      if (id === "dc-air") {
+        id = "ACDC";
+        updateHash = true;
+      }
       if (!document.getElementById(id)) id = DEFAULT_PANE;
       panes.forEach(function (p) {
         var on = p.id === id;
