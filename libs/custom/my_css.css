@@ -321,3 +321,41 @@ h4 {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #eee; } }
+
+/* Consistent typography for the multi-zone HVAC control section. */
+#hvac-system-control,
+#hvac-system-control h4,
+#hvac-system-control h5,
+#hvac-system-control p,
+#hvac-system-control li,
+#hvac-system-control a,
+#hvac-system-control figcaption {
+  font-family: inherit;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: normal;
+}
+#hvac-system-control {
+  font-size: 1.6rem;
+  line-height: 1.55;
+}
+#hvac-system-control p,
+#hvac-system-control li,
+#hvac-system-control figcaption {
+  font-size: inherit;
+  line-height: inherit;
+}
+#hvac-system-control h4 {
+  font-size: 2.2rem;
+  line-height: 1.4;
+}
+#hvac-system-control h5 {
+  font-size: 1.8rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+#hvac-system-control .research-caption,
+#hvac-system-control .research-crumb {
+  color: inherit;
+  text-transform: none;
+}
