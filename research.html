@@ -27,6 +27,7 @@ permalink: /research/
         <li>
           <a class="research-link research-group" data-pane="gebs-hvac" href="#gebs-hvac">Grid-interactive Efficient Buildings (GEBs)</a>
           <ul>
+            <li><a class="research-link" data-pane="gebs-ai-tech-assistant" href="#gebs-ai-tech-assistant">AI-Tech Assistant</a></li>
             <li><a class="research-link" data-pane="gebs-hvac" href="#gebs-hvac">HVAC System</a></li>
             <li><a class="research-link" data-pane="gebs-ice-tes" href="#gebs-ice-tes">Ice Thermal Energy Storage</a></li>
             <li><a class="research-link" data-pane="gebs-hvac-pv-battery" href="#gebs-hvac-pv-battery">HVAC, PV and Battery</a></li>
@@ -132,6 +133,25 @@ permalink: /research/
       </section>
 
       <!-- 2. Grid-interactive Efficient Buildings (GEBs) -->
+      <section class="research-pane" id="gebs-ai-tech-assistant">
+        <p class="research-crumb">Grid-interactive Efficient Buildings (GEBs)</p>
+        <h4>AI-Tech Assistant</h4>
+        <h5>Overview</h5>
+        <p>This study develops an AI-Tech Assistant to help service engineers transfer research knowledge into practical deployment of low-cost model predictive control (MPC) in small and medium commercial buildings. The assistant provides interactive, domain-specific guidance on site eligibility, implementation steps, technical terminology, and configuration files.</p>
+        <h5>Deployment Support</h5>
+        <p>The underlying MPC solution coordinates packaged HVAC units through WiFi-enabled thermostats. Deploying it requires engineers to assess site suitability, install and configure the hardware and software, collect thermostat data, conduct active tests, identify building models, and support ongoing commissioning. The assistant organizes research knowledge around these tasks to help engineers address site-specific questions.</p>
+        <h5>Assistant Design</h5>
+        <p>The prototype combines a commercially available large language model with a chatbot interface, a metaprompt defining its role and boundaries, deployment-specific context documents, and custom Python function tools. These tools support configuration-template generation. Retrieval-augmented generation and fine-tuning are discussed as alternative approaches to incorporating custom knowledge.</p>
+        <figure><a href="{{ "/assets/research/ai-tech-assistant-architecture.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/ai-tech-assistant-architecture.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Architecture of the AI-Tech Assistant" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Structure of the AI-Tech Assistant</figcaption></figure>
+        <h5>Example Evaluation</h5>
+        <p>The paper demonstrates responses to general MPC questions, a mixed-system site-eligibility scenario, configuration-template requests, and an out-of-scope question. The assistant explained the supplied deployment knowledge, checked individual system requirements, invoked the appropriate configuration function, and declined a task outside its designated role. These examples illustrate task-specific behavior; the paper does not report a quantified reduction in deployment time.</p>
+        <h5>Future Work</h5>
+        <p>Further development focuses on refining context documents and function tools, evaluating the assistant with domain experts, and exploring local language models to address privacy and intellectual-property concerns.</p>
+        <h5 style="margin-bottom: 0;">Reference</h5>
+        <p style="margin: 0;">Development of the AI-Tech Assistant to Transfer Research Outcome Knowledge for Accelerating Low-Cost MPC Technology Deployment</p>
+        <p style="margin: 0;">Sang woo Ham, Juwan Ha, Seungjae Lee, and Donghun Kim</p>
+      </section>
+
       <section class="research-pane" id="gebs-hvac">
         <p class="research-crumb">Grid-interactive Efficient Buildings (GEBs)</p>
         <h4>HVAC System</h4>
