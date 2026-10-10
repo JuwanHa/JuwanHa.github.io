@@ -156,7 +156,15 @@ permalink: /research/
       <section class="research-pane" id="gebs-hvac">
         <p class="research-crumb">Grid-interactive Efficient Buildings (GEBs)</p>
         <h4>HVAC System</h4>
-        <p class="research-soon">Details coming soon.</p>
+        <h5>Overview</h5>
+        <p>This research develops differentiable predictive control (DPC) for HVAC demand flexibility in multi-zone commercial buildings. Under time-of-use electricity prices and monthly demand charges, shifting electricity use alone may not reduce the peak demand that determines operating cost. The proposed framework therefore accounts for both energy prices and the maximum demand already recorded within the billing period.</p>
+        <h5>Billing-State-Aware Predictive Control</h5>
+        <p>A Neural ODE temperature model and an HVAC power predictor support offline policy training. The trained controller adjusts supply-air temperature directly in EnergyPlus without online numerical optimization. Two formulations are compared: energy-price-responsive DPC (DPC-E) and demand-aware DPC (DPC-ED), which additionally considers demand charges and month-to-date peak demand. Both use the building's thermal mass to shift cooling demand.</p>
+        <h5>Key Results</h5>
+        <p>In a five-zone office-building simulation over the May–September cooling season, DPC-ED reduced HVAC operating cost by 31.2%, seasonal peak demand by 29.0%, and occupied-period temperature exceedance by approximately 50% relative to schedule-based control. It also reduced cost by 8.7% compared with DPC-E, with demand-charge reductions accounting for approximately 90% of the savings relative to the baseline.</p>
+        <p>The policy retained cost and peak-demand reductions when transferred to other floors of the same building without retraining. These findings are limited to the simulated office building, Raleigh weather, and perfect weather and occupancy look-ahead; broader applicability remains to be evaluated.</p>
+        <h5>Reference</h5>
+        <p>Juwan Ha, Seungmin Lee, Yujin Kim, Sunho Kim, and Soolyeon Cho. Differentiable Predictive Control for Demand Flexibility in Multi-Zone Commercial Buildings, <em>Energy and Buildings</em> (In-preparation).</p>
       </section>
 
       <section class="research-pane" id="gebs-ice-tes">
