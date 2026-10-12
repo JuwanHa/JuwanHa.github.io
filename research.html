@@ -11,6 +11,22 @@ permalink: /research/
 <div class="docs-section" id="research">
   <h3>Research</h3>
 
+  <!-- Wide blocks: full-width content shown above the two-column layout while their pane (data-for) is active. -->
+  <div class="research-wide" data-for="gis-lod1" hidden>
+    <p class="research-crumb">GIS (Raleigh City)</p>
+    <h4>LOD 1</h4>
+    <div class="research-viewer-wrap" id="lod1-viewer">
+      <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}"
+              title="Raleigh City LoD1 3D viewer" allowfullscreen style="min-height:640px"></iframe>
+      <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
+    </div>
+    <p class="map-note">
+      <button type="button" class="research-linkbtn research-viewer-expand" data-target="lod1-viewer">&#10530; Full screen</button>
+      &middot; <a href="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}" target="_blank">Open in a new tab &#8599;</a>
+      &middot; drag to pan, right-drag to tilt, scroll to zoom, hover a building.
+    </p>
+  </div>
+
   <div class="row research-layout">
 
     <!-- ---------- Table of contents ---------- -->
@@ -290,25 +306,12 @@ permalink: /research/
       </section>
 
       <section class="research-pane" id="gis-lod1">
-        <p class="research-crumb">GIS (Raleigh City)</p>
-        <h4>LOD 1</h4>
         <div class="title-subtitle">
           <h5>Raleigh City 3D &middot; LoD1 Blocks</h5>
         </div>
         <p style="text-align: justify;">
           Every building in the City of Raleigh (156,326 footprints) extruded to its roof height from the 2024 QL1 airborne LiDAR as an LoD1 block model.
-          Use the panel on the left to colour the buildings by type, land use, floors, year or heating fuel, add roads, sidewalks, lakes, green space, electric lines and substations, or jump to a place; hover a building for its details.
-        </p>
-
-        <div class="research-viewer-wrap" id="lod1-viewer">
-          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}"
-                  title="Raleigh City LoD1 3D viewer" allowfullscreen style="min-height:640px"></iframe>
-          <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
-        </div>
-        <p class="map-note">
-          <button type="button" class="research-linkbtn research-viewer-expand" data-target="lod1-viewer">&#10530; Full screen</button>
-          &middot; <a href="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}" target="_blank">Open in a new tab &#8599;</a>
-          &middot; drag to pan, right-drag to tilt, scroll to zoom, hover a building.
+          Use the panel in the viewer above to colour the buildings by type, land use, floors, year or heating fuel, add roads, sidewalks, lakes, green space, electric lines and substations, or jump to a place; hover a building for its details.
         </p>
 
         {% comment %}
@@ -405,6 +408,11 @@ permalink: /research/
         // Load embedded viewers only when their pane is first opened.
         if (on) p.querySelectorAll("iframe[data-src]").forEach(function (f) { if (!f.getAttribute("src")) f.setAttribute("src", f.getAttribute("data-src")); });
       });
+      document.querySelectorAll(".research-wide").forEach(function (w) {
+        var on = w.getAttribute("data-for") === id;
+        w.hidden = !on;
+        if (on) w.querySelectorAll("iframe[data-src]").forEach(function (f) { if (!f.getAttribute("src")) f.setAttribute("src", f.getAttribute("data-src")); });
+      });
       navLinks.forEach(function (a) {
         // Highlight the exact item; group headers are highlighted as "open" when one of their children is shown.
         var isGroup = a.classList.contains("research-group");
@@ -420,10 +428,17 @@ permalink: /research/
         e.preventDefault();
         e.stopImmediatePropagation();
         show(a.getAttribute("data-pane"), true);
-        if (window.innerWidth < 750) document.querySelector(".research-body").scrollIntoView({ behavior: "smooth" });
+        if (!scrollToWide(true) && window.innerWidth < 750) document.querySelector(".research-body").scrollIntoView({ behavior: "smooth" });
       });
     });
-    window.addEventListener("hashchange", function () { show(location.hash.slice(1), false); });
+    // A visible wide block sits above the layout: scroll to it (below the docked navbar) instead of to the pane.
+    function scrollToWide(smooth) {
+      var w = document.querySelector(".research-wide:not([hidden])");
+      if (!w) return false;
+      window.scrollTo({ top: w.getBoundingClientRect().top + window.pageYOffset - 80, behavior: smooth ? "smooth" : "auto" });
+      return true;
+    }
+    window.addEventListener("hashchange", function () { show(location.hash.slice(1), false); scrollToWide(true); });
 
     // Full-screen toggle for embedded viewers (CSS overlay, so it also works where iframe fullscreen is unavailable).
     function setExpanded(wrap, on) {
@@ -441,5 +456,7 @@ permalink: /research/
       if (e.key === "Escape") document.querySelectorAll(".research-viewer-wrap.expanded").forEach(function (w) { setExpanded(w, false); });
     });
     show(location.hash.slice(1) || DEFAULT_PANE, false);
+    // A deep link (#gis-lod1) would otherwise land on the pane text below the wide viewer.
+    if (location.hash) { scrollToWide(false); window.addEventListener("load", function () { scrollToWide(false); }); }
   })();
 </script>

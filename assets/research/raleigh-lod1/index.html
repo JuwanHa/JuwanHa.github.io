@@ -182,7 +182,7 @@ function floorColour(f) {
 }
 const CLS = [['sf', 'Single-family detached', [110, 170, 150]], ['sfa', 'Single-family attached (townhouse)', [150, 205, 120]], ['mf', 'Multifamily', [225, 190, 90]],
   ['mh', 'Manufactured home', [190, 150, 110]], ['commercial', 'Commercial / institutional', [225, 120, 80]], ['accessory', 'Parking lots', [98, 110, 118]],
-  ['unconditioned', 'Unconditioned (parking deck, canopy) - not modelled', [130, 120, 160]], ['unknown', 'Unknown / under construction', [70, 78, 84]]];
+  ['unconditioned', 'Parking lots', [98, 110, 118]], ['unknown', 'Unknown / under construction', [70, 78, 84]]];
 const LAND_GROUPS = [
   ['Residential density', [['RR', 'Rural Residential', [90, 130, 110]], ['LR', 'Low Density Residential', [110, 160, 130]], ['MODR', 'Moderate Density Residential', [130, 185, 140]], ['MR', 'Medium Density Residential', [150, 205, 150]], ['HR', 'High Density Residential', [170, 220, 160]]]],
   ['Mixed use', [['NMU', 'Neighborhood Mixed Use', [225, 195, 90]], ['CMU', 'Community Mixed Use', [225, 160, 80]], ['ORMU', 'Office / Residential Mixed Use', [225, 130, 90]], ['RMU', 'RMU (mixed use)', [225, 100, 100]]]],
@@ -215,7 +215,7 @@ function colourOf(i) {
 function renderLegend() {
   const box = $('legend'), lab = $('legendLabel'); let rows;
   const sw = (c, t) => `<span class="sw" style="background:rgb(${c.join(',')})"></span><span>${t}</span>`;
-  if (S.colour === 'cls') { lab.textContent = 'Building type'; rows = CLS.map(([, n, c]) => sw(c, n)).join(''); }
+  if (S.colour === 'cls') { lab.textContent = 'Building type'; rows = CLS.filter((x, k, a) => a.findIndex(y => y[1] === x[1]) === k).map(([, n, c]) => sw(c, n)).join(''); }
   else if (S.colour === 'lu') { lab.textContent = 'Future Land Use (2030 plan)';
     rows = LAND_GROUPS.map(([g, items]) => `<span></span><span style="color:var(--muted);font:500 10.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;margin-top:4px">${g}</span>` + items.map(([code, name, col]) => sw(col, code + ' - ' + name)).join('')).join(''); }
   else if (S.colour === 'yr') { lab.textContent = 'Year'; rows = YEAR_BINS.map(([, n, c]) => sw(c, n)).join('') + sw(NONE, 'Unknown'); }
@@ -325,7 +325,11 @@ tog.addEventListener('click', () => { const hide = !panel.hidden; panel.hidden =
 // Whole city in view, kept clear of the panel (left on wide frames, bottom on phones).
 const RALEIGH = [[-78.82, 35.705], [-78.475, 35.972]];
 function fitAll(animate) {
-  const el = $('map'), w = el.clientWidth || innerWidth, h = el.clientHeight || innerHeight;
+  const el = $('map'), w = el.clientWidth, h = el.clientHeight;
+  if (w < 200 || h < 200) {                            // frame not laid out yet (hidden or zero-size): fit once it has a size
+    const once = () => { removeEventListener('resize', once); fitAll(false); };
+    addEventListener('resize', once); return;
+  }
   const pad = { top: 60, bottom: 30, left: 20, right: 20 };
   if (!panel.hidden && w > 480) pad.left = Math.min(panel.offsetWidth + 28, w * 0.5);
   if (!panel.hidden && w <= 480) pad.bottom = Math.min(panel.offsetHeight + 20, h * 0.6);
