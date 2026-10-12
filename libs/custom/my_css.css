@@ -400,20 +400,11 @@ h4 {
   max-height: 1000px;
   border: 1px solid #e1e1e1;
   background: #0d1417; }
-/* Wide block (e.g. the LoD1 viewer): spans most of the window, centred on the page,
-   reaching past the 960px text column into both margins. */
-.research-wide {
-  margin: 1rem 0 2.5rem; }
-.research-wide h4 {
-  margin-bottom: 1rem; }
-@media (min-width: 750px) {
-  .research-wide .research-viewer-wrap:not(.expanded) {
-    width: min(calc(100vw - 64px), 1400px);
-    margin-left: calc((100% - min(calc(100vw - 64px), 1400px)) / 2); }
-  .research-wide .research-viewer-wrap:not(.expanded) .research-viewer {
-    height: calc(100vh - 150px);
-    min-height: 560px;
-    max-height: 900px; } }
+/* Wide screens: let the viewer run into the right-hand page margin so the open panel leaves room for the map
+   (container = min(960px, 80vw) from Skeleton; 32px kept clear of the window edge / scrollbar). */
+@media (min-width: 1000px) {
+  .research-viewer-wrap:not(.expanded) .research-viewer {
+    width: calc(100% + (100vw - min(960px, 80vw)) / 2 - 32px); } }
 @media (max-width: 549px) {
   .research-viewer {
     height: 75vh;
