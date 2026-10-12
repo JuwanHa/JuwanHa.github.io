@@ -281,28 +281,27 @@ permalink: /research/
         <p style="text-align: justify;">At Data Hall level, each system is designed with N+1 redundancy to ensure stable and reliable operation, and the potential application of thermal energy storage tanks is also considered to enhance emergency response capability and provide additional operational flexibility.</p>
         <img src="{{ "/assets/research/lcdc-system.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Figure 4. System Overview of the Liquid Cooling Data Center" loading="lazy" />
         <p align="center"><em>Figure 4. System Overview of the Liquid Cooling Data Center</em></p>
-        <h5>Modelica System Model</h5>
-        <a href="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" target="_blank" rel="noopener">
-          <img src="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Modelica system schematic diagram for the liquid-cooled data center" loading="lazy" />
-        </a>
-        <p align="center"><em>Figure 5. Modelica system schematic diagram of the liquid-cooled data center</em></p>
         <h5>Reference</h5>
-        <p style="text-align: justify;">Differentiable Predictive Control for Energy-Efficient Liquid Cooling Systems in AI Data Centers, <em>Applied Energy</em> (In-preparation)</p>
         <p style="text-align: justify;"><b>IT and Cooling Load Modeling</b></p>
         <p style="text-align: justify;">[1] NVIDIA Corporation, <em>NVIDIA DGX GB Rack Scale Systems User Guide</em>, Mar. 3, 2026.</p>
         <p style="text-align: justify;">[2] Vertiv Group Corp., <em>Vertiv(TM) Liebert(R) XDU 1350 - Coolant Distribution Unit (CDU)</em>, doc. no. MKA4L0UKXDUDS1350, rev. 1- (R01/23), 2023.</p>
         <p style="text-align: justify;">[3] Vertiv Group Corp., <em>Vertiv(TM) Liebert(R) DCD: Energy Efficient Cooling for High Density Applications</em>, doc. no. MKA4L0UKDCD, rev. R04/22, 2022.</p>
         <p style="text-align: justify;">[4] Trane, <em>High-Efficiency Cooling for the 1 GW AI Factory: Reference Design #502, High Condenser Temperature System Design featuring CenTraVac(R) Simplex</em></p>
-        <p style="text-align: justify;">[5] OpenModelica, "Buildings.Fluid.Chillers.Data.ElectricEIR," <em>OpenModelica Documentation</em>. [Online]. Available: <a href="https://build.openmodelica.org/Documentation/Buildings.Fluid.Chillers.Data.ElectricEIR.html" target="_blank" rel="noopener">https://build.openmodelica.org/Documentation/Buildings.Fluid.Chillers.Data.ElectricEIR.html</a>. [Accessed: Apr. 7, 2026].</p>
         <p style="text-align: justify;"><b>Real-world Dataset for LCDC Model Validation</b></p>
         <p style="text-align: justify;">M100 dataset 1 is a real-world open dataset collected from Marconi100, a Tier-0 supercomputer at CINECA, and can serve as a valuable reference dataset for validating LCDC (Liquid Cooling Data Center) models. It includes not only node-level measurements from more than 980 computing nodes, such as core load, temperature, frequency, memory activity, CPU power, fan speed, and GPU utilization, but also system-level information covering the liquid cooling infrastructure, air-conditioning system, power supply units, workload manager statistics, job-related information, system alerts, and weather data. Covering the period from March to December 2020, the dataset is stored as a partitioned Parquet dataset organized by year_month, plugin, and metric, and distributed as monthly tarballs, making it well suited for analyzing the thermal and operational behavior of large-scale liquid-cooled data centers and for model validation purposes.</p>
-        <p style="text-align: justify;">[6] Andrea Borghesi, Carmine Di Santi, Martin Molan, Mohsen Seyedkazemi Ardebili, Alessio Mauri, Massimiliano Guarrasi, Daniela Galetti, Mirko Cestari, Francesco Barchi, Luca Benini, Francesco Beneventi, and Andrea Bartolini. (2023). <em>M100 dataset 1: from 20-03 to 20-12 (1.0.0)</em> [Data set]. Zenodo. <a href="https://doi.org/10.5281/zenodo.7588815" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.7588815</a></p>
+        <p style="text-align: justify;">[5] Andrea Borghesi, Carmine Di Santi, Martin Molan, Mohsen Seyedkazemi Ardebili, Alessio Mauri, Massimiliano Guarrasi, Daniela Galetti, Mirko Cestari, Francesco Barchi, Luca Benini, Francesco Beneventi, and Andrea Bartolini. (2023). <em>M100 dataset 1: from 20-03 to 20-12 (1.0.0)</em> [Data set]. Zenodo. <a href="https://doi.org/10.5281/zenodo.7588815" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.7588815</a></p>
       </section>
 
       <section class="research-pane" id="lcdc-efficiency">
         <p class="research-crumb">Data Center &middot; Liquid-Cooled AI Data Centers</p>
         <h4>Energy Efficiency Strategies</h4>
-        <p class="research-soon">Details coming soon.</p>
+        <h5>Modelica System Model</h5>
+        <a href="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" target="_blank" rel="noopener">
+          <img src="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Modelica system schematic diagram for the liquid-cooled data center" loading="lazy" />
+        </a>
+        <p align="center"><em>Figure 1. Modelica system schematic diagram of the liquid-cooled data center</em></p>
+        <h5>Reference</h5>
+        <p style="text-align: justify;">Differentiable Predictive Control for Energy-Efficient Liquid Cooling Systems in AI Data Centers, <em>Applied Energy</em> (In-preparation)</p>
       </section>
 
       <section class="research-pane" id="lcdc-gpu-load">
