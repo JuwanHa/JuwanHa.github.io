@@ -84,16 +84,10 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
     <h1>City of Raleigh – Downtown (LOD 2 Level)</h1>
   </div>
   <div>
-    <div class="label">Level of detail</div>
-    <div class="seg" role="group" aria-label="Level of detail">
-      <button type="button" id="lod1" aria-pressed="false">LoD1 blocks</button>
-      <button type="button" id="lod2" aria-pressed="true">LoD2 roofs</button>
-    </div>
-  </div>
-  <div>
     <div class="label">Colour by</div>
     <div class="seg" role="group" aria-label="Colour by">
       <button type="button" data-mode="type" aria-pressed="true">Use</button>
+      <button type="button" data-mode="floors" aria-pressed="false">Floors</button>
       <button type="button" data-mode="year" aria-pressed="false">Year built</button>
       <button type="button" data-mode="heat" aria-pressed="false">Heating</button>
     </div>
@@ -121,6 +115,8 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
   const HEAT_COL = ['#e0620d', '#2b7bba', '#7661b0', null];
   const YEAR_BINS = [[1940, 'Before 1940', '#5b2a86'], [1960, '1940–1959', '#7b4ea3'], [1980, '1960–1979', '#3f73b8'], [2000, '1980–1999', '#3aa1a0'],
                      [2010, '2000–2009', '#8cbf4f'], [9999, '2010 or later', '#e8b63a']];
+  const FLOOR_BINS = [[1.5, '1 floor', '#5a8caa'], [2.5, '2 floors', '#6eaa96'], [4.5, '3–4 floors', '#dcbe5a'], [8.5, '5–8 floors', '#e17846'],
+                      [16.5, '9–16 floors', '#c8465a'], [999, '17+ floors', '#aa3ca0']];
   const state = { lod: 2, mode: 'type', hover: -1 };
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   let D, scene, camera, renderer, controls, meshes = {}, lines = {}, ground;
@@ -133,6 +129,7 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
   function colourOf(b) {
     if (state.mode === 'type') return TYPE_COL[b.t] || unmodelledCol();
     if (state.mode === 'heat') return HEAT_COL[b.h] || unmodelledCol();
+    if (state.mode === 'floors') { if (b.s == null) return unmodelledCol(); for (const [lim, , c] of FLOOR_BINS) if (b.s < lim) return c; return unmodelledCol(); }
     if (b.y == null || b.t === D.types.length - 1) return unmodelledCol();
     for (const [lim, , c] of YEAR_BINS) if (b.y < lim) return c;
     return unmodelledCol();
@@ -188,6 +185,8 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
     const count = f => D.buildings.filter(f).length;
     if (state.mode === 'type') items = D.types.map((n, i) => [TYPE_COL[i] || unmodelledCol(), n, count(b => b.t === i)]).filter(x => x[2] > 0);
     else if (state.mode === 'heat') items = D.heats.map((n, i) => [HEAT_COL[i] || unmodelledCol(), n, count(b => b.h === i)]);
+    else if (state.mode === 'floors') { let lo = 0; items = FLOOR_BINS.map(([lim, n, c]) => { const r = [c, n, count(b => b.s != null && b.s >= lo && b.s < lim)]; lo = lim; return r; });
+           const u = count(b => b.s == null); if (u) items.push([unmodelledCol(), 'Unknown', u]); }
     else { let lo = 0; items = YEAR_BINS.map(([lim, n, c]) => { const r = [c, n, count(b => b.t !== D.types.length - 1 && b.y != null && b.y >= lo && b.y < lim)]; lo = lim; return r; });
            items.push([unmodelledCol(), 'Not modelled or unknown', count(b => b.t === D.types.length - 1 || b.y == null)]); }
     el.innerHTML = '';
@@ -225,9 +224,10 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
     host.appendChild(renderer.domElement);
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(40, host.clientWidth / host.clientHeight, 5, 20000);
-    camera.position.set(900, 850, 1150);
+    const TGT = [-111, 0, 201], DIST = 1600, EL = 52 * Math.PI / 180, AZ = 20 * Math.PI / 180;
+    camera.position.set(TGT[0] + DIST * Math.cos(EL) * Math.sin(AZ), DIST * Math.sin(EL), TGT[2] + DIST * Math.cos(EL) * Math.cos(AZ));
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.target.set(0, 0, 0); controls.maxPolarAngle = Math.PI * 0.47; controls.minDistance = 60; controls.maxDistance = 6000;
+    controls.target.set(TGT[0], TGT[1], TGT[2]); applyOffset(); controls.maxPolarAngle = Math.PI * 0.47; controls.minDistance = 60; controls.maxDistance = 6000;
     controls.enableDamping = true; controls.dampingFactor = 0.12;
     controls.addEventListener('change', render);
     scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8a80, 0.75));
@@ -238,11 +238,17 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
     lines.streets = makeLines(minor, 0x999999); lines.major = makeLines(major, 0x777777);
     lines.cbd = makeLines(D.cbd, 0xb5452c); lines.dt = makeLines(D.downtown, 0x2e5a87, true); lines.dt.visible = false;
     Object.values(lines).forEach(l => scene.add(l));
-    meshes[1] = buildLod('l1'); meshes[2] = buildLod('l2');
-    scene.add(meshes[1]); scene.add(meshes[2]); meshes[1].visible = false;
+    meshes[2] = buildLod('l2');
+    scene.add(meshes[2]);
     themeScene();
     wire();
     render();
+  }
+
+  function applyOffset() {                                  // keep the scene centred in the part of the frame beside the panel
+    const host = document.getElementById('scene'), sheet = document.getElementById('sheet'), w = host.clientWidth, hh = host.clientHeight;
+    const off = w > 640 ? -(sheet.offsetWidth + 24) / 2 : 0;
+    camera.setViewOffset(w, hh, off, 0, w, hh);
   }
 
   let pending = false;
@@ -254,10 +260,8 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
     if (bi < 0) { card.innerHTML = '<span class="hint">Point at a building to see its details. Drag to orbit, scroll or pinch to zoom, right-drag to pan.</span>'; return; }
     const b = D.buildings[bi], rows = [];
     const fmt = n => n == null ? '—' : Number(n).toLocaleString('en-US');
-    rows.push(['Year built', b.y ?? '—'], ['Stories', b.s ?? '—'], ['Height LoD1 / LoD2', `${b.h1 ?? '—'} / ${b.h2 ?? '—'} m`]);
+    rows.push(['Year built', b.y ?? '—'], ['Floors', b.s ?? '—'], ['Height', `${b.h2 ?? '—'} m`]);
     rows.push(['Heating', D.heats[b.h]], ['Official Downtown', b.dt ? 'inside' : 'outside']);
-    if (b.rr) rows.push(['LoD2 note', 'roof rebuilt in a second roofer run (' + b.rr + ')']);
-    else if (b.lf) rows.push(['LoD2 note', 'no roof planes found, flat block']);
     card.innerHTML = '';
     const t = document.createElement('div'); t.className = 't'; t.textContent = D.types[b.t]; card.append(t);
     const dl = document.createElement('dl');
@@ -279,16 +283,12 @@ h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter
     el.addEventListener('pointerdown', ev => { downAt = [ev.clientX, ev.clientY]; });
     el.addEventListener('pointerup', ev => { if (downAt && Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) < 5) pick(ev); downAt = null; });
     el.addEventListener('pointerleave', () => { if (state.hover >= 0) { state.hover = -1; info(-1); recolour(); } });
-    const b1 = document.getElementById('lod1'), b2 = document.getElementById('lod2');
-    function setLod(l) { state.lod = l; meshes[1].visible = l === 1; meshes[2].visible = l === 2;
-      b1.setAttribute('aria-pressed', l === 1); b2.setAttribute('aria-pressed', l === 2); render(); }
-    b1.onclick = () => setLod(1); b2.onclick = () => setLod(2);
     document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {
       state.mode = b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x => x.setAttribute('aria-pressed', x === b)); legend(); recolour(); });
     const tog = (id, objs) => { const c = document.getElementById(id); c.onchange = () => { objs.forEach(o => o.visible = c.checked); render(); }; };
     tog('showStreets', [lines.streets, lines.major]); tog('showCbd', [lines.cbd]); tog('showDt', [lines.dt]);
     window.addEventListener('resize', () => { const h = document.getElementById('scene');
-      camera.aspect = h.clientWidth / h.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(h.clientWidth, h.clientHeight); render(); });
+      camera.aspect = h.clientWidth / h.clientHeight; applyOffset(); renderer.setSize(h.clientWidth, h.clientHeight); render(); });
     const mq = window.matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', themeScene);
     new MutationObserver(themeScene).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     (function tick() { if (controls.enableDamping) { controls.update(); renderer.render(scene, camera); } requestAnimationFrame(tick); })();

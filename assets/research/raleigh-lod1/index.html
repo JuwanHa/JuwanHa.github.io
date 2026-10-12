@@ -293,7 +293,9 @@ function tooltip(info) {
   if (!id.startsWith('l1-') || !info.object) return null;
   const i = info.object.i, cls = vv('cls', i), fl = C.fl[i], lu = vv('lu', i);
   const clsName = (CLS.find(x => x[0] === cls) || [, cls || 'Building'])[1];
-  let h = '<b>' + clsName + '</b><br>' + (fl > 0 ? fl + ' floor' + (fl === 1 ? '' : 's') + ' · ' : '') + fmt(C.h[i] / 10, 1) + ' m tall';
+  let h = '<b>' + clsName + '</b>';
+  if (fl > 0) h += '<br>Floors: ' + fl;
+  h += '<br>Height: ' + fmt(C.h[i] / 10, 1) + ' m';
   const yr = C.yr[i], fuel = vv('fuel', i);
   if (yr > 0) h += '<br>Year: ' + yr;
   if (fuel) h += '<br>Heating Fuel: ' + fuel.charAt(0).toUpperCase() + fuel.slice(1);
