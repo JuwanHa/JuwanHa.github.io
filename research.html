@@ -38,8 +38,8 @@ permalink: /research/
           <a class="research-link research-group" data-pane="campus-dcs-tes" href="#campus-dcs-tes">NC State Campus Building and District System Modeling</a>
           <ul>
             <li><a class="research-link" data-pane="campus-dcs-tes" href="#campus-dcs-tes">District Cooling Systems with Chilled-Water Thermal Energy Storage</a></li>
-            <li><a class="research-link" data-pane="campus-chp" href="#campus-chp">Combined Heat and Power (CHP) Plant</a></li>
             <li><a class="research-link" data-pane="campus-centennial" href="#campus-centennial">Centennial Campus Building Modeling</a></li>
+            <li><a class="research-link" data-pane="campus-chp" href="#campus-chp">Combined Heat and Power (CHP) Plant</a></li>
           </ul>
         </li>
         <li>
@@ -295,13 +295,24 @@ permalink: /research/
       <section class="research-pane" id="campus-dcs-tes">
         <p class="research-crumb">NC State Campus Building and District System Modeling</p>
         <h4>District Cooling Systems with Chilled-Water Thermal Energy Storage</h4>
-        <p class="research-soon">Details coming soon.</p>
-      </section>
-
-      <section class="research-pane" id="campus-chp">
-        <p class="research-crumb">NC State Campus Building and District System Modeling</p>
-        <h4>Combined Heat and Power (CHP) Plant</h4>
-        <p class="research-soon">Details coming soon.</p>
+        <h5>Overview</h5>
+        <p style="text-align: justify;">This research develops mixed-integer nonlinear differentiable predictive control (MI-DPC) for the Centennial Campus Utility Plant (CCUP), which supplies chilled water to the campus with five 2,000 RT centrifugal chillers and a 25,000 ton&middot;h (87.9 MWh<sub>th</sub>) stratified chilled-water TES tank (Figures 1 and 2). More than 60% of the plant&rsquo;s electricity bill comes from demand charges, yet the plant follows a fixed schedule that does not consider when those charges are set. Under a time-of-use tariff with demand charges (Duke Energy Progress LGS-TOU), MI-DPC decides every hour how many chillers to run and how much to charge or discharge the tank, looking 48 hours ahead.</p>
+        <figure><a href="{{ "/assets/research/dcs-tes-plant.jpg" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/dcs-tes-plant.jpg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Target campus district cooling plant with chilled-water TES" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Target campus district cooling plant with chilled-water TES</figcaption></figure>
+        <figure><a href="{{ "/assets/research/dcs-tes-schematic.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/dcs-tes-schematic.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Schematic of the campus district cooling plant with chilled-water TES" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 2. Schematic of the campus district cooling plant with chilled-water TES</figcaption></figure>
+        <h5>Calibrated Modelica Plant and Closed-Loop Evaluation</h5>
+        <p style="text-align: justify;">The plant is modeled in Modelica from as-built drawings and calibrated against measured data from July&ndash;September 2023 to meet ASHRAE Guideline 14 (Figure 3). The calibrated model is exported as a Functional Mock-up Unit (FMU), and a Python controller overrides its chiller commands and tank flow every hour. The policy is trained on a differentiable grey-box twin of the plant, with campus cooling-load forecasts from a PatchTST model.</p>
+        <figure><a href="{{ "/assets/research/dcs-tes-modelica.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/dcs-tes-modelica.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Modelica system diagram of the campus district cooling plant" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 3. Modelica system diagram</figcaption></figure>
+        <h5>Baseline vs. MI-DPC</h5>
+        <p style="text-align: justify;">The baseline is the plant&rsquo;s recorded operation, a schedule-based storage-priority control: the tank is charged every night (22:00&ndash;09:00) with up to five chillers and discharged first during the day, until it is nearly empty by the evening. Both strategies run on the same FMU with the same weather, campus load, and 15-minute billing over July&ndash;September 2023 (2,184 h). In the September test week (Figure 4), the baseline&rsquo;s night charging starts before the 01:00&ndash;06:00 discount window, so the charging power sets the month&rsquo;s mid-peak demand record of 7,046 kW. MI-DPC instead keeps the tank state of charge between 0.55 and 0.97 and runs two to four chillers, keeping 15-minute plant power at or below 5,077 kW.</p>
+        <ul>
+          <li>Quarterly electricity cost: 16.2% lower than the baseline (USD 672,599 &rarr; 563,363), and 17.7% lower in September, the month not used for training or policy selection.</li>
+          <li>Demand charges: 24.4% lower, accounting for 96.9% of the savings; monthly mid-peak demand records fell by 22.8&ndash;29.0% (Figure 5).</li>
+          <li>Cooling service: hours with campus supply temperature above 44 &deg;F (6.7 &deg;C) fell from 234 to 4.</li>
+        </ul>
+        <figure><a href="{{ "/assets/research/dcs-tes-test-week.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/dcs-tes-test-week.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="One test week of the baseline and MI-DPC: disturbances, plant power, TES state of charge and running chillers" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 4. One test week (4&ndash;10 September 2023): (a) disturbances, (b) 15-min plant power, (c) TES state of charge, (d) running chillers; shading marks the discount and on-peak windows</figcaption></figure>
+        <figure><a href="{{ "/assets/research/dcs-tes-quarterly-cost.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/dcs-tes-quarterly-cost.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Quarterly electricity cost of the baseline and MI-DPC by energy and demand components" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 5. Quarterly electricity cost of the Baseline and the proposed MI-DPC, decomposed into energy and demand components by tariff window</figcaption></figure>
+        <h5>Reference</h5>
+        <p>Juwan Ha, Seungmin Lee, Yujin Kim, and Soolyeon Cho. Differentiable Predictive Control for Grid-Interactive District Cooling Systems with Chilled-Water Thermal Energy Storage, <em>Applied Energy</em> (In-preparation).</p>
       </section>
 
       <section class="research-pane" id="campus-centennial">
@@ -369,6 +380,12 @@ permalink: /research/
           <li><b>NMBE</b> (normalized mean bias error): whether the model systematically over- or under-predicts. Guideline 14 accepts hourly calibration within &plusmn;10%.</li>
           <li><b>R&sup2;</b> (coefficient of determination): how closely the simulated hourly profile follows the measured one.</li>
         </ul>
+      </section>
+
+      <section class="research-pane" id="campus-chp">
+        <p class="research-crumb">NC State Campus Building and District System Modeling</p>
+        <h4>Combined Heat and Power (CHP) Plant</h4>
+        <p class="research-soon">Details coming soon.</p>
       </section>
 
       <!-- 5. GIS Modeling -->
