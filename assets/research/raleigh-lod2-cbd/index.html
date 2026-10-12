@@ -1,0 +1,300 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>City of Raleigh – Downtown (LOD 2 Level)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: one-screen 3D scene; a translucent control sheet floats top-left (bottom on phones). */
+:root {
+  --bg: #e9e7e1;          /* scene sky / page */
+  --ground: #dcd9d1;      /* ground plane */
+  --street: #b3aea3;
+  --street-major: #8f897d;
+  --surface: rgba(250, 249, 246, 0.94);
+  --fg: #22262a;
+  --muted: #6a6e70;
+  --line: #d3cfc6;
+  --accent: #b5452c;      /* CBD outline, active controls */
+  --accent-fg: #ffffff;
+  --downtown: #2e5a87;
+  --unmodelled: #cfcbc2;
+  --font-display: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15191c; --ground: #1d2226; --street: #3e464c; --street-major: #58626a;
+    --surface: rgba(24, 28, 31, 0.92); --fg: #e8e6e1; --muted: #9ba1a4; --line: #353c41;
+    --accent: #e0714f; --accent-fg: #15191c; --downtown: #7fa8d6; --unmodelled: #4a5157; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15191c; --ground: #1d2226; --street: #3e464c; --street-major: #58626a;
+  --surface: rgba(24, 28, 31, 0.92); --fg: #e8e6e1; --muted: #9ba1a4; --line: #353c41;
+  --accent: #e0714f; --accent-fg: #15191c; --downtown: #7fa8d6; --unmodelled: #4a5157; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; overflow: hidden; }
+#scene { position: fixed; inset: 0; }
+#scene canvas { display: block; }
+.sheet {
+  position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); left: 12px; width: clamp(220px, 30vw, 300px); max-height: calc(100% - 24px - env(safe-area-inset-top, 0px));
+  overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12); backdrop-filter: blur(6px); display: flex; flex-direction: column; gap: 12px;
+}
+.sheet > * { flex-shrink: 0; }   /* the sheet scrolls instead of squeezing the hover card over the footer */
+h1 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: 0.01em; margin: 0; line-height: 1.05; }
+.sub { color: var(--muted); font-size: 12.5px; line-height: 1.35; margin-top: 4px; }
+.label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg button {
+  flex: 1; font: 500 13px var(--font-body); padding: 6px 4px; border: 0; background: transparent; color: var(--fg); cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); font-weight: 600; }
+.seg button:focus-visible, .chk input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 10px 14px; }
+.chk { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
+.chk input { accent-color: var(--accent); margin: 0; }
+.legend { display: grid; grid-template-columns: 14px 1fr auto; gap: 4px 7px; align-items: center; font-size: 12.5px; }
+.legend .sw { width: 14px; height: 11px; border-radius: 2px; border: 1px solid rgba(0, 0, 0, 0.15); }
+.legend .n { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 11.5px; }
+.lineitem { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+.lineitem i { display: inline-block; width: 22px; height: 0; border-top: 2px solid var(--accent); }
+.lineitem i.dt { border-top: 2px dashed var(--downtown); }
+.card { border-top: 1px solid var(--line); padding-top: 10px; font-size: 12.5px; min-height: 64px; }
+.card .t { font-weight: 600; font-size: 13.5px; margin-bottom: 4px; }
+.card dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; }
+.card dt { color: var(--muted); }
+.card dd { margin: 0; font-variant-numeric: tabular-nums; }
+.hint { color: var(--muted); }
+.foot { font-size: 11px; color: var(--muted); line-height: 1.4; border-top: 1px solid var(--line); padding-top: 8px; }
+.status { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--muted); font-size: 14px; }
+@media (max-width: 640px) {
+  .sheet { top: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); left: 10px; right: 10px; width: auto; max-height: 46%; padding: 12px 14px; }
+  h1 { font-size: 21px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div id="scene" aria-label="3D view of the buildings in Raleigh's Central Business District"></div>
+<div class="status" id="status">Loading 920 buildings…</div>
+
+<aside class="sheet" id="sheet">
+  <div>
+    <h1>City of Raleigh – Downtown (LOD 2 Level)</h1>
+  </div>
+  <div>
+    <div class="label">Level of detail</div>
+    <div class="seg" role="group" aria-label="Level of detail">
+      <button type="button" id="lod1" aria-pressed="false">LoD1 blocks</button>
+      <button type="button" id="lod2" aria-pressed="true">LoD2 roofs</button>
+    </div>
+  </div>
+  <div>
+    <div class="label">Colour by</div>
+    <div class="seg" role="group" aria-label="Colour by">
+      <button type="button" data-mode="type" aria-pressed="true">Use</button>
+      <button type="button" data-mode="year" aria-pressed="false">Year built</button>
+      <button type="button" data-mode="heat" aria-pressed="false">Heating</button>
+    </div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <div>
+    <div class="row">
+      <label class="chk"><input type="checkbox" id="showStreets" checked> Streets</label>
+      <label class="chk"><input type="checkbox" id="showCbd" checked> CBD outline</label>
+      <label class="chk"><input type="checkbox" id="showDt"> Downtown</label>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <span class="lineitem"><i></i>CBD (Future Land Use)</span>
+      <span class="lineitem"><i class="dt"></i>Downtown (Urban Form Map)</span>
+    </div>
+  </div>
+  <div class="card" id="card"><span class="hint">Point at a building to see its details. Drag to orbit, scroll or pinch to zoom, right-drag to pan.</span></div>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function () {
+  const TYPE_COL = ['#0d4f5a', '#2f8c92', '#86cfc8', '#c4834e', '#ee8e7c', '#1d3557', '#f4bf57', '#d6503b', '#3f6fd8', '#a88bd4', '#7f9a3c', '#9cc8c8', '#b9b9b4', null];
+  const HEAT_COL = ['#e0620d', '#2b7bba', '#7661b0', null];
+  const YEAR_BINS = [[1940, 'Before 1940', '#5b2a86'], [1960, '1940–1959', '#7b4ea3'], [1980, '1960–1979', '#3f73b8'], [2000, '1980–1999', '#3aa1a0'],
+                     [2010, '2000–2009', '#8cbf4f'], [9999, '2010 or later', '#e8b63a']];
+  const state = { lod: 2, mode: 'type', hover: -1 };
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let D, scene, camera, renderer, controls, meshes = {}, lines = {}, ground;
+
+  fetch('cbd_3d_data.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(init).catch(e => {
+    document.getElementById('status').textContent = 'The building data could not be loaded (' + e.message + '). Reload the page to try again.';
+  });
+
+  function unmodelledCol() { return css('--unmodelled') || '#cfcbc2'; }
+  function colourOf(b) {
+    if (state.mode === 'type') return TYPE_COL[b.t] || unmodelledCol();
+    if (state.mode === 'heat') return HEAT_COL[b.h] || unmodelledCol();
+    if (b.y == null || b.t === D.types.length - 1) return unmodelledCol();
+    for (const [lim, , c] of YEAR_BINS) if (b.y < lim) return c;
+    return unmodelledCol();
+  }
+
+  function triangulateFace(face, pos, shade, tri2b, bi) {
+    const kind = face[0], rings = face.slice(1).map(r => { const p = []; for (let i = 0; i < r.length; i += 3) p.push([r[i] / 10, r[i + 2] / 10, -r[i + 1] / 10]); return p; });
+    const outer = rings[0]; if (outer.length < 3) return;
+    let nx = 0, ny = 0, nz = 0;                                     // Newell normal
+    for (let i = 0; i < outer.length; i++) { const a = outer[i], b = outer[(i + 1) % outer.length];
+      nx += (a[1] - b[1]) * (a[2] + b[2]); ny += (a[2] - b[2]) * (a[0] + b[0]); nz += (a[0] - b[0]) * (a[1] + b[1]); }
+    const ax = Math.abs(nx), ay = Math.abs(ny), az = Math.abs(nz);
+    const uv = ax >= ay && ax >= az ? p => new THREE.Vector2(p[1], p[2]) : ay >= az ? p => new THREE.Vector2(p[0], p[2]) : p => new THREE.Vector2(p[0], p[1]);
+    const contour = outer.map(uv), holes = rings.slice(1).filter(r => r.length >= 3).map(r => r.map(uv));
+    let tris; try { tris = THREE.ShapeUtils.triangulateShape(contour, holes); } catch (e) { return; }
+    const all = outer.concat(...rings.slice(1).filter(r => r.length >= 3)), s = kind === 2 ? 1.0 : 0.8;
+    for (const t of tris) for (const k of t) { const p = all[k]; pos.push(p[0], p[1], p[2]); shade.push(s); }
+    for (let i = 0; i < tris.length; i++) tri2b.push(bi);
+  }
+
+  function buildLod(key) {
+    const pos = [], shade = [], tri2b = [], ranges = [];
+    D.buildings.forEach((b, bi) => {
+      const start = pos.length / 3;
+      for (const f of (b[key] || [])) triangulateFace(f, pos, shade, tri2b, bi);
+      ranges.push([start, pos.length / 3]);
+    });
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array(pos.length), 3));
+    g.computeVertexNormals();
+    const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, flatShading: true }));
+    m.userData = { shade: Float32Array.from(shade), tri2b, ranges };
+    return m;
+  }
+
+  function recolour() {
+    const tmp = new THREE.Color();
+    for (const m of Object.values(meshes)) {
+      const col = m.geometry.attributes.color, sh = m.userData.shade;
+      D.buildings.forEach((b, bi) => {
+        const [s, e] = m.userData.ranges[bi];
+        tmp.set(bi === state.hover ? css('--accent') : colourOf(b));
+        for (let v = s; v < e; v++) col.setXYZ(v, tmp.r * sh[v], tmp.g * sh[v], tmp.b * sh[v]);
+      });
+      col.needsUpdate = true;
+    }
+    render();
+  }
+
+  function legend() {
+    const el = document.getElementById('legend'); let items = [];
+    const count = f => D.buildings.filter(f).length;
+    if (state.mode === 'type') items = D.types.map((n, i) => [TYPE_COL[i] || unmodelledCol(), n, count(b => b.t === i)]).filter(x => x[2] > 0);
+    else if (state.mode === 'heat') items = D.heats.map((n, i) => [HEAT_COL[i] || unmodelledCol(), n, count(b => b.h === i)]);
+    else { let lo = 0; items = YEAR_BINS.map(([lim, n, c]) => { const r = [c, n, count(b => b.t !== D.types.length - 1 && b.y != null && b.y >= lo && b.y < lim)]; lo = lim; return r; });
+           items.push([unmodelledCol(), 'Not modelled or unknown', count(b => b.t === D.types.length - 1 || b.y == null)]); }
+    el.innerHTML = '';
+    for (const [c, n, k] of items) {
+      const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = c;
+      const t = document.createElement('span'); t.textContent = n;
+      const nn = document.createElement('span'); nn.className = 'n'; nn.textContent = k;
+      el.append(sw, t, nn);
+    }
+  }
+
+  function makeLines(list, colour, dashed) {
+    const pts = [];
+    for (const l of list) for (let i = 0; i + 3 < l.length; i += 2) pts.push(l[i] / 10, 0.05, -l[i + 1] / 10, l[i + 2] / 10, 0.05, -l[i + 3] / 10);
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    const mat = dashed ? new THREE.LineDashedMaterial({ color: colour, dashSize: 6, gapSize: 4 }) : new THREE.LineBasicMaterial({ color: colour });
+    const L = new THREE.LineSegments(g, mat); if (dashed) L.computeLineDistances(); return L;
+  }
+
+  function themeScene() {
+    renderer.setClearColor(css('--bg'));
+    ground.material.color.set(css('--ground'));
+    lines.streets.material.color.set(css('--street')); lines.major.material.color.set(css('--street-major'));
+    lines.cbd.material.color.set(css('--accent')); lines.dt.material.color.set(css('--downtown'));
+    legend(); recolour();
+  }
+
+  function init(data) {
+    D = data;
+    document.getElementById('status').hidden = true;
+    const m = D.meta;
+    const host = document.getElementById('scene');
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); renderer.setSize(host.clientWidth, host.clientHeight);
+    host.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(40, host.clientWidth / host.clientHeight, 5, 20000);
+    camera.position.set(900, 850, 1150);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0, 0); controls.maxPolarAngle = Math.PI * 0.47; controls.minDistance = 60; controls.maxDistance = 6000;
+    controls.enableDamping = true; controls.dampingFactor = 0.12;
+    controls.addEventListener('change', render);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8a80, 0.75));
+    const sun = new THREE.DirectionalLight(0xffffff, 0.55); sun.position.set(-600, 900, 400); scene.add(sun);
+    ground = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000), new THREE.MeshBasicMaterial({ color: 0xdddddd }));
+    ground.rotation.x = -Math.PI / 2; ground.position.y = -0.2; scene.add(ground);
+    const minor = D.streets.filter((_, i) => !D.major[i]), major = D.streets.filter((_, i) => D.major[i]);
+    lines.streets = makeLines(minor, 0x999999); lines.major = makeLines(major, 0x777777);
+    lines.cbd = makeLines(D.cbd, 0xb5452c); lines.dt = makeLines(D.downtown, 0x2e5a87, true); lines.dt.visible = false;
+    Object.values(lines).forEach(l => scene.add(l));
+    meshes[1] = buildLod('l1'); meshes[2] = buildLod('l2');
+    scene.add(meshes[1]); scene.add(meshes[2]); meshes[1].visible = false;
+    themeScene();
+    wire();
+    render();
+  }
+
+  let pending = false;
+  function render() { if (pending) return; pending = true; requestAnimationFrame(() => { pending = false; controls.update(); renderer.render(scene, camera); }); }
+  function loop() { controls.update(); renderer.render(scene, camera); }
+
+  function info(bi) {
+    const card = document.getElementById('card');
+    if (bi < 0) { card.innerHTML = '<span class="hint">Point at a building to see its details. Drag to orbit, scroll or pinch to zoom, right-drag to pan.</span>'; return; }
+    const b = D.buildings[bi], rows = [];
+    const fmt = n => n == null ? '—' : Number(n).toLocaleString('en-US');
+    rows.push(['Year built', b.y ?? '—'], ['Stories', b.s ?? '—'], ['Height LoD1 / LoD2', `${b.h1 ?? '—'} / ${b.h2 ?? '—'} m`]);
+    rows.push(['Heating', D.heats[b.h]], ['Official Downtown', b.dt ? 'inside' : 'outside']);
+    if (b.rr) rows.push(['LoD2 note', 'roof rebuilt in a second roofer run (' + b.rr + ')']);
+    else if (b.lf) rows.push(['LoD2 note', 'no roof planes found, flat block']);
+    card.innerHTML = '';
+    const t = document.createElement('div'); t.className = 't'; t.textContent = D.types[b.t]; card.append(t);
+    const dl = document.createElement('dl');
+    for (const [k, v] of rows) { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; dl.append(dt, dd); }
+    card.append(dl);
+  }
+
+  function wire() {
+    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(), el = renderer.domElement;
+    let downAt = null;
+    function pick(ev) {
+      const r = el.getBoundingClientRect(); mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+      ray.setFromCamera(mouse, camera);
+      const hit = ray.intersectObject(meshes[state.lod], false)[0];
+      const bi = hit ? meshes[state.lod].userData.tri2b[hit.faceIndex] : -1;
+      if (bi !== state.hover) { state.hover = bi; info(bi); recolour(); }
+    }
+    el.addEventListener('pointermove', ev => { if (ev.buttons === 0 && ev.pointerType === 'mouse') pick(ev); });
+    el.addEventListener('pointerdown', ev => { downAt = [ev.clientX, ev.clientY]; });
+    el.addEventListener('pointerup', ev => { if (downAt && Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) < 5) pick(ev); downAt = null; });
+    el.addEventListener('pointerleave', () => { if (state.hover >= 0) { state.hover = -1; info(-1); recolour(); } });
+    const b1 = document.getElementById('lod1'), b2 = document.getElementById('lod2');
+    function setLod(l) { state.lod = l; meshes[1].visible = l === 1; meshes[2].visible = l === 2;
+      b1.setAttribute('aria-pressed', l === 1); b2.setAttribute('aria-pressed', l === 2); render(); }
+    b1.onclick = () => setLod(1); b2.onclick = () => setLod(2);
+    document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {
+      state.mode = b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x => x.setAttribute('aria-pressed', x === b)); legend(); recolour(); });
+    const tog = (id, objs) => { const c = document.getElementById(id); c.onchange = () => { objs.forEach(o => o.visible = c.checked); render(); }; };
+    tog('showStreets', [lines.streets, lines.major]); tog('showCbd', [lines.cbd]); tog('showDt', [lines.dt]);
+    window.addEventListener('resize', () => { const h = document.getElementById('scene');
+      camera.aspect = h.clientWidth / h.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(h.clientWidth, h.clientHeight); render(); });
+    const mq = window.matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', themeScene);
+    new MutationObserver(themeScene).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    (function tick() { if (controls.enableDamping) { controls.update(); renderer.render(scene, camera); } requestAnimationFrame(tick); })();
+    legend();
+  }
+})();
+</script>
+
+</body></html>

@@ -58,6 +58,18 @@ permalink: /research/
                 <li><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">City of Raleigh</a></li>
               </ul>
             </li>
+            <li>
+              <a class="research-link research-group" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2 Level</a>
+              <ul>
+                <li><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">City of Raleigh (Downtown)</a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="research-link research-group" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3 Level</a>
+              <ul>
+                <li><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">NC STATE Campus (Centennial Campus)</a></li>
+              </ul>
+            </li>
           </ul>
             </li>
           </ul>
@@ -356,6 +368,35 @@ permalink: /research/
         {% endcomment %}
       </section>
 
+      <section class="research-pane" id="gis-lod2-city">
+        <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
+        <h4>City of Raleigh (Downtown)</h4>
+        <div class="title-subtitle">
+          <h5>Raleigh Downtown 3D &middot; LoD2 Roofs</h5>
+        </div>
+        <p style="text-align: justify;">
+          The 920 buildings in and around Raleigh's Central Business District with roof shapes reconstructed from the 2024 QL1 airborne LiDAR (LoD2).
+          Switch between LoD1 blocks and LoD2 roofs, colour the buildings by use, year built or heating, and point at a building for its details.
+        </p>
+
+        <div class="research-viewer-wrap" id="lod2-viewer">
+          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod2-cbd/index.html" | prepend: site.baseurl }}"
+                  title="Raleigh Downtown LoD2 3D viewer" allowfullscreen style="min-height:640px"></iframe>
+          <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
+        </div>
+        <p class="map-note">
+          <button type="button" class="research-linkbtn research-viewer-expand" data-target="lod2-viewer">&#10530; Full screen</button>
+          &middot; <a href="{{ "/assets/research/raleigh-lod2-cbd/index.html" | prepend: site.baseurl }}" target="_blank">Open in a new tab &#8599;</a>
+          &middot; drag to orbit, scroll to zoom, right-drag to pan, point at a building.
+        </p>
+      </section>
+
+      <section class="research-pane" id="gis-lod3-centennial">
+        <p class="research-crumb">GIS Modeling &middot; LOD 3 Level</p>
+        <h4>NC STATE Campus (Centennial Campus)</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
       {% comment %}
       ===== BACKUP (hidden 2026-10-11): GIS Overview and LOD 2 / LOD 3 placeholder panes, removed from the menu.
       To restore, move a section out of this block and add its menu entry back. =====
@@ -372,12 +413,6 @@ permalink: /research/
         </ul>
       </section>
 
-      <section class="research-pane" id="gis-lod2-city">
-        <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
-        <h4>City of Raleigh</h4>
-        <p class="research-soon">Details coming soon.</p>
-      </section>
-
       <section class="research-pane" id="gis-lod2-downtown">
         <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
         <h4>Downtown</h4>
@@ -390,11 +425,6 @@ permalink: /research/
         <p class="research-soon">Details coming soon.</p>
       </section>
 
-      <section class="research-pane" id="gis-lod3-centennial">
-        <p class="research-crumb">GIS Modeling &middot; LOD 3 Level</p>
-        <h4>NC STATE Campus (Centennial Campus)</h4>
-        <p class="research-soon">Details coming soon.</p>
-      </section>
       {% endcomment %}
 
     </div>
@@ -407,8 +437,8 @@ permalink: /research/
     var DEFAULT_PANE = "gis-lod1-city";
     // Older links -> current entries.
     var ALIAS = { "gis-lod1": "gis-lod1-city", "gis-overview": "gis-lod1-city", "gis-lod1-downtown": "gis-lod1-city", "gis-lod1-ncsu": "gis-lod1-city",
-                  "gis-lod2": "gis-lod1-city", "gis-lod2-city": "gis-lod1-city", "gis-lod2-downtown": "gis-lod1-city", "gis-lod2-ncsu": "gis-lod1-city",
-                  "gis-lod3": "gis-lod1-city", "gis-lod3-centennial": "gis-lod1-city" };
+                  "gis-lod2": "gis-lod2-city", "gis-lod2-downtown": "gis-lod2-city", "gis-lod2-ncsu": "gis-lod2-city",
+                  "gis-lod3": "gis-lod3-centennial" };
     // Entries that share one pane and differ only by the viewer's camera: key -> [pane id, viewer view, title].
     var VIEWER_KEYS = {
       "gis-lod1-city": ["gis-lod1", "all", "City of Raleigh"]
