@@ -235,7 +235,8 @@ function buildingViews(b) {
   return V;
 }
 function fly(v) { dg.setProps({ initialViewState: { ...v, transitionDuration: 1100 } }); }
-// one building filling the map area beside the panel, seen from above its east side (facade windows + roof PV)
+// one building filling the map area beside the panel, seen diagonally from above its south-east corner
+// (bearing = facade azimuth + 227: long facade, south end and roof PV in one view; ~349 deg for Fitts-Woolard)
 function focusBuilding(b, animate) {
   const el = $('map'), w = el.clientWidth, h = el.clientHeight;
   if (w < 200 || h < 200) { const once = () => { removeEventListener('resize', once); focusBuilding(b, false); }; addEventListener('resize', once); return; }
@@ -243,7 +244,7 @@ function focusBuilding(b, animate) {
   const pad = { top: 60, bottom: 40, left: 40, right: 40 };
   if (!panel.hidden && w > 480) pad.left = Math.min(panel.offsetWidth + 50, w * 0.5);
   const vp = new deck.WebMercatorViewport({ width: w, height: h }).fitBounds([sw, ne], { padding: pad });
-  const v = { longitude: vp.longitude, latitude: vp.latitude, zoom: Math.min(vp.zoom, 18.6), pitch: 55, bearing: 300 };
+  const v = { longitude: vp.longitude, latitude: vp.latitude, zoom: Math.min(vp.zoom - 0.15, 18.6), pitch: 50, bearing: (b.az + 227) % 360 };
   dg.setProps({ initialViewState: animate ? { ...v, transitionDuration: 1100 } : v });
 }
 function renderViews() {
