@@ -293,6 +293,24 @@ permalink: /research/
         <p class="research-crumb">GIS (Raleigh City)</p>
         <h4>LOD 1</h4>
         <div class="title-subtitle">
+          <h5>Raleigh City 3D &middot; LoD1 Blocks</h5>
+        </div>
+        <p style="text-align: justify;">
+          Every building in the City of Raleigh (156,326 footprints) extruded to its roof height from the 2024 QL1 airborne LiDAR as an LoD1 block model.
+          Colour the buildings by type, land use or floors, and hover a building for its details.
+        </p>
+
+        <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}"
+                title="Raleigh City LoD1 3D viewer" allowfullscreen></iframe>
+        <p class="map-note">
+          <a href="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}" target="_blank">Open the 3D viewer in a new tab &#8599;</a>
+          &middot; drag to pan, right-drag to tilt, scroll to zoom, hover a building.
+        </p>
+
+        {% comment %}
+        ===== BACKUP (hidden 2026-10-11): previous LoD1 content (orbit video, 3 renders, legend).
+        Not rendered on the site; the media files stay in assets/research/. Move it out of this comment block to restore. =====
+        <div class="title-subtitle">
           <h5>Raleigh LoD1 3D Building Model</h5>
         </div>
         <p style="text-align: justify;">
@@ -340,6 +358,7 @@ permalink: /research/
           heights from the NC 2024 QL1 LiDAR; floor counts from LiDAR and Wake County real estate records.
           Basemap &copy; OpenStreetMap contributors, OpenMapTiles, OpenFreeMap.
         </p>
+        {% endcomment %}
       </section>
 
       <section class="research-pane" id="gis-lod2">
@@ -379,6 +398,8 @@ permalink: /research/
         var on = p.id === id;
         p.classList.toggle("active", on);
         p.querySelectorAll("video").forEach(function (v) { if (on) { v.play().catch(function () {}); } else { v.pause(); } });
+        // Load embedded viewers only when their pane is first opened.
+        if (on) p.querySelectorAll("iframe[data-src]").forEach(function (f) { if (!f.getAttribute("src")) f.setAttribute("src", f.getAttribute("data-src")); });
       });
       navLinks.forEach(function (a) {
         // Highlight the exact item; group headers are highlighted as "open" when one of their children is shown.

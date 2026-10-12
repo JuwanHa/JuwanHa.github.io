@@ -1,0 +1,324 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Raleigh City LoD1 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/deck.gl@9.1.14/dist.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/earcut@2.2.4/dist/earcut.min.js"></script>
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #0d1417;
+    --panel: rgba(19, 28, 33, 0.95);
+    --line: #273740;
+    --text: #e4ecef;
+    --muted: #8fa3ad;
+    --accent: #e3a857;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --cond: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--ground); color: var(--text); font: 14px/1.5 var(--sans); overflow: hidden; }
+  .mapcanvas { position: absolute; inset: 0; }
+  .scene { position: absolute; inset: 0; }
+  [hidden] { display: none !important; }
+  .panel {
+    position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); left: 16px; z-index: 2;
+    width: min(380px, calc(100vw - 32px)); max-height: calc(100% - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow: auto; box-sizing: border-box; padding: 16px 18px 14px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    display: flex; flex-direction: column; gap: 14px; backdrop-filter: blur(6px);
+  }
+  .eyebrow { font: 500 11px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font: 600 22px/1.15 var(--cond); margin: 2px 0 0; letter-spacing: .01em; text-wrap: balance; }
+  .lede { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+  .label { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; background: transparent; padding: 8px 6px; font: 500 13px/1.2 var(--sans); color: var(--muted); cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: #1e2c33; color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); }
+  .seg button:disabled { color: #4d5f68; cursor: not-allowed; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: #172329; color: var(--text); border-radius: 6px; padding: 5px 9px; font: 13px/1.2 var(--sans); cursor: pointer; }
+  .chip:hover { border-color: #3b515d; }
+  .chip[aria-pressed="true"] { border-color: var(--accent); color: #f5d6a8; }
+  .chip .dot { display: inline-block; width: 8px; height: 8px; }
+  /* Raleigh scene + the top scene switch lay the dot out with flex+gap and a square swatch; NC State's original chips use an inline circular dot with its own margin. Scoped so both keep their original look. */
+  #scene-raleigh .chip, #sceneSwitch .chip { display: inline-flex; align-items: center; gap: 6px; }
+  #scene-raleigh .chip .dot, #sceneSwitch .chip .dot { border-radius: 2px; }
+  #scene-ncsu .chip .dot { border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0; font-size: 13px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; }
+  .tbl { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 3px 4px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  th { font: 500 11px/1.3 var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+  td:first-child, th:first-child { text-align: left; }
+  td { font-family: var(--mono); }
+  tr.cur td { color: #f5d6a8; }
+  .legend { display: grid; grid-template-columns: 14px 1fr; gap: 5px 9px; align-items: center; font-size: 12.5px; }
+  .sw { width: 14px; height: 10px; border-radius: 2px; }
+  .section { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .section h2 { margin: 0; font: 600 14px/1.2 var(--cond); letter-spacing: .02em; }
+  .note { margin: 0; color: var(--muted); font-size: 12px; }
+  details summary { cursor: pointer; font: 600 14px/1.2 var(--cond); }
+  .files { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .files li { font-size: 12.5px; }
+  .files code { font-family: var(--mono); font-size: 11.5px; color: #cfdde3; word-break: break-all; }
+  .files span { color: var(--muted); display: block; font-size: 11.5px; }
+  #n-tog, #r-tog { position: absolute; z-index: 3; right: 16px; top: calc(12px + env(safe-area-inset-top, 0px)); }
+  .statusbar { position: absolute; z-index: 1; left: 50%; transform: translateX(-50%); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); font: 12px/1.4 var(--mono); color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; }
+  .hint { position: absolute; z-index: 1; right: 16px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); font: 11px/1.4 var(--mono); color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+  #sceneSwitch { position: absolute; z-index: 5; left: 50%; transform: translateX(-50%); top: calc(12px + env(safe-area-inset-top, 0px)); display: flex; gap: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px; backdrop-filter: blur(6px); }
+  [data-lod3="off"] .only-l3 { display: none; }
+  @media (max-width: 480px) {
+    .panel { max-height: 56%; }
+    .hint { display: none; }
+    #scene-ncsu .panel { top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); max-height: 52%; }
+    #scene-ncsu .statusbar { bottom: auto; top: calc(56px + env(safe-area-inset-top, 0px)); }
+    #scene-raleigh .panel { top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); max-height: 52%; }
+    #scene-raleigh .statusbar { bottom: auto; top: calc(56px + env(safe-area-inset-top, 0px)); }
+  }
+  @media (min-width: 481px) and (max-width: 760px) {
+    .panel { width: 290px; padding: 12px 14px 10px; gap: 10px; }
+    h1 { font-size: 19px; }
+    .hint { display: none; }
+  }
+</style>
+
+<div id="scene-raleigh" class="scene">
+  <div class="mapcanvas" id="map" role="img" aria-label="3D LoD1 model of every building in Raleigh"></div>
+  <button id="r-tog" class="chip toggle" type="button" aria-expanded="true">Hide panel</button>
+  <main class="panel" id="r-panel">
+    <header>
+      <p class="eyebrow">Raleigh · SDD 2024 QL1 LiDAR · LoD1 blocks</p>
+      <h1>Raleigh City 3D &middot; LoD1</h1>
+      <p class="lede">Every building in the city: <span id="rN">156,326</span> footprints extruded to their LiDAR roof heights as LoD1 blocks.</p>
+    </header>
+
+    <div>
+      <p class="label">Colour</p>
+      <div class="row" id="rColour" role="group" aria-label="Colour mode">
+        <button class="chip" type="button" data-c="cls" aria-pressed="true">Building type</button>
+        <button class="chip" type="button" data-c="lu" aria-pressed="false">Land use</button>
+        <button class="chip" type="button" data-c="fl" aria-pressed="false">Floors</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <dl id="rStats"></dl>
+    </div>
+
+    <div class="section">
+      <p class="label" id="legendLabel">Building type</p>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="section">
+      <p class="label">Map layers</p>
+      <div class="row">
+        <button id="tRoads" class="chip" type="button" aria-pressed="false" title="City of Raleigh street centrelines; brighter = major roads"><span class="dot" style="background:#9aa7ad"></span>Roads</button>
+        <button id="tLakes" class="chip" type="button" aria-pressed="false"><span class="dot" style="background:#4a90d0"></span>Lakes</button>
+        <button id="tParks" class="chip" type="button" aria-pressed="false"><span class="dot" style="background:#4ea86a"></span>Green space</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label">Camera</p>
+      <div class="row" id="rViews">
+        <button class="chip" type="button" data-v="all">All Raleigh</button>
+        <button class="chip" type="button" data-v="downtown">Downtown</button>
+        <button class="chip" type="button" data-v="ncsu">NC State area</button>
+        <button class="chip" type="button" data-v="northhills">North Hills</button>
+        <button class="chip" type="button" data-v="suburb">Suburban homes</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="note">Heights are metres above each building's own ground; the city is shown without terrain. Footprints are lightly simplified for the web (0.6 m).</p>
+      <p class="note">Data: building footprints from NC OneMap (Wake County 2021), City of Raleigh GIS and NC State University; heights from the NC 2024 QL1 LiDAR; floors from LiDAR and Wake County real estate records; land use from the City of Raleigh 2030 Comprehensive Plan; roads, lakes and parks from City of Raleigh / Wake County open data.</p>
+    </div>
+  </main>
+  <p id="status" class="statusbar" hidden></p>
+</div>
+<p class="hint">drag to pan · right-drag to tilt · scroll to zoom · hover a building</p>
+
+<script>
+(function () {
+const fmt = (n, d = 0) => Number(n).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const statusEl = document.getElementById('status');
+function setStatus(t) { statusEl.hidden = !t; statusEl.textContent = t || ''; }
+const $ = id => document.getElementById(id);
+
+// ---- data access: gzip'd binaries shipped as base64 text (the host serves text, not .gz)
+async function fetchBuf(name) {
+  const r = await fetch(name); if (!r.ok) throw new Error(name + ': HTTP ' + r.status);
+  let b;
+  if (name.endsWith('.txt')) { const s = atob((await r.text()).trim()), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); b = u.buffer; }
+  else b = await r.arrayBuffer();
+  const h = new Uint8Array(b, 0, 2);
+  if (h[0] === 0x1f && h[1] === 0x8b) return await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  return b;
+}
+
+// ---- colour scales
+const FLOOR_STOPS = [[1, [90, 140, 170]], [2, [110, 170, 150]], [4, [220, 190, 90]], [8, [225, 120, 70]], [16, [200, 70, 90]], [30, [170, 60, 160]]];
+function floorColour(f) {
+  const v = f == null || f < 1 ? 1 : f;
+  for (let i = 0; i < FLOOR_STOPS.length - 1; i++) {
+    const [v0, c0] = FLOOR_STOPS[i], [v1, c1] = FLOOR_STOPS[i + 1];
+    if (v <= v1) { const t = Math.max(0, (v - v0) / (v1 - v0)); return c0.map((c, k) => Math.round(c + (c1[k] - c) * t)); }
+  }
+  return FLOOR_STOPS[FLOOR_STOPS.length - 1][1];
+}
+const CLS = [['sf', 'Single-family detached', [110, 170, 150]], ['sfa', 'Single-family attached (townhouse)', [150, 205, 120]], ['mf', 'Multifamily', [225, 190, 90]],
+  ['mh', 'Manufactured home', [190, 150, 110]], ['commercial', 'Commercial / institutional', [225, 120, 80]], ['accessory', 'Accessory (shed, garage) - not modelled', [98, 110, 118]],
+  ['unconditioned', 'Unconditioned (parking deck, canopy) - not modelled', [130, 120, 160]], ['unknown', 'Unknown / under construction', [70, 78, 84]]];
+const LAND_GROUPS = [
+  ['Residential density', [['RR', 'Rural Residential', [90, 130, 110]], ['LR', 'Low Density Residential', [110, 160, 130]], ['MODR', 'Moderate Density Residential', [130, 185, 140]], ['MR', 'Medium Density Residential', [150, 205, 150]], ['HR', 'High Density Residential', [170, 220, 160]]]],
+  ['Mixed use', [['NMU', 'Neighborhood Mixed Use', [225, 195, 90]], ['CMU', 'Community Mixed Use', [225, 160, 80]], ['ORMU', 'Office / Residential Mixed Use', [225, 130, 90]], ['RMU', 'RMU (mixed use)', [225, 100, 100]]]],
+  ['Centres & commerce', [['CBD', 'Central Business District', [230, 90, 130]], ['BCS', 'BCS', [200, 100, 150]]]],
+  ['Institutional & public', [['INS', 'Institutional', [120, 140, 210]], ['PF', 'Public Facility', [150, 160, 220]]]],
+  ['Parks & open space', [['POS', 'Parks / Open Space', [90, 170, 190]], ['PPOS', 'Parks / Open Space (public)', [110, 190, 205]]]],
+  ['Other', [['ORD', 'ORD', [170, 170, 170]], ['GI', 'General Industrial', [140, 120, 160]], ['SSA', 'SSA', [190, 190, 140]]]],
+];
+const LAND_COL = {}, LAND_NAME = {}; LAND_GROUPS.forEach(([, items]) => items.forEach(([code, name, col]) => { LAND_COL[code] = col; LAND_NAME[code] = name; }));
+const NONE = [70, 78, 84];
+
+const S = { colour: 'cls', roads: false, lakes: false, parks: false };
+let META = null, C = null, V = null;          // meta, attribute columns, vocab
+const CH = [];                                  // per chunk
+let CLS_IDX = null, LU_VOC = null;
+
+function colourOf(i) {
+  switch (S.colour) {
+    case 'cls': { const c = C.cls[i]; return c >= 0 ? CLS_IDX[c] : NONE; }
+    case 'lu': { const c = C.lu[i]; return c >= 0 ? (LAND_COL[LU_VOC[c]] || NONE) : NONE; }
+    case 'fl': return floorColour(C.fl[i]);
+  }
+  return NONE;
+}
+function renderLegend() {
+  const box = $('legend'), lab = $('legendLabel'); let rows;
+  const sw = (c, t) => `<span class="sw" style="background:rgb(${c.join(',')})"></span><span>${t}</span>`;
+  if (S.colour === 'cls') { lab.textContent = 'Building type'; rows = CLS.map(([, n, c]) => sw(c, n)).join(''); }
+  else if (S.colour === 'lu') { lab.textContent = 'Future Land Use (2030 plan)';
+    rows = LAND_GROUPS.map(([g, items]) => `<span></span><span style="color:var(--muted);font:500 10.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;margin-top:4px">${g}</span>` + items.map(([code, name, col]) => sw(col, code + ' - ' + name)).join('')).join(''); }
+  else { lab.textContent = 'Floors'; rows = [['1', 0], ['2', 1], ['4', 2], ['8', 3], ['16', 4], ['30+', 5]].map(([t, k]) => sw(FLOOR_STOPS[k][1], t + ' floors')).join(''); }
+  box.innerHTML = rows;
+}
+
+// ---- LoD1: footprints per chunk
+function decodeLod1(buf) {
+  const dv = new DataView(buf);
+  for (const c of CH) {
+    let p = c.l1; const polys = new Array(c.n);
+    for (let j = 0; j < c.n; j++) {
+      const nr = dv.getUint8(p); p += 1; const rings = [];
+      for (let r = 0; r < nr; r++) {
+        const nv = dv.getUint16(p, true); p += 2; let x = 0, y = 0; const ring = new Array(nv);
+        for (let v = 0; v < nv; v++) { x += dv.getInt16(p, true); y += dv.getInt16(p + 2, true); p += 4; ring[v] = [x / 10, y / 10]; }
+        rings.push(ring);
+      }
+      polys[j] = { p: rings, i: c.lo + j };
+    }
+    c.polys = polys;
+  }
+}
+const MAT = { ambient: 0.46, diffuse: 0.62, shininess: 18, specularColor: [30, 30, 30] };
+function lod1Layer(c, data, suffix) {
+  return new deck.SolidPolygonLayer({ id: 'l1-' + c.k + suffix, data, getPolygon: d => d.p, extruded: true, getElevation: d => C.h[d.i] / 10,
+    getFillColor: d => colourOf(d.i), updateTriggers: { getFillColor: S.colour }, coordinateSystem: deck.COORDINATE_SYSTEM.METER_OFFSETS,
+    coordinateOrigin: [c.lon0, c.lat0], material: MAT, pickable: true });
+}
+let VIEW = { longitude: -78.6382, latitude: 35.7847, zoom: 14.6, pitch: 55, bearing: -18 };
+// ---- other map layers (unchanged sources)
+const layerData = { lakes: [], parks: [], roads: [], sidewalks: [], electric: null }, loaded = {};
+async function loadSet(key, files) {
+  if (loaded[key]) return; loaded[key] = true;
+  for (let i = 0; i < files.length; i++) { setStatus('Loading ' + key + '… ' + (i + 1) + '/' + files.length);
+    try { const r = await fetch(files[i]); if (!r.ok) throw new Error('HTTP ' + r.status); const d = await r.json(); if (key === 'electric') layerData.electric = d; else layerData[key].push(...d); render(); }
+    catch (e) { setStatus('Could not load ' + files[i] + ' (' + e.message + ')'); loaded[key] = false; return; } }
+  setStatus('');
+}
+const ALWAYS = { depthCompare: 'always' };
+function mapLayers() {
+  const L = [];
+  if (S.lakes) L.push(new deck.PolygonLayer({ id: 'lakes', data: layerData.lakes, getPolygon: d => d[0], filled: true, stroked: true, getFillColor: [40, 90, 140, 160], getLineColor: [110, 170, 220, 200], getLineWidth: 1, lineWidthMinPixels: 1, pickable: true, parameters: ALWAYS }));
+  if (S.parks) L.push(new deck.PolygonLayer({ id: 'parks', data: layerData.parks, getPolygon: d => d[0], filled: true, stroked: true, getFillColor: [78, 168, 106, 90], getLineColor: [110, 190, 130, 170], getLineWidth: 1, lineWidthMinPixels: 1, pickable: true, parameters: ALWAYS }));
+  if (S.sidewalks) L.push(new deck.PathLayer({ id: 'sidewalks', data: layerData.sidewalks, getPath: d => d, getColor: [109, 124, 131, 200], getWidth: 1.5, widthUnits: 'meters', widthMinPixels: 0.6, parameters: ALWAYS }));
+  if (S.roads) L.push(new deck.PathLayer({ id: 'roads', data: layerData.roads, getPath: d => d[0], getColor: d => d[1] ? [190, 200, 205, 235] : [120, 132, 138, 210], getWidth: d => d[1] ? 9 : 5, widthUnits: 'meters', widthMinPixels: 0.8, capRounded: true, jointRounded: true, parameters: ALWAYS }));
+  const E = layerData.electric;
+  if (S.electric && E) {
+    L.push(new deck.PathLayer({ id: 'transmission', data: E.transmission, getPath: d => d, getColor: [245, 210, 74, 210], getWidth: 6, widthMinPixels: 1.3, widthUnits: 'meters', capRounded: true, jointRounded: true, parameters: ALWAYS }));
+    L.push(new deck.ScatterplotLayer({ id: 'evse', data: E.evse, getPosition: d => [d[0], d[1]], getFillColor: [245, 210, 74, 230], getLineColor: [40, 30, 5], lineWidthMinPixels: 1.5, stroked: true, filled: true, radiusUnits: 'pixels', getRadius: 6, pickable: true, parameters: ALWAYS }));
+  }
+  if (S.substations && E) L.push(new deck.PolygonLayer({ id: 'substations', data: E.substations, getPolygon: d => d, filled: true, stroked: true, getFillColor: [239, 106, 60, 190], getLineColor: [255, 170, 130, 230], getLineWidth: 1.5, lineWidthMinPixels: 1.5, pickable: true, parameters: ALWAYS }));
+  return L;
+}
+
+function render() {
+  if (!META) return;
+  const L = mapLayers();
+  for (const c of CH) if (c.polys) L.push(lod1Layer(c, c.polys, ''));
+  dg.setProps({ layers: L });
+}
+function renderStats() {
+  $('rStats').innerHTML = '<dt>Buildings</dt><dd>' + fmt(META.n) + '</dd><dt>Tallest block</dt><dd>' + fmt(META.tallest, 0) + ' m</dd>';
+}
+const TT = { background: '#131c21', color: '#e4ecef', border: '1px solid #273740', borderRadius: '6px', font: '12px IBM Plex Sans, system-ui, sans-serif', padding: '6px 8px', maxWidth: '360px' };
+const vv = (name, i) => { const c = C[name][i]; return c >= 0 ? V[name][c] : ''; };
+function tooltip(info) {
+  if (!info.picked || !info.layer) return null;
+  const id = info.layer.id;
+  if (id === 'lakes' || id === 'parks') return { html: '<b>' + (info.object[1] || (id === 'lakes' ? 'Lake / water body' : 'Park')) + '</b><br>' + (id === 'parks' ? 'City of Raleigh park' : 'Wake County major water body'), style: TT };
+  if (!id.startsWith('l1-') || !info.object) return null;
+  const i = info.object.i, cls = vv('cls', i), fl = C.fl[i], lu = vv('lu', i);
+  const clsName = (CLS.find(x => x[0] === cls) || [, cls || 'Building'])[1];
+  let h = '<b>' + clsName + '</b><br>' + (fl > 0 ? fl + ' floor' + (fl === 1 ? '' : 's') + ' · ' : '') + fmt(C.h[i] / 10, 1) + ' m tall';
+  if (lu) h += '<br>Future land use: ' + lu + (LAND_NAME[lu] && LAND_NAME[lu] !== lu ? ' - ' + LAND_NAME[lu] : '');
+  return { html: h, style: TT };
+}
+function press(id, on) { $(id).setAttribute('aria-pressed', on ? 'true' : 'false'); }
+function setColour(c) {
+  S.colour = c; document.querySelectorAll('#rColour .chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.c === c ? 'true' : 'false'));
+  renderLegend(); render();
+}
+document.querySelectorAll('#rColour .chip').forEach(b => b.addEventListener('click', () => setColour(b.dataset.c)));
+const TOG = [['tRoads', 'roads', ['roads_0.json', 'roads_1.json', 'roads_2.json']], ['tLakes', 'lakes', ['lakes_0.json']], ['tParks', 'parks', ['parks_0.json']]];
+for (const [bid, key, files] of TOG) $(bid).addEventListener('click', async () => {
+  S[key] = !S[key]; press(bid, S[key]); render();
+  if (S[key]) await loadSet(key === 'substations' ? 'electric' : key, files);
+});
+const VIEWS = {
+  all: { longitude: -78.644, latitude: 35.808, zoom: 11.4, pitch: 45, bearing: -10 },
+  downtown: { longitude: -78.6382, latitude: 35.7797, zoom: 15.4, pitch: 58, bearing: -18 },
+  ncsu: { longitude: -78.6739, latitude: 35.7847, zoom: 15.0, pitch: 55, bearing: 20 },
+  northhills: { longitude: -78.6405, latitude: 35.8385, zoom: 15.6, pitch: 58, bearing: 30 },
+  suburb: { longitude: -78.5705, latitude: 35.8795, zoom: 16.4, pitch: 58, bearing: -35 },
+};
+document.querySelectorAll('#rViews .chip').forEach(b => b.addEventListener('click', () => dg.setProps({ initialViewState: { ...VIEWS[b.dataset.v], transitionDuration: 1200 } })));
+const panel = $('r-panel'), tog = $('r-tog');
+tog.addEventListener('click', () => { const hide = !panel.hidden; panel.hidden = hide; tog.textContent = hide ? 'Show panel' : 'Hide panel'; tog.setAttribute('aria-expanded', hide ? 'false' : 'true'); });
+
+const dg = new deck.DeckGL({ container: 'map', initialViewState: VIEW, controller: true, parameters: { clearColor: [0.051, 0.078, 0.09, 1] }, layers: [], getTooltip: tooltip });
+
+(async () => {
+  renderLegend();
+  try {
+    setStatus('Loading buildings…');
+    META = JSON.parse(new TextDecoder().decode(await fetchBuf('city_meta.b64.txt'))); C = META.cols; V = META.vocab;
+    CLS_IDX = V.cls.map(s => (CLS.find(x => x[0] === s) || [, , NONE])[2]);
+    LU_VOC = V.lu;
+    META.tallest = C.h.reduce((a, b) => b > a ? b : a, 0) / 10;
+    META.chunks.forEach((c, k) => CH.push({ ...c, k }));
+    $('rN').textContent = fmt(META.n);
+    decodeLod1(await fetchBuf('city_lod1.b64.txt'));
+    setStatus(''); renderStats(); render();
+  } catch (e) { setStatus('Could not load the city model (' + e.message + ')'); }
+})();
+})();
+</script>

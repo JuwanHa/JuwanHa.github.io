@@ -384,3 +384,15 @@ h4 {
 :is(#hvac-system-control, #lighting-system-control, #occupancy-supervisory-control, #gebs-ai-tech-assistant) .research-crumb {
   margin-bottom: 0.3rem;
 }
+
+/*  ================ Embedded 3D viewer (Research > GIS > LOD 1)  ================ */
+.research-viewer {
+  display: block;
+  width: 100%;
+  height: 640px;
+  margin-top: 1rem;
+  border: 1px solid #e1e1e1;
+  background: #0d1417; }
+@media (max-width: 549px) {
+  .research-viewer {
+    height: 520px; } }
