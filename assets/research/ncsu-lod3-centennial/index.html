@@ -235,14 +235,26 @@ function buildingViews(b) {
   return V;
 }
 function fly(v) { dg.setProps({ initialViewState: { ...v, transitionDuration: 1100 } }); }
+// one building filling the map area beside the panel, seen from above its east side (facade windows + roof PV)
+function focusBuilding(b, animate) {
+  const el = $('map'), w = el.clientWidth, h = el.clientHeight;
+  if (w < 200 || h < 200) { const once = () => { removeEventListener('resize', once); focusBuilding(b, false); }; addEventListener('resize', once); return; }
+  const m = 25, sw = toLL(D.lon0, D.lat0, b.bb[0] - m, b.bb[1] - m), ne = toLL(D.lon0, D.lat0, b.bb[2] + m, b.bb[3] + m);
+  const pad = { top: 60, bottom: 40, left: 40, right: 40 };
+  if (!panel.hidden && w > 480) pad.left = Math.min(panel.offsetWidth + 50, w * 0.5);
+  const vp = new deck.WebMercatorViewport({ width: w, height: h }).fitBounds([sw, ne], { padding: pad });
+  const v = { longitude: vp.longitude, latitude: vp.latitude, zoom: Math.min(vp.zoom, 18.6), pitch: 55, bearing: 300 };
+  dg.setProps({ initialViewState: animate ? { ...v, transitionDuration: 1100 } : v });
+}
 function renderViews() {
   const box = $('views'); box.innerHTML = '';
   const add = (name, fn) => { const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.textContent = name; c.addEventListener('click', fn); box.appendChild(c); };
   add('LoD3 buildings', () => campusView(true));
+  add('Focus', () => focusBuilding(D.b[state.sel], true));
   for (const [name, v] of buildingViews(D.b[state.sel])) add(name, () => fly(v));
 }
 
-$('pick').addEventListener('change', e => { state.sel = +e.target.value; renderBuilding(); fly(buildingViews(D.b[state.sel])[0][1]); });
+$('pick').addEventListener('change', e => { state.sel = +e.target.value; renderBuilding(); focusBuilding(D.b[state.sel], true); });
 $('tPv').addEventListener('click', () => { state.pv = !state.pv; $('tPv').setAttribute('aria-pressed', state.pv ? 'true' : 'false'); dg.setProps({ layers: layers() }); });
 const tog = $('r-tog');
 tog.addEventListener('click', () => { const hide = !panel.hidden; panel.hidden = hide; tog.textContent = hide ? 'Show panel' : 'Hide panel'; tog.setAttribute('aria-expanded', hide ? 'false' : 'true'); });
@@ -258,7 +270,7 @@ const dg = new deck.DeckGL({ container: 'map', initialViewState: { longitude: -7
     $('pick').innerHTML = D.b.map((b, i) => '<option value="' + i + '">' + b.name + ' (' + b.n + ')</option>').join('');
     const fw = D.b.findIndex(b => b.n === '782E'); state.sel = fw >= 0 ? fw : 0; $('pick').value = state.sel;
     renderBuilding(); renderStats(); renderLegend();
-    dg.setProps({ layers: layers() }); campusView(false); setStatus('');
+    dg.setProps({ layers: layers() }); focusBuilding(D.b[state.sel], false); setStatus('');   // start on Fitts-Woolard Hall
   } catch (e) { setStatus('Could not load the campus model (' + e.message + ')'); }
 })();
 })();
