@@ -292,8 +292,40 @@ permalink: /research/
         <h5>Overview</h5>
         <p style="text-align: justify;">This work develops building energy models for the 20 buildings on NC State University&rsquo;s Centennial Campus that are served by the district cooling system of the Centennial Campus Utility Plant (CCUP). Together with a model of the CCUP district cooling plant, the building models represent the campus district cooling system from the central plant to each connected building.</p>
         <figure><a href="{{ "/assets/research/centennial-bem/campus-aerial.webp" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/centennial-bem/campus-aerial.webp" | prepend: site.baseurl }}" class="u-max-full-width" alt="Aerial view of NC State University's Centennial Campus" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Aerial view of NC State University&rsquo;s Centennial Campus</figcaption></figure>
-        <h5>Building Energy Models</h5>
-        <p style="text-align: justify;">Each CCUP-connected building is modeled individually, including its geometry and the window and curtain-wall openings on each facade (Figure 2). An interactive 3D view of the same buildings is available under <a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">GIS Modeling &middot; LOD 3 Level</a>.</p>
+        <h5>Building Energy Modeling</h5>
+        <p style="text-align: justify;">The 20 buildings connected to the CCUP district cooling system were built between 1990 and 2022 and include offices, laboratories, classrooms, a library, and residence halls, with a combined gross floor area of about 2.71 million ft&sup2; (about 252,000 m&sup2;) (Table 1).</p>
+        <p class="research-caption" style="text-align: center; margin-bottom: 0.3rem;">Table 1. Buildings connected to the CCUP district cooling system</p>
+        <div class="research-table-scroll">
+          <table class="u-full-width research-lod-table research-bldg-table">
+            <thead>
+              <tr><th>No.</th><th>Building</th><th>Bldg. No.</th><th>Abbr.</th><th>Use</th><th class="num">Year built</th><th class="num">Floors</th><th class="num">Gross floor area (ft&sup2;)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Center for Technology and Innovation</td><td>702</td><td>CTI</td><td>Office</td><td class="num">2016</td><td class="num">3</td><td class="num">71,726</td></tr>
+              <tr><td>2</td><td>Constructed Facilities Laboratory</td><td>720C</td><td>ERC</td><td>Laboratory</td><td class="num">1997</td><td class="num">3</td><td class="num">25,357</td></tr>
+              <tr><td>3</td><td>Monteith Engineering Research Center</td><td>720A</td><td>MRC</td><td>Office</td><td class="num">1997</td><td class="num">5</td><td class="num">121,623</td></tr>
+              <tr><td>4</td><td>Poulton Innovation Center</td><td>781A</td><td>PIC</td><td>Office</td><td class="num">1991</td><td class="num">5</td><td class="num">79,403</td></tr>
+              <tr><td>5</td><td>Textiles Complex</td><td>700</td><td>TEX</td><td>Mixed-use complex</td><td class="num">1990</td><td class="num">7</td><td class="num">304,230</td></tr>
+              <tr><td>6</td><td>Golden LEAF Biomanufacturing Training and Education Center (BTEC)</td><td>762A</td><td>BTC</td><td>Office</td><td class="num">2007</td><td class="num">4</td><td class="num">87,897</td></tr>
+              <tr><td>7</td><td>Plant Sciences Building</td><td>763</td><td>PSB</td><td>Classroom / Office / Laboratory</td><td class="num">2022</td><td class="num">5</td><td class="num">187,839</td></tr>
+              <tr><td>8</td><td>Partners Building I</td><td>775</td><td>PT1</td><td>Office</td><td class="num">1997</td><td class="num">3</td><td class="num">85,919</td></tr>
+              <tr><td>9</td><td>Partners Building III</td><td>713</td><td>PT3</td><td>Office</td><td class="num">2004</td><td class="num">4</td><td class="num">82,987</td></tr>
+              <tr><td>10</td><td>Engineering Building I</td><td>782A</td><td>EB1</td><td>Classroom / Office</td><td class="num">2004</td><td class="num">5</td><td class="num">159,832</td></tr>
+              <tr><td>11</td><td>Engineering Building II</td><td>782B</td><td>EB2</td><td>Classroom / Office</td><td class="num">2005</td><td class="num">5</td><td class="num">228,296</td></tr>
+              <tr><td>12</td><td>Engineering Building III</td><td>782C</td><td>EB3</td><td>Classroom / Office</td><td class="num">2010</td><td class="num">5</td><td class="num">252,042</td></tr>
+              <tr><td>13</td><td>James B. Hunt Jr. Centennial Campus Library</td><td>783A</td><td>JHL</td><td>Library</td><td class="num">2012</td><td class="num">6</td><td class="num">243,559</td></tr>
+              <tr><td>14</td><td>Fitts-Woolard Hall</td><td>782E</td><td>FWH</td><td>Classroom / Office</td><td class="num">2020</td><td class="num">5</td><td class="num">229,893</td></tr>
+              <tr><td>15</td><td>Tower Hall (Wolf Ridge Building 1)</td><td>780A</td><td>WR1</td><td>Residence hall / Restaurant</td><td class="num">2013</td><td class="num">5</td><td class="num">151,127</td></tr>
+              <tr><td>16</td><td>Plaza Hall (Wolf Ridge Building 2)</td><td>780B</td><td>WR2</td><td>Residence hall</td><td class="num">2013</td><td class="num">6</td><td class="num">95,471</td></tr>
+              <tr><td>17</td><td>Albright Innovation Hall (Wolf Ridge Building 3)</td><td>780C</td><td>WR3</td><td>Residence hall</td><td class="num">2014</td><td class="num">6</td><td class="num">90,841</td></tr>
+              <tr><td>18</td><td>Valley Hall (Wolf Ridge Building 4)</td><td>780D</td><td>WR4</td><td>Residence hall</td><td class="num">2014</td><td class="num">5</td><td class="num">84,458</td></tr>
+              <tr><td>19</td><td>Grove Hall (Wolf Ridge Building 5)</td><td>780E</td><td>WR5</td><td>Residence hall</td><td class="num">2014</td><td class="num">5</td><td class="num">62,358</td></tr>
+              <tr><td>20</td><td>Lakeview Hall (Wolf Ridge Building 6)</td><td>780F</td><td>WR6</td><td>Residence hall</td><td class="num">2013</td><td class="num">6</td><td class="num">67,015</td></tr>
+              <tr class="total"><td colspan="7">Total</td><td class="num">2,711,873</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="text-align: justify;">Each building is modeled individually, including its geometry and the window and curtain-wall openings on each facade (Figure 2). An interactive 3D view of the same buildings is available under <a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">GIS Modeling &middot; LOD 3 Level</a>.</p>
         <figure>
           <div class="research-model-grid">
             {% for i in (1..19) %}{% capture n %}{% if i < 10 %}0{% endif %}{{ i }}{% endcapture %}<a href="{{ "/assets/research/centennial-bem/building-" | append: n | append: ".png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/centennial-bem/building-" | append: n | append: ".png" | prepend: site.baseurl }}" alt="Building energy model {{ i }}" loading="lazy" /></a>
@@ -302,7 +334,8 @@ permalink: /research/
           <figcaption class="research-caption" style="text-align: center;">Figure 2. Building energy models of the CCUP-connected buildings on Centennial Campus</figcaption>
         </figure>
         <h5>Model Calibration</h5>
-        <p style="text-align: justify;">Both the district cooling plant model and the building models are calibrated against measured data. Calibration of the plant model is complete, and calibration of the 20 building models is in progress.</p>
+        <p style="text-align: justify;">Both the district cooling plant model and the building models are calibrated against measured data. Calibration of the plant model is complete, and calibration of the 20 building models is in progress (Table 2).</p>
+        <p class="research-caption" style="text-align: center; margin-bottom: 0.3rem;">Table 2. Calibration status of the plant and building models</p>
         <table class="u-full-width research-lod-table">
           <thead>
             <tr><th>Model</th><th>Measured data</th><th>Status</th></tr>

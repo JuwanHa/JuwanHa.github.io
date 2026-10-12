@@ -481,3 +481,22 @@ h4 {
   vertical-align: top; }
 .research-lod-table td:first-child {
   white-space: nowrap; }
+
+/* Centennial Campus building list: scrolls sideways on narrow screens instead of squeezing the columns. */
+.research-table-scroll {
+  overflow-x: auto;
+  margin-bottom: 2.5rem; }
+.research-table-scroll table {
+  margin-bottom: 0; }
+.research-bldg-table {
+  min-width: 560px;
+  font-size: 1.25rem; }
+.research-bldg-table th,
+.research-bldg-table td {
+  padding: 6px 8px 6px 0; }
+.research-bldg-table .num {
+  text-align: right;
+  white-space: nowrap; }
+.research-bldg-table tr.total td {
+  font-weight: 600;
+  border-top: 2px solid #ccc; }
