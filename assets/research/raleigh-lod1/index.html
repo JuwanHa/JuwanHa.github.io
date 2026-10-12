@@ -339,7 +339,15 @@ function fitAll(animate) {
 }
 
 const dg = new deck.DeckGL({ container: 'map', initialViewState: VIEW, controller: true, parameters: { clearColor: [0.051, 0.078, 0.09, 1] }, layers: [], getTooltip: tooltip });
-fitAll(false);
+// Camera by name: 'all' fits the whole city; otherwise one of the VIEWS presets. The website calls
+// window.raleighView(name) from its table of contents; ?view=name picks the starting camera.
+function applyView(v, animate) {
+  if (!v || v === 'all' || !VIEWS[v]) { fitAll(animate); return; }
+  VIEW = { ...VIEWS[v] };
+  dg.setProps({ initialViewState: animate ? { ...VIEWS[v], transitionDuration: 1200 } : VIEWS[v] });
+}
+window.raleighView = v => applyView(v, true);
+applyView(new URLSearchParams(location.search).get('view'), false);
 
 (async () => {
   renderLegend();

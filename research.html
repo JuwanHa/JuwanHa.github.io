@@ -13,8 +13,8 @@ permalink: /research/
 
   <!-- Wide blocks: full-width content shown above the two-column layout while their pane (data-for) is active. -->
   <div class="research-wide" data-for="gis-lod1" hidden>
-    <p class="research-crumb">GIS (Raleigh City)</p>
-    <h4>LOD 1</h4>
+    <p class="research-crumb">GIS Modeling &middot; LOD 1 Level</p>
+    <h4 class="research-wide-title">City of Raleigh</h4>
     <div class="research-viewer-wrap" id="lod1-viewer">
       <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}"
               title="Raleigh City LoD1 3D viewer" allowfullscreen style="min-height:640px"></iframe>
@@ -66,12 +66,31 @@ permalink: /research/
           </ul>
         </li>
         <li>
-          <a class="research-link research-group" data-pane="gis-overview" href="#gis-overview">GIS (Raleigh City)</a>
+          <a class="research-link research-group" data-pane="gis-overview" href="#gis-overview">GIS Modeling</a>
           <ul>
             <li><a class="research-link" data-pane="gis-overview" href="#gis-overview">Overview</a></li>
-            <li><a class="research-link" data-pane="gis-lod1" href="#gis-lod1">LOD 1</a></li>
-            <li><a class="research-link" data-pane="gis-lod2" href="#gis-lod2">LOD 2</a></li>
-            <li><a class="research-link" data-pane="gis-lod3" href="#gis-lod3">LOD 3</a></li>
+            <li>
+              <a class="research-link research-group" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1 Level</a>
+              <ul>
+                <li><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">City of Raleigh</a></li>
+                <li><a class="research-link" data-pane="gis-lod1-downtown" href="#gis-lod1-downtown">Downtown</a></li>
+                <li><a class="research-link" data-pane="gis-lod1-ncsu" href="#gis-lod1-ncsu">NC STATE Campus</a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="research-link research-group" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2 Level</a>
+              <ul>
+                <li><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">City of Raleigh</a></li>
+                <li><a class="research-link" data-pane="gis-lod2-downtown" href="#gis-lod2-downtown">Downtown</a></li>
+                <li><a class="research-link" data-pane="gis-lod2-ncsu" href="#gis-lod2-ncsu">NC STATE Campus</a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="research-link research-group" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3 Level</a>
+              <ul>
+                <li><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">NC STATE Campus (Centennial Campus)</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
       </ul>
@@ -291,17 +310,17 @@ permalink: /research/
         <p class="research-soon">Details coming soon.</p>
       </section>
 
-      <!-- 5. GIS (Raleigh City) -->
+      <!-- 5. GIS Modeling -->
       <section class="research-pane" id="gis-overview">
-        <p class="research-crumb">GIS (Raleigh City)</p>
+        <p class="research-crumb">GIS Modeling</p>
         <h4>Overview</h4>
         <p style="text-align: justify;">
           City-scale 3D building models of Raleigh, North Carolina, organized by Level of Detail (LoD):
         </p>
         <ul>
-          <li><b><a class="research-link" data-pane="gis-lod1" href="#gis-lod1">LOD 1</a></b> &ndash; block models: each building footprint extruded to a single roof height.</li>
-          <li><b><a class="research-link" data-pane="gis-lod2" href="#gis-lod2">LOD 2</a></b> &ndash; building models with roof shapes.</li>
-          <li><b><a class="research-link" data-pane="gis-lod3" href="#gis-lod3">LOD 3</a></b> &ndash; detailed building models with facade elements such as windows.</li>
+          <li><b><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1 Level</a></b> &ndash; block models: each building footprint extruded to a single roof height.</li>
+          <li><b><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2 Level</a></b> &ndash; building models with roof shapes.</li>
+          <li><b><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3 Level</a></b> &ndash; detailed building models with facade elements such as windows.</li>
         </ul>
       </section>
 
@@ -368,15 +387,27 @@ permalink: /research/
         {% endcomment %}
       </section>
 
-      <section class="research-pane" id="gis-lod2">
-        <p class="research-crumb">GIS (Raleigh City)</p>
-        <h4>LOD 2</h4>
+      <section class="research-pane" id="gis-lod2-city">
+        <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
+        <h4>City of Raleigh</h4>
         <p class="research-soon">Details coming soon.</p>
       </section>
 
-      <section class="research-pane" id="gis-lod3">
-        <p class="research-crumb">GIS (Raleigh City)</p>
-        <h4>LOD 3</h4>
+      <section class="research-pane" id="gis-lod2-downtown">
+        <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
+        <h4>Downtown</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <section class="research-pane" id="gis-lod2-ncsu">
+        <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
+        <h4>NC STATE Campus</h4>
+        <p class="research-soon">Details coming soon.</p>
+      </section>
+
+      <section class="research-pane" id="gis-lod3-centennial">
+        <p class="research-crumb">GIS Modeling &middot; LOD 3 Level</p>
+        <h4>NC STATE Campus (Centennial Campus)</h4>
         <p class="research-soon">Details coming soon.</p>
       </section>
 
@@ -385,9 +416,17 @@ permalink: /research/
 </div>
 
 <script>
-  // Show one research pane at a time; the URL hash (/research/#gis-lod1) selects it and is shareable.
+  // Show one research pane at a time; the URL hash (/research/#gis-lod1-city) selects it and is shareable.
   (function () {
-    var DEFAULT_PANE = "gis-lod1";
+    var DEFAULT_PANE = "gis-lod1-city";
+    // Older links -> current entries.
+    var ALIAS = { "gis-lod1": "gis-lod1-city", "gis-lod2": "gis-lod2-city", "gis-lod3": "gis-lod3-centennial" };
+    // Entries that share one pane and differ only by the viewer's camera: key -> [pane id, viewer view, title].
+    var VIEWER_KEYS = {
+      "gis-lod1-city": ["gis-lod1", "all", "City of Raleigh"],
+      "gis-lod1-downtown": ["gis-lod1", "downtown", "Downtown"],
+      "gis-lod1-ncsu": ["gis-lod1", "ncsu", "NC STATE Campus"]
+    };
     var panes = document.querySelectorAll(".research-pane");
     var navLinks = document.querySelectorAll(".research-nav .research-link");
 
@@ -400,7 +439,10 @@ permalink: /research/
         id = "ACDC";
         updateHash = true;
       }
-      if (!document.getElementById(id)) id = DEFAULT_PANE;
+      if (ALIAS[id]) { id = ALIAS[id]; updateHash = true; }
+      var key = id, vk = VIEWER_KEYS[key];
+      if (vk) id = vk[0];
+      if (!document.getElementById(id)) { key = DEFAULT_PANE; vk = VIEWER_KEYS[key]; id = vk[0]; }
       panes.forEach(function (p) {
         var on = p.id === id;
         p.classList.toggle("active", on);
@@ -411,16 +453,27 @@ permalink: /research/
       document.querySelectorAll(".research-wide").forEach(function (w) {
         var on = w.getAttribute("data-for") === id;
         w.hidden = !on;
-        if (on) w.querySelectorAll("iframe[data-src]").forEach(function (f) { if (!f.getAttribute("src")) f.setAttribute("src", f.getAttribute("data-src")); });
+        if (!on) return;
+        var title = w.querySelector(".research-wide-title");
+        if (title && vk) title.textContent = vk[2];
+        w.querySelectorAll("iframe[data-src]").forEach(function (f) { setViewerView(f, vk ? vk[1] : null); });
       });
       navLinks.forEach(function (a) {
         // Highlight the exact item; group headers are highlighted as "open" when one of their children is shown.
         var isGroup = a.classList.contains("research-group");
-        var groupOpen = isGroup && a.parentNode.querySelector('ul .research-link[data-pane="' + id + '"]');
-        a.classList.toggle("active", !isGroup && a.getAttribute("data-pane") === id);
+        var groupOpen = isGroup && a.parentNode.querySelector('ul .research-link[data-pane="' + key + '"]');
+        a.classList.toggle("active", !isGroup && a.getAttribute("data-pane") === key);
         a.classList.toggle("open", !!groupOpen);
       });
-      if (updateHash && history.replaceState) history.replaceState(null, "", "#" + id);
+      if (updateHash && history.replaceState) history.replaceState(null, "", "#" + key);
+    }
+
+    // Load an embedded viewer on first use (starting at `view`), or move its camera if it is already running.
+    function setViewerView(f, view) {
+      if (!f.getAttribute("src")) { f.setAttribute("src", f.getAttribute("data-src") + (view ? "?view=" + view : "")); return; }
+      if (!view) return;
+      var go = function () { if (f.contentWindow && f.contentWindow.raleighView) f.contentWindow.raleighView(view); };
+      if (f.contentWindow && f.contentWindow.raleighView) go(); else f.addEventListener("load", go, { once: true });
     }
 
     document.querySelectorAll(".research-link").forEach(function (a) {
@@ -456,7 +509,7 @@ permalink: /research/
       if (e.key === "Escape") document.querySelectorAll(".research-viewer-wrap.expanded").forEach(function (w) { setExpanded(w, false); });
     });
     show(location.hash.slice(1) || DEFAULT_PANE, false);
-    // A deep link (#gis-lod1) would otherwise land on the pane text below the wide viewer.
+    // A deep link (#gis-lod1-city) would otherwise land on the pane text below the wide viewer.
     if (location.hash) { scrollToWide(false); window.addEventListener("load", function () { scrollToWide(false); }); }
   })();
 </script>
