@@ -297,13 +297,17 @@ permalink: /research/
         </div>
         <p style="text-align: justify;">
           Every building in the City of Raleigh (156,326 footprints) extruded to its roof height from the 2024 QL1 airborne LiDAR as an LoD1 block model.
-          Colour the buildings by type, land use or floors, and hover a building for its details.
+          Open <i>Show panel</i> to colour the buildings by type, land use, floors, year or heating fuel and to add roads, sidewalks, lakes, green space, electric lines and substations; hover a building for its details.
         </p>
 
-        <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}"
-                title="Raleigh City LoD1 3D viewer" allowfullscreen></iframe>
+        <div class="research-viewer-wrap" id="lod1-viewer">
+          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html?embed=1" | prepend: site.baseurl }}"
+                  title="Raleigh City LoD1 3D viewer" allowfullscreen style="width:100%;height:80vh;min-height:600px"></iframe>
+          <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
+        </div>
         <p class="map-note">
-          <a href="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}" target="_blank">Open the 3D viewer in a new tab &#8599;</a>
+          <button type="button" class="research-linkbtn research-viewer-expand" data-target="lod1-viewer">&#10530; Full screen</button>
+          &middot; <a href="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}" target="_blank">Open in a new tab &#8599;</a>
           &middot; drag to pan, right-drag to tilt, scroll to zoom, hover a building.
         </p>
 
@@ -420,6 +424,22 @@ permalink: /research/
       });
     });
     window.addEventListener("hashchange", function () { show(location.hash.slice(1), false); });
+
+    // Full-screen toggle for embedded viewers (CSS overlay, so it also works where iframe fullscreen is unavailable).
+    function setExpanded(wrap, on) {
+      wrap.classList.toggle("expanded", on);
+      document.documentElement.classList.toggle("research-noscroll", on);
+      wrap.querySelector(".research-viewer-close").hidden = !on;
+    }
+    document.querySelectorAll(".research-viewer-expand").forEach(function (b) {
+      b.addEventListener("click", function () { setExpanded(document.getElementById(b.getAttribute("data-target")), true); });
+    });
+    document.querySelectorAll(".research-viewer-close").forEach(function (b) {
+      b.addEventListener("click", function () { setExpanded(b.parentNode, false); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") document.querySelectorAll(".research-viewer-wrap.expanded").forEach(function (w) { setExpanded(w, false); });
+    });
     show(location.hash.slice(1) || DEFAULT_PANE, false);
   })();
 </script>
