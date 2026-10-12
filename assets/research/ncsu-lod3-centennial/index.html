@@ -208,7 +208,7 @@ function renderBuilding() {
 }
 function renderStats() {
   const nw = D.b.reduce((a, b) => a + b.nwin, 0);
-  $('stats').innerHTML = '<dt>LoD3 buildings</dt><dd>' + D.b.length + ' · ' + fmt(nw) + ' windows</dd><dt>LoD2 buildings</dt><dd>' + D.extra.b.length + '</dd>';
+  $('stats').innerHTML = '<dt>LoD3 buildings (CCUP chilled-water loop)</dt><dd>' + D.b.length + ' · ' + fmt(nw) + ' windows</dd><dt>LoD2 buildings</dt><dd>' + D.extra.b.length + '</dd>';
 }
 function renderLegend() {
   const L = [['#c4563c', 'Roof surface'], ['#dedcd4', 'Wall surface'], ['#4a90d0', 'Window / curtain-wall glass'], ['#1e7d48', 'Door'], ['#5c40d6', 'Rooftop PV'], ['#3a3e46', 'Stair railing'], ['#968e8a', 'Other buildings (LoD2, LiDAR roof shape)'], ['#686c70', 'Ground surface']];
