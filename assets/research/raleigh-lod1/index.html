@@ -94,9 +94,7 @@
   <button id="r-tog" class="chip toggle" type="button" aria-expanded="true">Hide panel</button>
   <main class="panel" id="r-panel">
     <header>
-      <p class="eyebrow">Raleigh · SDD 2024 QL1 LiDAR · LoD1 blocks</p>
-      <h1>Raleigh City 3D &middot; LoD1</h1>
-      <p class="lede">Every building in the city: <span id="rN">156,326</span> footprints extruded to their LiDAR roof heights as LoD1 blocks, with type, land use, floors, year and heating fuel.</p>
+      <h1>City of Raleigh (LOD 1 Level)</h1>
     </header>
 
     <div>
@@ -108,15 +106,6 @@
         <button class="chip" type="button" data-c="yr" aria-pressed="false">Year</button>
         <button class="chip" type="button" data-c="fuel" aria-pressed="false">Heating Fuel</button>
       </div>
-    </div>
-
-    <div class="section">
-      <dl id="rStats"></dl>
-    </div>
-
-    <div class="section">
-      <p class="label" id="legendLabel">Building type</p>
-      <div class="legend" id="legend"></div>
     </div>
 
     <div class="section">
@@ -143,9 +132,14 @@
     </div>
 
     <div class="section">
-      <p class="note">Heights are metres above each building's own ground; the city is shown without terrain. Footprints are lightly simplified for the web (0.6 m).</p>
-      <p class="note">Data: building footprints from NC OneMap (Wake County 2021), City of Raleigh GIS and NC State University; heights from the NC 2024 QL1 LiDAR; floors from LiDAR and Wake County real estate records; land use from the City of Raleigh 2030 Comprehensive Plan; year built and heating fuel from Wake County real estate records, NC 2021 footprints, NC State and gas permits, supplemented by model-based values where records are missing; roads, sidewalks, parks, lakes, transmission lines, EV charging and substations from City of Raleigh / Wake County open data.</p>
+      <dl id="rStats"></dl>
     </div>
+
+    <div class="section">
+      <p class="label" id="legendLabel">Building type</p>
+      <div class="legend" id="legend"></div>
+    </div>
+
   </main>
   <p id="status" class="statusbar" hidden></p>
 </div>
@@ -180,7 +174,7 @@ function floorColour(f) {
   return FLOOR_STOPS[FLOOR_STOPS.length - 1][1];
 }
 const CLS = [['sf', 'Single-family detached', [110, 170, 150]], ['sfa', 'Single-family attached (townhouse)', [150, 205, 120]], ['mf', 'Multifamily', [225, 190, 90]],
-  ['mh', 'Manufactured home', [190, 150, 110]], ['commercial', 'Commercial / institutional', [225, 120, 80]], ['accessory', 'Accessory (shed, garage) - not modelled', [98, 110, 118]],
+  ['mh', 'Manufactured home', [190, 150, 110]], ['commercial', 'Commercial / institutional', [225, 120, 80]], ['accessory', 'Parking lots', [98, 110, 118]],
   ['unconditioned', 'Unconditioned (parking deck, canopy) - not modelled', [130, 120, 160]], ['unknown', 'Unknown / under construction', [70, 78, 84]]];
 const LAND_GROUPS = [
   ['Residential density', [['RR', 'Rural Residential', [90, 130, 110]], ['LR', 'Low Density Residential', [110, 160, 130]], ['MODR', 'Moderate Density Residential', [130, 185, 140]], ['MR', 'Medium Density Residential', [150, 205, 150]], ['HR', 'High Density Residential', [170, 220, 160]]]],
@@ -318,13 +312,23 @@ const VIEWS = {
   northhills: { longitude: -78.6405, latitude: 35.8385, zoom: 15.6, pitch: 58, bearing: 30 },
   suburb: { longitude: -78.5705, latitude: 35.8795, zoom: 16.4, pitch: 58, bearing: -35 },
 };
-document.querySelectorAll('#rViews .chip').forEach(b => b.addEventListener('click', () => dg.setProps({ initialViewState: { ...VIEWS[b.dataset.v], transitionDuration: 1200 } })));
+document.querySelectorAll('#rViews .chip').forEach(b => b.addEventListener('click', () => b.dataset.v === 'all' ? fitAll(true) : dg.setProps({ initialViewState: { ...VIEWS[b.dataset.v], transitionDuration: 1200 } })));
 const panel = $('r-panel'), tog = $('r-tog');
 tog.addEventListener('click', () => { const hide = !panel.hidden; panel.hidden = hide; tog.textContent = hide ? 'Show panel' : 'Hide panel'; tog.setAttribute('aria-expanded', hide ? 'false' : 'true'); });
-// Embedded in the website (?embed=1): start with the panel collapsed so the map fills the frame.
-if (new URLSearchParams(location.search).get('embed') === '1') { panel.hidden = true; tog.textContent = 'Show panel'; tog.setAttribute('aria-expanded', 'false'); }
+// Whole city in view, kept clear of the panel (left on wide frames, bottom on phones).
+const RALEIGH = [[-78.82, 35.705], [-78.475, 35.972]];
+function fitAll(animate) {
+  const el = $('map'), w = el.clientWidth || innerWidth, h = el.clientHeight || innerHeight;
+  const pad = { top: 60, bottom: 30, left: 20, right: 20 };
+  if (!panel.hidden && w > 480) pad.left = Math.min(panel.offsetWidth + 36, w * 0.6);
+  if (!panel.hidden && w <= 480) pad.bottom = Math.min(panel.offsetHeight + 20, h * 0.6);
+  const vp = new deck.WebMercatorViewport({ width: w, height: h }).fitBounds(RALEIGH, { padding: pad });
+  VIEW = { longitude: vp.longitude, latitude: vp.latitude, zoom: vp.zoom, pitch: 35, bearing: -8 };
+  dg.setProps({ initialViewState: animate ? { ...VIEW, transitionDuration: 1200 } : VIEW });
+}
 
 const dg = new deck.DeckGL({ container: 'map', initialViewState: VIEW, controller: true, parameters: { clearColor: [0.051, 0.078, 0.09, 1] }, layers: [], getTooltip: tooltip });
+fitAll(false);
 
 (async () => {
   renderLegend();
@@ -336,7 +340,6 @@ const dg = new deck.DeckGL({ container: 'map', initialViewState: VIEW, controlle
     LU_VOC = V.lu;
     META.tallest = C.h.reduce((a, b) => b > a ? b : a, 0) / 10;
     META.chunks.forEach((c, k) => CH.push({ ...c, k }));
-    $('rN').textContent = fmt(META.n);
     decodeLod1(await fetchBuf('city_lod1.b64.txt'));
     setStatus(''); renderStats(); render();
   } catch (e) { setStatus('Could not load the city model (' + e.message + ')'); }
