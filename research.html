@@ -297,18 +297,19 @@ permalink: /research/
         <p class="research-crumb">GIS Modeling</p>
         <h4>Overview</h4>
         <p style="text-align: justify;">
-          City-scale 3D building models of Raleigh and the NC State Centennial Campus, organized by Level of Detail (LoD) following the
-          <a href="https://www.ogc.org/standards/citygml/" target="_blank">OGC CityGML 3.0</a> standard. The work builds up to LoD3 object composition,
-          where walls, roofs, windows and doors are separate semantic objects, and co-develops autonomous, automatic recognition of building attributes.
+          City-scale 3D building models of Raleigh, North Carolina and the NC State Centennial Campus, organized by Level of Detail (LoD) following the
+          <a href="https://www.ogc.org/standards/citygml/" target="_blank">OGC CityGML 3.0</a> standard. Each level adds geometry to the one below, and every building
+          carries attributes (use, floors, year built, heating fuel) for building energy modeling. The work builds toward LoD3 object composition, where walls, roofs,
+          windows and doors are separate semantic objects, and toward autonomous, automatic recognition of building attributes.
         </p>
         <table class="u-full-width research-lod-table">
           <thead>
             <tr><th>Level</th><th>What is modelled</th><th>Main data</th><th>Area</th></tr>
           </thead>
           <tbody>
-            <tr><td><b><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1</a></b></td><td>Block model: each building footprint extruded to a single roof height (flat roof)</td><td>Building footprints + LiDAR roof heights</td><td><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">City of Raleigh</a></td></tr>
-            <tr><td><b><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2</a></b></td><td>Adds the roof shape: roof planes fitted to the LiDAR point cloud</td><td>2024 QL1 airborne LiDAR</td><td><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">Downtown Raleigh</a></td></tr>
-            <tr><td><b><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3</a></b></td><td>Adds facade detail: window and curtain-wall openings, doors and rooftop PV as their own objects</td><td>Building drawings, Street View</td><td><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">Centennial Campus</a></td></tr>
+            <tr><td><b><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1</a></b></td><td>Block model: each footprint extruded to a single roof height (flat roof)</td><td>Building footprints + LiDAR roof heights</td><td><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">City of Raleigh</a> &middot; 156,326 buildings</td></tr>
+            <tr><td><b><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2</a></b></td><td>Adds the roof shape: roof planes fitted to the LiDAR point cloud</td><td>2024 QL1 airborne LiDAR (high density, &ge; 8 points/m&sup2;)</td><td><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">Downtown Raleigh</a> &middot; 920 buildings</td></tr>
+            <tr><td><b><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3</a></b></td><td>Adds facade detail: windows, curtain walls, doors and rooftop PV as their own objects, with window-to-wall ratio per facade</td><td>Building drawings, Street View</td><td><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">Centennial Campus</a> &middot; 20 CCUP-connected buildings</td></tr>
           </tbody>
         </table>
       </section>
