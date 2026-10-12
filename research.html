@@ -289,7 +289,35 @@ permalink: /research/
       <section class="research-pane" id="campus-centennial">
         <p class="research-crumb">NC State Campus Building and District System Modeling</p>
         <h4>Centennial Campus Building Modeling</h4>
-        <p class="research-soon">Details coming soon.</p>
+        <h5>Overview</h5>
+        <p style="text-align: justify;">This work develops building energy models for the 20 buildings on NC State University&rsquo;s Centennial Campus that are served by the district cooling system of the Centennial Campus Utility Plant (CCUP). Together with a model of the CCUP district cooling plant, the building models represent the campus district cooling system from the central plant to each connected building.</p>
+        <figure><a href="{{ "/assets/research/centennial-bem/campus-aerial.webp" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/centennial-bem/campus-aerial.webp" | prepend: site.baseurl }}" class="u-max-full-width" alt="Aerial view of NC State University's Centennial Campus" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Aerial view of NC State University&rsquo;s Centennial Campus</figcaption></figure>
+        <h5>Building Energy Models</h5>
+        <p style="text-align: justify;">Each CCUP-connected building is modeled individually, including its geometry and the window and curtain-wall openings on each facade (Figure 2). An interactive 3D view of the same buildings is available under <a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">GIS Modeling &middot; LOD 3 Level</a>.</p>
+        <figure>
+          <div class="research-model-grid">
+            {% for i in (1..19) %}{% capture n %}{% if i < 10 %}0{% endif %}{{ i }}{% endcapture %}<a href="{{ "/assets/research/centennial-bem/building-" | append: n | append: ".png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/centennial-bem/building-" | append: n | append: ".png" | prepend: site.baseurl }}" alt="Building energy model {{ i }}" loading="lazy" /></a>
+            {% endfor %}
+          </div>
+          <figcaption class="research-caption" style="text-align: center;">Figure 2. Building energy models of the CCUP-connected buildings on Centennial Campus</figcaption>
+        </figure>
+        <h5>Model Calibration</h5>
+        <p style="text-align: justify;">Both the district cooling plant model and the building models are calibrated against measured data. Calibration of the plant model is complete, and calibration of the 20 building models is in progress.</p>
+        <table class="u-full-width research-lod-table">
+          <thead>
+            <tr><th>Model</th><th>Measured data</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CCUP district cooling plant</td><td>Plant operating data</td><td>Calibrated</td></tr>
+            <tr><td>20 building energy models</td><td>Hourly data from each building</td><td>Calibration in progress</td></tr>
+          </tbody>
+        </table>
+        <p style="text-align: justify;">Each building model is compared with its own building&rsquo;s measured data at an hourly time step, following ASHRAE Guideline 14, using three statistical indicators:</p>
+        <ul>
+          <li><b>CV(RMSE)</b> (coefficient of variation of the root mean square error): how widely the hourly predictions scatter around the measurements. Guideline 14 accepts hourly calibration at 30% or less.</li>
+          <li><b>NMBE</b> (normalized mean bias error): whether the model systematically over- or under-predicts. Guideline 14 accepts hourly calibration within &plusmn;10%.</li>
+          <li><b>R&sup2;</b> (coefficient of determination): how closely the simulated hourly profile follows the measured one.</li>
+        </ul>
       </section>
 
       <!-- 5. GIS Modeling -->

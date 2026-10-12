@@ -239,6 +239,22 @@ h4 {
   font-size: 1.3rem;
   color: rgba(0, 0, 0, 0.6);
   margin: 0.4rem 0 1rem 0; }
+/* Thumbnail grid for many same-size renders (Research > Centennial Campus Building Modeling). */
+.research-model-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem; }
+.research-model-grid img {
+  display: block;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  background: #fff; }
+@media (max-width: 749px) {
+  .research-model-grid {
+    grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 549px) {
+  .research-model-grid {
+    grid-template-columns: repeat(2, 1fr); } }
 .map-legend {
   display: flex;
   align-items: center;
