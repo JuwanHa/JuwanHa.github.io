@@ -304,7 +304,7 @@ permalink: /research/
         </p>
 
         <div class="research-viewer-wrap" id="lod1-viewer">
-          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}"
+          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod1/index.html" | prepend: site.baseurl }}?v={{ site.time | date: '%s' }}"
                   title="Raleigh City LoD1 3D viewer" allowfullscreen style="min-height:640px"></iframe>
           <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
         </div>
@@ -380,7 +380,7 @@ permalink: /research/
         </p>
 
         <div class="research-viewer-wrap" id="lod2-viewer">
-          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod2-cbd/index.html" | prepend: site.baseurl }}"
+          <iframe class="research-viewer" data-src="{{ "/assets/research/raleigh-lod2-cbd/index.html" | prepend: site.baseurl }}?v={{ site.time | date: '%s' }}"
                   title="Raleigh Downtown LoD2 3D viewer" allowfullscreen style="min-height:640px"></iframe>
           <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
         </div>
@@ -486,7 +486,7 @@ permalink: /research/
 
     // Load an embedded viewer on first use (starting at `view`), or move its camera if it is already running.
     function setViewerView(f, view) {
-      if (!f.getAttribute("src")) { f.setAttribute("src", f.getAttribute("data-src") + (view ? "?view=" + view : "")); return; }
+      if (!f.getAttribute("src")) { var u = f.getAttribute("data-src"); f.setAttribute("src", u + (view ? (u.indexOf("?") < 0 ? "?" : "&") + "view=" + view : "")); return; }
       if (!view) return;
       var go = function () { if (f.contentWindow && f.contentWindow.raleighView) f.contentWindow.raleighView(view); };
       if (f.contentWindow && f.contentWindow.raleighView) go(); else f.addEventListener("load", go, { once: true });
