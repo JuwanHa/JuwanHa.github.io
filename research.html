@@ -394,7 +394,25 @@ permalink: /research/
       <section class="research-pane" id="gis-lod3-centennial">
         <p class="research-crumb">GIS Modeling &middot; LOD 3 Level</p>
         <h4>NC STATE Campus (Centennial Campus)</h4>
-        <p class="research-soon">Details coming soon.</p>
+        <div class="title-subtitle">
+          <h5>Centennial Campus 3D &middot; LoD3 Buildings</h5>
+        </div>
+        <p style="text-align: justify;">
+          Ten Centennial Campus buildings at Level of Detail 3, modelled from building drawings: walls, roofs, window and curtain-wall openings, doors and rooftop PV,
+          with window counts and window-to-wall ratios (WWR) by facade. The rest of the campus is shown at LoD2 (LiDAR roof shapes).
+          Pick a building to see its facade breakdown and jump to its east, west, north or south side; hover a building for its details.
+        </p>
+
+        <div class="research-viewer-wrap" id="lod3-viewer">
+          <iframe class="research-viewer" data-src="{{ "/assets/research/ncsu-lod3-centennial/index.html" | prepend: site.baseurl }}?v={{ site.time | date: '%s' }}"
+                  title="NC State Centennial Campus LoD3 3D viewer" allowfullscreen style="min-height:640px"></iframe>
+          <button type="button" class="research-viewer-close" hidden>&#10005; Close full screen</button>
+        </div>
+        <p class="map-note">
+          <button type="button" class="research-linkbtn research-viewer-expand" data-target="lod3-viewer">&#10530; Full screen</button>
+          &middot; <a href="{{ "/assets/research/ncsu-lod3-centennial/index.html" | prepend: site.baseurl }}" target="_blank">Open in a new tab &#8599;</a>
+          &middot; drag to pan, right-drag to tilt, scroll to zoom, hover a building.
+        </p>
       </section>
 
       {% comment %}

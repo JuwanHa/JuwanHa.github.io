@@ -1,0 +1,265 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>NC STATE Campus – Centennial (LOD 3 Level)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/deck.gl@9.1.14/dist.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/earcut@2.2.4/dist/earcut.min.js"></script>
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #0d1417;
+    --panel: rgba(19, 28, 33, 0.95);
+    --line: #273740;
+    --text: #e4ecef;
+    --muted: #8fa3ad;
+    --accent: #e3a857;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --cond: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--ground); color: var(--text); font: 14px/1.5 var(--sans); overflow: hidden; }
+  .mapcanvas { position: absolute; inset: 0; }
+  .scene { position: absolute; inset: 0; }
+  [hidden] { display: none !important; }
+  .panel {
+    position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); left: 16px; z-index: 2;
+    width: min(380px, calc(100vw - 32px)); max-height: calc(100% - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow: auto; box-sizing: border-box; padding: 16px 18px 14px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    display: flex; flex-direction: column; gap: 14px; backdrop-filter: blur(6px);
+  }
+  .eyebrow { font: 500 11px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font: 600 22px/1.15 var(--cond); margin: 2px 0 0; letter-spacing: .01em; text-wrap: balance; }
+  .lede { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+  .label { font: 500 11px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; background: transparent; padding: 8px 6px; font: 500 13px/1.2 var(--sans); color: var(--muted); cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: #1e2c33; color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); }
+  .seg button:disabled { color: #4d5f68; cursor: not-allowed; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: #172329; color: var(--text); border-radius: 6px; padding: 5px 9px; font: 13px/1.2 var(--sans); cursor: pointer; }
+  .chip:hover { border-color: #3b515d; }
+  .chip[aria-pressed="true"] { border-color: var(--accent); color: #f5d6a8; }
+  .chip .dot { display: inline-block; width: 8px; height: 8px; }
+  /* Raleigh scene + the top scene switch lay the dot out with flex+gap and a square swatch; NC State's original chips use an inline circular dot with its own margin. Scoped so both keep their original look. */
+  #scene-raleigh .chip, #sceneSwitch .chip { display: inline-flex; align-items: center; gap: 6px; }
+  #scene-raleigh .chip .dot, #sceneSwitch .chip .dot { border-radius: 2px; }
+  #scene-ncsu .chip .dot { border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0; font-size: 13px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; }
+  .tbl { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 3px 4px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  th { font: 500 11px/1.3 var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+  td:first-child, th:first-child { text-align: left; }
+  td { font-family: var(--mono); }
+  tr.cur td { color: #f5d6a8; }
+  .legend { display: grid; grid-template-columns: 14px 1fr; gap: 5px 9px; align-items: center; font-size: 12.5px; }
+  .sw { width: 14px; height: 10px; border-radius: 2px; }
+  .section { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .section h2 { margin: 0; font: 600 14px/1.2 var(--cond); letter-spacing: .02em; }
+  .note { margin: 0; color: var(--muted); font-size: 12px; }
+  details summary { cursor: pointer; font: 600 14px/1.2 var(--cond); }
+  .files { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .files li { font-size: 12.5px; }
+  .files code { font-family: var(--mono); font-size: 11.5px; color: #cfdde3; word-break: break-all; }
+  .files span { color: var(--muted); display: block; font-size: 11.5px; }
+  #n-tog, #r-tog { position: absolute; z-index: 3; right: 16px; top: calc(12px + env(safe-area-inset-top, 0px)); }
+  .statusbar { position: absolute; z-index: 1; left: 50%; transform: translateX(-50%); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); font: 12px/1.4 var(--mono); color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; }
+  .hint { position: absolute; z-index: 1; right: 16px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); font: 11px/1.4 var(--mono); color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+  #sceneSwitch { position: absolute; z-index: 5; left: 50%; transform: translateX(-50%); top: calc(12px + env(safe-area-inset-top, 0px)); display: flex; gap: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px; backdrop-filter: blur(6px); }
+  [data-lod3="off"] .only-l3 { display: none; }
+  @media (max-width: 640px) {
+    .panel { max-height: 56%; }
+    .hint { display: none; }
+    #scene-ncsu .panel { top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); max-height: 52%; }
+    #scene-ncsu .statusbar { bottom: auto; top: calc(56px + env(safe-area-inset-top, 0px)); }
+    #scene-raleigh .panel { top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); max-height: 52%; }
+    #scene-raleigh .statusbar { bottom: auto; top: calc(56px + env(safe-area-inset-top, 0px)); }
+  }
+  .panel { width: clamp(230px, 30vw, 330px); padding: 12px 13px 10px; gap: 10px; }
+  h1 { font-size: 17px; }
+  .label { margin-bottom: 4px; font-size: 10.5px; }
+  .row { gap: 4px; }
+  .chip { padding: 3px 7px; font-size: 12px; }
+  .section { gap: 6px; padding-top: 9px; }
+  select { width: 100%; padding: 5px 6px; font: 13px var(--sans); color: var(--text); background: #172329; border: 1px solid var(--line); border-radius: 6px; }
+  #scene-l3 .chip { display: inline-flex; align-items: center; gap: 6px; }
+  #bstats dd { font-family: var(--sans); font-size: 12px; }
+  @media (max-width: 760px) { .hint { display: none; } }
+</style>
+
+<div id="scene-l3" class="scene">
+  <div class="mapcanvas" id="map" role="img" aria-label="3D LoD3 model of the NC State Centennial Campus buildings"></div>
+  <button id="r-tog" class="chip toggle" type="button" aria-expanded="true">Hide panel</button>
+  <main class="panel" id="panel">
+    <header>
+      <h1>NC STATE Campus – Centennial (LOD 3 Level)</h1>
+    </header>
+    <div>
+      <p class="label">Building</p>
+      <select id="pick" aria-label="LoD3 building"></select>
+    </div>
+    <div class="section">
+      <dl id="bstats"></dl>
+      <div class="tbl"><table>
+        <thead><tr><th>Facade</th><th>Wall m²</th><th>Glass m²</th><th>WWR</th></tr></thead>
+        <tbody id="wwr"></tbody>
+      </table></div>
+    </div>
+    <div class="section">
+      <p class="label">Camera</p>
+      <div class="row" id="views"></div>
+    </div>
+    <div class="section">
+      <p class="label">Layers</p>
+      <div class="row"><button id="tPv" class="chip" type="button" aria-pressed="true"><span class="dot" style="background:#5c40d6"></span>Rooftop PV</button></div>
+    </div>
+    <div class="section">
+      <dl id="stats"></dl>
+    </div>
+    <div class="section">
+      <div class="legend" id="legend"></div>
+    </div>
+  </main>
+  <p id="status" class="statusbar" hidden></p>
+</div>
+<p class="hint">drag to pan · right-drag to tilt · scroll to zoom · hover a building</p>
+
+<script>
+(function () {
+const COL = { ground: [104,108,112], wall: [222,220,212], roof: [196,86,60], glass: [74,144,208], pv: [92,64,214] };
+const fmt = (n, d = 0) => Number(n).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+function triangulate(faces, colourOf, hasBi = true) {
+  const pos = [], nrm = [], col = [], idx = [];
+  for (const f of faces) {
+    const bi = hasBi ? f[0] : -1, t = hasBi ? f[1] : f[0], rings = hasBi ? f[2] : f[1];
+    const c = colourOf(bi, t); if (!c) continue;
+    const o = rings[0], n = o.length / 3; let nx = 0, ny = 0, nz = 0;
+    for (let i = 0; i < n; i++) { const a = 3 * i, b = 3 * ((i + 1) % n); nx += (o[a+1] - o[b+1]) * (o[a+2] + o[b+2]); ny += (o[a+2] - o[b+2]) * (o[a] + o[b]); nz += (o[a] - o[b]) * (o[a+1] + o[b+1]); }
+    const l = Math.hypot(nx, ny, nz) || 1; nx /= l; ny /= l; nz /= l;
+    const ax = Math.abs(nx), ay = Math.abs(ny), az = Math.abs(nz), drop = az >= ax && az >= ay ? 2 : (ax >= ay ? 0 : 1);
+    const flat = [], holes = [], all = [];
+    for (let r = 0; r < rings.length; r++) { if (r) holes.push(flat.length / 2); const R = rings[r]; for (let i = 0; i < R.length; i += 3) { const p = [R[i], R[i+1], R[i+2]]; all.push(p); flat.push(...p.filter((_, k) => k !== drop)); } }
+    const tri = earcut(flat, holes.length ? holes : null, 2), base = pos.length / 3;
+    for (const p of all) { pos.push(...p); nrm.push(nx, ny, nz); col.push(c[0] / 255, c[1] / 255, c[2] / 255); }
+    for (const k of tri) idx.push(base + k);
+  }
+  return { attributes: { POSITION: { value: new Float32Array(pos), size: 3 }, NORMAL: { value: new Float32Array(nrm), size: 3 }, COLOR_0: { value: new Float32Array(col), size: 3 }, TEXCOORD_0: { value: new Float32Array(pos.length / 3 * 2), size: 2 } }, indices: { value: new Uint32Array(idx), size: 1 } };
+}
+const surf = t => t === 0 ? COL.ground : t === 1 ? COL.wall : t === 2 ? COL.roof : t === 3 ? COL.glass : t === 4 ? [30, 125, 72] : t === 6 ? [40, 200, 90] : t === 7 ? [235, 140, 30] : t === 9 ? [58, 62, 70] : COL.pv;
+const meshLayer = (id, mesh, origin) => new deck.SimpleMeshLayer({ id, data: [0], mesh, pickable: true, coordinateSystem: deck.COORDINATE_SYSTEM.METER_OFFSETS, coordinateOrigin: origin, getPosition: () => [0, 0, 0], getColor: [255, 255, 255], material: { ambient: 0.48, diffuse: 0.58, shininess: 18, specularColor: [36, 36, 36] } });
+const toLL = (lon0, lat0, x, y) => [lon0 + x / (111320 * Math.cos(lat0 * Math.PI / 180)), lat0 + y / 110540];
+const pct = (a, q) => { const v = [...a].sort((x, y) => x - y); return v[Math.min(v.length - 1, Math.max(0, Math.round(q * (v.length - 1))))]; };
+
+const $ = id => document.getElementById(id), statusEl = $('status'), panel = $('panel');
+function setStatus(t) { statusEl.hidden = !t; statusEl.textContent = t || ''; }
+const state = { sel: 0, pv: true };
+let D = null, MESH = {};
+
+function meshes() {
+  if (MESH.f) return MESH;
+  const faces = [], pv = [];
+  for (const b of D.b) { for (const f of b.f) faces.push(f); for (const f of b.pv) pv.push(f); }
+  MESH.f = triangulate(faces, (bi, t) => surf(t), false);
+  MESH.pv = triangulate(pv, () => COL.pv, false);
+  MESH.x = triangulate(D.extra.f, (bi, t) => t === 0 ? COL.ground : t === 2 ? [150, 110, 100] : [150, 150, 146]);   // LoD2 context, dimmed
+  return MESH;
+}
+function layers() {
+  const o = [D.lon0, D.lat0], M = meshes();
+  const L = [meshLayer('l3', M.f, o), meshLayer('x', M.x, o)];
+  if (state.pv) L.push(meshLayer('pv', M.pv, o));
+  return L;
+}
+
+// hover: smallest plan bounding box (from each building's faces) that holds the picked point
+function bboxes() {
+  const box = (fs, ring) => { const bb = [1e9, 1e9, -1e9, -1e9]; for (const f of fs) { const r = ring(f); for (let i = 0; i < r.length; i += 3) { bb[0] = Math.min(bb[0], r[i]); bb[1] = Math.min(bb[1], r[i + 1]); bb[2] = Math.max(bb[2], r[i]); bb[3] = Math.max(bb[3], r[i + 1]); } } return bb; };
+  D.b.forEach(b => { b.bb = box(b.f, f => f[1][0]); });
+  D.extra.b.forEach((b, i) => { b.bb = box(D.extra.f.filter(f => f[0] === i), f => f[2][0]); });
+}
+function tooltip(info) {
+  if (!info.picked || !info.coordinate) return null;
+  const x = (info.coordinate[0] - D.lon0) * 111320 * Math.cos(D.lat0 * Math.PI / 180), y = (info.coordinate[1] - D.lat0) * 110540;
+  let best = null, ba = 1e18;
+  for (const b of D.b.concat(D.extra.b)) { const bb = b.bb; if (x >= bb[0] - 1 && x <= bb[2] + 1 && y >= bb[1] - 1 && y <= bb[3] + 1) { const a = (bb[2] - bb[0]) * (bb[3] - bb[1]); if (a < ba) { ba = a; best = b; } } }
+  if (!best) return null;
+  let h = '<b>' + (best.name || 'Building') + '</b><br>' + best.n + (best.use ? ' · ' + best.use : '');
+  if (best.nwin != null) h += '<br>LoD3 · ' + fmt(best.nwin) + ' windows · WWR ' + best.tot.toFixed(2); else h += '<br>LoD2';
+  if (best.h) h += '<br>Height: ' + fmt(best.h, 1) + ' m';
+  return { html: h, style: { background: '#131c21', color: '#e4ecef', border: '1px solid #273740', borderRadius: '6px', font: '12px IBM Plex Sans, system-ui, sans-serif', padding: '6px 8px' } };
+}
+
+// panel
+function renderBuilding() {
+  const b = D.b[state.sel];
+  let h = '<dt>Building</dt><dd>' + b.n + '</dd>' + (b.use ? '<dt>Use</dt><dd>' + b.use + '</dd>' : '') + (b.h ? '<dt>Height</dt><dd>' + fmt(b.h, 1) + ' m</dd>' : '');
+  h += '<dt>Window openings</dt><dd>' + fmt(b.nwin) + '</dd><dt>Whole-building WWR</dt><dd>' + b.tot.toFixed(2) + '</dd>';
+  if (b.pvinfo) h += '<dt>Rooftop PV</dt><dd>' + b.pvinfo + '</dd>';
+  $('bstats').innerHTML = h;
+  $('wwr').innerHTML = b.wwr.map(r => '<tr><td>' + r.f[0].toUpperCase() + r.f.slice(1) + '</td><td>' + fmt(r.w) + '</td><td>' + fmt(r.g) + '</td><td>' + r.r.toFixed(2) + '</td></tr>').join('');
+  renderViews();
+}
+function renderStats() {
+  const nw = D.b.reduce((a, b) => a + b.nwin, 0);
+  $('stats').innerHTML = '<dt>LoD3 buildings</dt><dd>' + D.b.length + ' · ' + fmt(nw) + ' windows</dd><dt>LoD2 buildings</dt><dd>' + D.extra.b.length + '</dd>';
+}
+function renderLegend() {
+  const L = [['#c4563c', 'Roof surface'], ['#dedcd4', 'Wall surface'], ['#4a90d0', 'Window / curtain-wall glass'], ['#1e7d48', 'Door'], ['#5c40d6', 'Rooftop PV'], ['#3a3e46', 'Stair railing'], ['#968e8a', 'Other buildings (LoD2, LiDAR roof shape)'], ['#686c70', 'Ground surface']];
+  $('legend').innerHTML = L.map(x => '<span class="sw" style="background:' + x[0] + '"></span><span>' + x[1] + '</span>').join('');
+}
+
+// camera
+function campusView(animate) {                    // whole campus, kept clear of the panel
+  const el = $('map'), w = el.clientWidth, h = el.clientHeight;
+  if (w < 200 || h < 200) { const once = () => { removeEventListener('resize', once); campusView(false); }; addEventListener('resize', once); return; }
+  const xs = D.b.map(b => b.c[0]), ys = D.b.map(b => b.c[1]), m = 60;    // the LoD3 buildings plus a margin of campus around them
+  const sw = toLL(D.lon0, D.lat0, Math.min(...xs) - m, Math.min(...ys) - m), ne = toLL(D.lon0, D.lat0, Math.max(...xs) + m, Math.max(...ys) + m);
+  const pad = { top: 60, bottom: 40, left: 30, right: 30 };
+  if (!panel.hidden && w > 480) pad.left = Math.min(panel.offsetWidth + 40, w * 0.5);
+  const vp = new deck.WebMercatorViewport({ width: w, height: h }).fitBounds([sw, ne], { padding: pad });
+  const v = { longitude: vp.longitude, latitude: vp.latitude, zoom: vp.zoom, pitch: 55, bearing: -25 };
+  dg.setProps({ initialViewState: animate ? { ...v, transitionDuration: 1100 } : v });
+}
+function buildingViews(b) {
+  const ll = toLL(D.lon0, D.lat0, b.c[0], b.c[1]), e = b.az, z = b.n === '700' ? 17.2 : b.n.startsWith('780') ? 17.9 : 17.7;
+  const V = [['East', { longitude: ll[0], latitude: ll[1], zoom: z, pitch: 66, bearing: (e + 180) % 360 }], ['West', { longitude: ll[0], latitude: ll[1], zoom: z, pitch: 66, bearing: e }],
+             ['North end', { longitude: ll[0], latitude: ll[1], zoom: z + 0.2, pitch: 64, bearing: (e + 90) % 360 }], ['South end', { longitude: ll[0], latitude: ll[1], zoom: z + 0.2, pitch: 64, bearing: (e + 270) % 360 }]];
+  if (b.pv.length) V.push(['Roof PV', { longitude: ll[0], latitude: ll[1], zoom: 18.3, pitch: 42, bearing: 300 }]);
+  return V;
+}
+function fly(v) { dg.setProps({ initialViewState: { ...v, transitionDuration: 1100 } }); }
+function renderViews() {
+  const box = $('views'); box.innerHTML = '';
+  const add = (name, fn) => { const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.textContent = name; c.addEventListener('click', fn); box.appendChild(c); };
+  add('LoD3 buildings', () => campusView(true));
+  for (const [name, v] of buildingViews(D.b[state.sel])) add(name, () => fly(v));
+}
+
+$('pick').addEventListener('change', e => { state.sel = +e.target.value; renderBuilding(); fly(buildingViews(D.b[state.sel])[0][1]); });
+$('tPv').addEventListener('click', () => { state.pv = !state.pv; $('tPv').setAttribute('aria-pressed', state.pv ? 'true' : 'false'); dg.setProps({ layers: layers() }); });
+const tog = $('r-tog');
+tog.addEventListener('click', () => { const hide = !panel.hidden; panel.hidden = hide; tog.textContent = hide ? 'Show panel' : 'Hide panel'; tog.setAttribute('aria-expanded', hide ? 'false' : 'true'); });
+
+const dg = new deck.DeckGL({ container: 'map', initialViewState: { longitude: -78.676, latitude: 35.771, zoom: 15.8, pitch: 50, bearing: -25 }, controller: true,
+  parameters: { clearColor: [0.051, 0.078, 0.09, 1] }, layers: [], getTooltip: tooltip });
+(async () => {
+  try {
+    setStatus('Loading LoD3 buildings…');
+    const r = await fetch('centennial_lod3.json'); if (!r.ok) throw new Error('HTTP ' + r.status);
+    D = await r.json();
+    bboxes();
+    $('pick').innerHTML = D.b.map((b, i) => '<option value="' + i + '">' + b.name + ' (' + b.n + ')</option>').join('');
+    const fw = D.b.findIndex(b => b.n === '782E'); state.sel = fw >= 0 ? fw : 0; $('pick').value = state.sel;
+    renderBuilding(); renderStats(); renderLegend();
+    dg.setProps({ layers: layers() }); campusView(false); setStatus('');
+  } catch (e) { setStatus('Could not load the campus model (' + e.message + ')'); }
+})();
+})();
+</script>
