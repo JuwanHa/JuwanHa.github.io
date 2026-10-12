@@ -454,3 +454,14 @@ h4 {
   color: #4b2e83;
   text-decoration: underline;
   cursor: pointer; }
+
+/* GIS Overview: LoD comparison table */
+.research-lod-table {
+  margin-top: 1rem;
+  font-size: 1.35rem; }
+.research-lod-table th,
+.research-lod-table td {
+  padding: 8px 10px 8px 0;
+  vertical-align: top; }
+.research-lod-table td:first-child {
+  white-space: nowrap; }

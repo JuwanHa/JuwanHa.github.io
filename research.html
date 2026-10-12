@@ -50,8 +50,9 @@ permalink: /research/
           </ul>
         </li>
         <li>
-          <a class="research-link research-group" data-pane="gis-lod1-city" href="#gis-lod1-city">GIS Modeling</a>
+          <a class="research-link research-group" data-pane="gis-overview" href="#gis-overview">GIS Modeling</a>
           <ul>
+            <li><a class="research-link" data-pane="gis-overview" href="#gis-overview">Overview</a></li>
             <li>
               <a class="research-link research-group" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1 Level</a>
               <ul>
@@ -292,6 +293,26 @@ permalink: /research/
       </section>
 
       <!-- 5. GIS Modeling -->
+      <section class="research-pane" id="gis-overview">
+        <p class="research-crumb">GIS Modeling</p>
+        <h4>Overview</h4>
+        <p style="text-align: justify;">
+          City-scale 3D building models of Raleigh and the NC State Centennial Campus, organized by Level of Detail (LoD) following the
+          <a href="https://www.ogc.org/standards/citygml/" target="_blank">OGC CityGML 3.0</a> standard. The work builds up to LoD3 object composition,
+          where walls, roofs, windows and doors are separate semantic objects, and co-develops autonomous, automatic recognition of building attributes.
+        </p>
+        <table class="u-full-width research-lod-table">
+          <thead>
+            <tr><th>Level</th><th>What is modelled</th><th>Main data</th><th>Area</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1</a></b></td><td>Block model: each building footprint extruded to a single roof height (flat roof)</td><td>Building footprints + LiDAR roof heights</td><td><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">City of Raleigh</a></td></tr>
+            <tr><td><b><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2</a></b></td><td>Adds the roof shape: roof planes fitted to the LiDAR point cloud</td><td>2024 QL1 airborne LiDAR</td><td><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">Downtown Raleigh</a></td></tr>
+            <tr><td><b><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3</a></b></td><td>Adds facade detail: window and curtain-wall openings, doors and rooftop PV as their own objects</td><td>Building drawings</td><td><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">Centennial Campus</a></td></tr>
+          </tbody>
+        </table>
+      </section>
+
       <section class="research-pane" id="gis-lod1">
         <p class="research-crumb">GIS Modeling &middot; LOD 1 Level</p>
         <h4>City of Raleigh</h4>
@@ -416,21 +437,8 @@ permalink: /research/
       </section>
 
       {% comment %}
-      ===== BACKUP (hidden 2026-10-11): GIS Overview and LOD 2 / LOD 3 placeholder panes, removed from the menu.
+      ===== BACKUP (hidden 2026-10-11): unused LOD 2 placeholder panes, removed from the menu.
       To restore, move a section out of this block and add its menu entry back. =====
-      <section class="research-pane" id="gis-overview">
-        <p class="research-crumb">GIS Modeling</p>
-        <h4>Overview</h4>
-        <p style="text-align: justify;">
-          City-scale 3D building models of Raleigh, North Carolina, organized by Level of Detail (LoD):
-        </p>
-        <ul>
-          <li><b><a class="research-link" data-pane="gis-lod1-city" href="#gis-lod1-city">LOD 1 Level</a></b> &ndash; block models: each building footprint extruded to a single roof height.</li>
-          <li><b><a class="research-link" data-pane="gis-lod2-city" href="#gis-lod2-city">LOD 2 Level</a></b> &ndash; building models with roof shapes.</li>
-          <li><b><a class="research-link" data-pane="gis-lod3-centennial" href="#gis-lod3-centennial">LOD 3 Level</a></b> &ndash; detailed building models with facade elements such as windows.</li>
-        </ul>
-      </section>
-
       <section class="research-pane" id="gis-lod2-downtown">
         <p class="research-crumb">GIS Modeling &middot; LOD 2 Level</p>
         <h4>Downtown</h4>
@@ -454,7 +462,7 @@ permalink: /research/
   (function () {
     var DEFAULT_PANE = "gis-lod1-city";
     // Older links -> current entries.
-    var ALIAS = { "gis-lod1": "gis-lod1-city", "gis-overview": "gis-lod1-city", "gis-lod1-downtown": "gis-lod1-city", "gis-lod1-ncsu": "gis-lod1-city",
+    var ALIAS = { "gis-lod1": "gis-lod1-city", "gis-lod1-downtown": "gis-lod1-city", "gis-lod1-ncsu": "gis-lod1-city",
                   "gis-lod2": "gis-lod2-city", "gis-lod2-downtown": "gis-lod2-city", "gis-lod2-ncsu": "gis-lod2-city",
                   "gis-lod3": "gis-lod3-centennial" };
     // Entries that share one pane and differ only by the viewer's camera: key -> [pane id, viewer view, title].
