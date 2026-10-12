@@ -295,13 +295,29 @@ permalink: /research/
       <section class="research-pane" id="lcdc-efficiency">
         <p class="research-crumb">Data Center &middot; Liquid-Cooled AI Data Centers</p>
         <h4>Energy Efficiency Strategies</h4>
+        <h5>Overview</h5>
+        <p style="text-align: justify;">This study applies differentiable predictive control (DPC) to the hybrid liquid cooling system of an NVIDIA GB200 NVL72 pod, in which cold plates and active rear-door heat exchangers (RDHx) are served by two coolant distribution units (CDUs) and a chiller plant with a water-side economizer (WSE). Facility-side cooling plants are usually operated with fixed set points that ignore the weather, the IT load, and the coupling between the rack-side and facility-side loops. The DPC instead sets three plant set points every hour&mdash;the chilled-water supply temperature, the condenser-water supply temperature, and the condenser-water flow ratio&mdash;within thermal limits, using a 6-hour forecast horizon.</p>
         <h5>Modelica System Model</h5>
+        <p style="text-align: justify;">A Modelica model built on the Buildings Library (5,126 equations) serves both as the emulator that generates training data and as the virtual testbed for annual closed-loop evaluation (Figure 1). A neural state-space model of the plant and a PatchTST IT-load forecast are learned from the emulator data, and the explicit DPC policy is then trained offline through differentiable closed-loop rollouts.</p>
+        <figure><a href="{{ "/assets/research/lcdc-ee-modelica.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-ee-modelica.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Modelica diagram of the liquid-cooled data center plant" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Modelica diagram</figcaption></figure>
+        <h5>Key Results</h5>
+        <p style="text-align: justify;">In a one-year simulation for Raleigh, North Carolina, the DPC was compared with the Buildings Library baseline control:</p>
+        <ul>
+          <li>Annual cooling energy fell by 21.9% (794.6 &rarr; 620.2 MWh), about 2.4% of the total facility energy including IT, and the cooling-only PUE dropped from 1.123 to 1.096, with no thermal or equipment limit violations in the 5-minute records.</li>
+          <li>Most savings came from the cooling-tower fans (&minus;60%), largely by avoiding the baseline&rsquo;s full-speed fan rule, and from the chillers (&minus;22%): the DPC raises the chilled-water set point close to the facility-water limit, increasing the chiller COP from 7.45 to 10.07 and extending free-cooling hours (Figure 2).</li>
+          <li>Monthly savings ranged from 19% to 27% (Figure 3), and the facility-water safety margin governed the trade-off between savings and constraint compliance.</li>
+        </ul>
+        <figure><a href="{{ "/assets/research/lcdc-ee-weeks.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-ee-weeks.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Closed-loop operation of Baseline and DPC in a spring week and a summer week" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 2. Closed-loop operation of Baseline and DPC in two illustrative weeks of the test year</figcaption></figure>
+        <figure><a href="{{ "/assets/research/lcdc-ee-monthly.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-ee-monthly.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Monthly cooling energy, saving and cooling-only PUE of Baseline and DPC" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 3. Monthly results on the test year: (a) cooling energy of Baseline and DPC; (b) saving of DPC relative to Baseline and monthly cooling-only PUE of Baseline and DPC</figcaption></figure>
+        {% comment %}
+        ===== BACKUP (hidden 2026-10-12): previous Modelica schematic, replaced by Figure 1 above. =====
         <a href="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" target="_blank" rel="noopener">
           <img src="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" class="u-max-full-width" alt="Modelica system schematic diagram for the liquid-cooled data center" loading="lazy" />
         </a>
         <p align="center"><em>Figure 1. Modelica system schematic diagram of the liquid-cooled data center</em></p>
+        {% endcomment %}
         <h5>Reference</h5>
-        <p style="text-align: justify;">Differentiable Predictive Control for Energy-Efficient Liquid Cooling Systems in AI Data Centers, <em>Applied Energy</em> (In-preparation)</p>
+        <p style="text-align: justify;">Differentiable Predictive Control for Energy-Efficient Liquid Cooling Systems in AI Data Centers (In-preparation)</p>
       </section>
 
       <section class="research-pane" id="lcdc-gpu-load">
