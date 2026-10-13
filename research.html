@@ -305,10 +305,11 @@ permalink: /research/
         <ul>
           <li>Annual cooling energy fell by 21.9% (794.6 &rarr; 620.2 MWh), about 2.4% of the total facility energy including IT, and the cooling-only PUE dropped from 1.123 to 1.096, with no thermal or equipment limit violations in the 5-minute records.</li>
           <li>Most savings came from the cooling-tower fans (&minus;60%), largely by avoiding the baseline&rsquo;s full-speed fan rule, and from the chillers (&minus;22%): the DPC raises the chilled-water set point close to the facility-water limit, increasing the chiller COP from 7.45 to 10.07 and extending free-cooling hours (Figure 2).</li>
-          <li>Monthly savings ranged from 19% to 27% (Figure 3), and the facility-water safety margin governed the trade-off between savings and constraint compliance.</li>
+          <li>Monthly savings ranged from 19% to 27% (Figure 3) and were largest (33&ndash;34%) in the 7.5&ndash;12.5 &deg;C wet-bulb transition range (Figure 4). The facility-water safety margin governed the trade-off between savings and constraint compliance.</li>
         </ul>
         <figure><a href="{{ "/assets/research/lcdc-ee-weeks.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-ee-weeks.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Closed-loop operation of Baseline and DPC in a spring week and a summer week" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 2. Closed-loop operation of Baseline and DPC in two illustrative weeks of the test year</figcaption></figure>
         <figure><a href="{{ "/assets/research/lcdc-ee-monthly.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-ee-monthly.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Monthly cooling energy, saving and cooling-only PUE of Baseline and DPC" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 3. Monthly results on the test year: (a) cooling energy of Baseline and DPC; (b) saving of DPC relative to Baseline and monthly cooling-only PUE of Baseline and DPC</figcaption></figure>
+        <figure><a href="{{ "/assets/research/lcdc-ee-wetbulb.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-ee-wetbulb.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Performance of Baseline and DPC versus outdoor wet-bulb temperature" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 4. Performance versus outdoor wet-bulb temperature (2.5 K bins, test year): (a) mean cooling power of Baseline and DPC, with the hours per bin; (b) change of DPC relative to Baseline by component (labels: saving); (c) share of the cooling modes for Baseline (B, left bars) and DPC (D, right bars)</figcaption></figure>
         {% comment %}
         ===== BACKUP (hidden 2026-10-12): previous Modelica schematic, replaced by Figure 1 above. =====
         <a href="{{ "/assets/research/lcdc-modelica-diagram-clean.svg" | prepend: site.baseurl }}" target="_blank" rel="noopener">
@@ -323,7 +324,19 @@ permalink: /research/
       <section class="research-pane" id="lcdc-gpu-load">
         <p class="research-crumb">Data Center &middot; Liquid-Cooled AI Data Centers</p>
         <h4>GPU Load</h4>
-        <p class="research-soon">Details coming soon.</p>
+        <h5>Overview</h5>
+        <p style="text-align: justify;">The IT heat load of the liquid-cooled data center model is built from measured power profiles of generative AI inference workloads and converted to rack power with a component-level model of an NVIDIA GB200 NVL72 compute rack (Figure 1).</p>
+        <h5>Load Generation</h5>
+        <ol>
+          <li style="text-align: justify;"><b>Utilization time series:</b> One-minute power profiles of generative AI inference workloads measured by the National Laboratory of the Rockies (NLR) [1] at 20, 40, 60, and 80% utilization are blended according to each day&rsquo;s utilization. This yields a one-year utilization time series centered on an annual mean of 60%, with random monthly and daily variations (seed 1).</li>
+          <li style="text-align: justify;"><b>Rack power:</b> The GPU and CPU load fractions at each time step are fed into a component-level power model of a GB200 NVL72 compute rack (design power 132 kW per rack [2], of which 80% is liquid-cooled and 20% air-cooled [3]), and the resulting rack power is split into liquid- and air-cooled heat. The air-cooled share increases as the load decreases.</li>
+          <li style="text-align: justify;"><b>Model input:</b> The rack power is averaged to hourly values and applied to the model. Figure 1 shows the combined IT load (liquid- plus air-cooled) of one compute rack, with a mean of 77.5 kW and a range of 41.8&ndash;109.4 kW; all eight compute racks use the same profile.</li>
+        </ol>
+        <figure><a href="{{ "/assets/research/lcdc-gpu-rack-it-load.png" | prepend: site.baseurl }}" target="_blank" rel="noopener"><img src="{{ "/assets/research/lcdc-gpu-rack-it-load.png" | prepend: site.baseurl }}" class="u-max-full-width" alt="Hourly IT load of one compute rack over the year" loading="lazy" /></a><figcaption class="research-caption" style="text-align: center;">Figure 1. Hourly IT load of one GB200 NVL72 compute rack over the year (liquid- plus air-cooled)</figcaption></figure>
+        <h5>Reference</h5>
+        <p style="text-align: justify;">[1] Vercellino et al., Measurement of generative AI workload power profiles for whole-facility data center infrastructure planning, <a href="https://arxiv.org/abs/2604.07345" target="_blank" rel="noopener">arXiv:2604.07345</a>, 2026. Dataset: <a href="https://doi.org/10.7799/3025227" target="_blank" rel="noopener">https://doi.org/10.7799/3025227</a> (<a href="https://data.nlr.gov/submissions/312" target="_blank" rel="noopener">https://data.nlr.gov/submissions/312</a>)</p>
+        <p style="text-align: justify;">[2] Hewlett Packard Enterprise, <em>QuickSpecs: NVIDIA GB200 NVL72 by HPE</em>, document a50009224.</p>
+        <p style="text-align: justify;">[3] Vertiv, <em>Vertiv 360AI Reference Design 12XL1200 for NVIDIA GB200 NVL72</em>, SL-80081.</p>
       </section>
 
       <section class="research-pane" id="lcdc-flexibility">
